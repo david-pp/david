@@ -1,1 +1,16 @@
-Hello world!!  Test!!
+Git Commands:
+
+[Config(~/.gitconfig)]
+
+git config --global user.name "david++"
+git config --global user.email "heaven.hell.or@gmail.com"
+git config --global alias.st status
+git config --global alias.ci commit
+git config --global alias.br branch
+git config --global color.ui true
+
+[Init]
+
+git init
+git add welecome.txt
+git commit -m"..."
