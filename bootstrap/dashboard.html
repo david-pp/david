@@ -117,6 +117,9 @@
             <div class="col-md-6">
               <div class="panel panel-primary">
                 <div class="panel-body chart" id="showcurve">
+                      <span id="memoryGaugeContainer"></span>
+                  <span id="cpuGaugeContainer"></span>
+                  <span id="networkGaugeContainer"></span>
                 </div>
               </div>
             </div>
@@ -277,6 +280,7 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/d3.min.js"></script>
     <script src="js/dygraph-combined.js"></script>
+     <script src="js/gauge.js"></script>
 
 
     <script>
@@ -287,6 +291,7 @@
     var data = [4, 8, 15, 16, 23, 42];
 
 
+/*
     var x = d3.scale.linear()
     .domain([0, d3.max(data)])
     .range([0, parseInt(d3.select("#showcurve").style("width"))-40]);
@@ -298,6 +303,9 @@
   .enter().append("div")
     .style("width", function(d) { return x(d) + "px"; })
     .text(function(d) { return d; });
+
+    d3.select("#showcurve").style("height", "200px");
+    */
 
 var margin = {top: 20, right: 20, bottom: 30, left: 50},
     width = parseInt(d3.select("#curve2").style("width")) - margin.left - margin.right,
@@ -361,6 +369,64 @@ d3.tsv("data.tsv", function(error, data) {
 });
 
 
+    </script>
+
+    <script>
+            
+        
+      var gauges = [];
+      
+      function createGauge(name, label, min, max)
+      {
+        var config = 
+        {
+          size: 120,
+          label: label,
+          min: undefined != min ? min : 0,
+          max: undefined != max ? max : 100,
+          minorTicks: 5
+        }
+        
+        var range = config.max - config.min;
+        config.yellowZones = [{ from: config.min + range*0.75, to: config.min + range*0.9 }];
+        config.redZones = [{ from: config.min + range*0.9, to: config.max }];
+        
+        gauges[name] = new Gauge(name + "GaugeContainer", config);
+        gauges[name].render();
+      }
+      
+      function createGauges()
+      {
+        createGauge("memory", "Memory");
+        createGauge("cpu", "CPU");
+        createGauge("network", "Network");
+        //createGauge("test", "Test", -50, 50 );
+      }
+      
+      function updateGauges()
+      {
+        for (var key in gauges)
+        {
+          var value = getRandomValue(gauges[key])
+          gauges[key].redraw(value);
+        }
+      }
+      
+      function getRandomValue(gauge)
+      {
+        var overflow = 0; //10;
+        return gauge.config.min - overflow + (gauge.config.max - gauge.config.min + overflow*2) *  Math.random();
+      }
+      
+      function initialize()
+      {
+        createGauges();
+        setInterval(updateGauges, 5000);
+      }
+
+      initialize();
+
+      
     </script>
   </body>
 </html>
