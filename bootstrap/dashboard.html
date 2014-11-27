@@ -31,15 +31,19 @@
   color: white;
 }
 
+.bars rect {
+  fill: steelblue;
+}
+
+.bar:hover {
+  fill: brown;
+}
+
 .chart rect {
   fill: steelblue;
 }
 
-.chart text {
-  fill: white;
-  font: 10px sans-serif;
-  text-anchor: end;
-}
+
 
 .axis path,
 .axis line {
@@ -116,7 +120,7 @@
           <div class="row">
             <div class="col-md-6">
               <div class="panel panel-primary">
-                <div class="panel-body chart" id="showcurve">
+                <div class="panel-body chart" id="curve1">
                       <span id="memoryGaugeContainer"></span>
                   <span id="cpuGaugeContainer"></span>
                   <span id="networkGaugeContainer"></span>
@@ -280,33 +284,11 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/d3.min.js"></script>
     <script src="js/dygraph-combined.js"></script>
-     <script src="js/gauge.js"></script>
 
-
+    <!-- Build Time Curve -->
     <script>
-    //d3.select("#showcurve").style("background-color", "black");
-    //d3.select("#showcurve").style("color", function() { return "hsl(" + Math.random() * 360 + ",100%,50%)";
-    //d3.select("#showcurve").data([4, 8, 15, 16, 23, 42]).enter().append("p").text(function(d) {return "I’m number " + d + "!"; });
 
-    var data = [4, 8, 15, 16, 23, 42];
-
-
-/*
-    var x = d3.scale.linear()
-    .domain([0, d3.max(data)])
-    .range([0, parseInt(d3.select("#showcurve").style("width"))-40]);
-
-    
-    d3.select("#showcurve")
-  .selectAll("div")
-    .data(data)
-  .enter().append("div")
-    .style("width", function(d) { return x(d) + "px"; })
-    .text(function(d) { return d; });
-
-    d3.select("#showcurve").style("height", "200px");
-    */
-
+    function fun1() {
 var margin = {top: 20, right: 20, bottom: 30, left: 50},
     width = parseInt(d3.select("#curve2").style("width")) - margin.left - margin.right,
     height = 200 - margin.top - margin.bottom;
@@ -326,7 +308,8 @@ var xAxis = d3.svg.axis()
 
 var yAxis = d3.svg.axis()
     .scale(y)
-    .orient("left");
+    .orient("left")
+    .ticks(4);
 
 var line = d3.svg.line()
     .x(function(d) { return x(d.date); })
@@ -367,66 +350,174 @@ d3.tsv("data.tsv", function(error, data) {
       .attr("class", "line")
       .attr("d", line);
 });
+}
 
+function fun2() {
+
+var margin = {top: 20, right: 80, bottom: 30, left: 50},
+    width = parseInt(d3.select("#curve2").style("width")) - margin.left - margin.right,
+    height = 200 - margin.top - margin.bottom;
+
+var parseDate = d3.time.format("%Y%m%d").parse;
+
+var x = d3.time.scale()
+    .range([0, width]);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var color = d3.scale.category10();
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom")
+    .ticks(5);
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+    .ticks(4);
+
+var line = d3.svg.line()
+    .interpolate("basis")
+    .x(function(d) { return x(d.date); })
+    .y(function(d) { return y(d.temperature); });
+
+var svg = d3.select("#curve2").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+d3.tsv("data3.tsv", function(error, data) {
+  color.domain(d3.keys(data[0]).filter(function(key) { return key !== "date"; }));
+
+  data.forEach(function(d) {
+    d.date = parseDate(d.date);
+  });
+
+  var cities = color.domain().map(function(name) {
+    return {
+      name: name,
+      values: data.map(function(d) {
+        return {date: d.date, temperature: +d[name]};
+      })
+    };
+  });
+
+  x.domain(d3.extent(data, function(d) { return d.date; }));
+
+  y.domain([
+    d3.min(cities, function(c) { return d3.min(c.values, function(v) { return v.temperature; }); }),
+    d3.max(cities, function(c) { return d3.max(c.values, function(v) { return v.temperature; }); })
+  ]);
+
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Temperature (ºF)");
+
+  var city = svg.selectAll(".city")
+      .data(cities)
+    .enter().append("g")
+      .attr("class", "city");
+
+  city.append("path")
+      .attr("class", "line")
+      .attr("d", function(d) { return line(d.values); })
+      .style("stroke", function(d) { return color(d.name); });
+
+  city.append("text")
+      .datum(function(d) { return {name: d.name, value: d.values[d.values.length - 1]}; })
+      .attr("transform", function(d) { return "translate(" + x(d.value.date) + "," + y(d.value.temperature) + ")"; })
+      .attr("x", 3)
+      .attr("dy", ".35em")
+      .text(function(d) { return d.name; });
+});
+}
+
+//fun1();
+fun2();
 
     </script>
 
-    <script>
-            
-        
-      var gauges = [];
-      
-      function createGauge(name, label, min, max)
-      {
-        var config = 
-        {
-          size: 120,
-          label: label,
-          min: undefined != min ? min : 0,
-          max: undefined != max ? max : 100,
-          minorTicks: 5
-        }
-        
-        var range = config.max - config.min;
-        config.yellowZones = [{ from: config.min + range*0.75, to: config.min + range*0.9 }];
-        config.redZones = [{ from: config.min + range*0.9, to: config.max }];
-        
-        gauges[name] = new Gauge(name + "GaugeContainer", config);
-        gauges[name].render();
-      }
-      
-      function createGauges()
-      {
-        createGauge("memory", "Memory");
-        createGauge("cpu", "CPU");
-        createGauge("network", "Network");
-        //createGauge("test", "Test", -50, 50 );
-      }
-      
-      function updateGauges()
-      {
-        for (var key in gauges)
-        {
-          var value = getRandomValue(gauges[key])
-          gauges[key].redraw(value);
-        }
-      }
-      
-      function getRandomValue(gauge)
-      {
-        var overflow = 0; //10;
-        return gauge.config.min - overflow + (gauge.config.max - gauge.config.min + overflow*2) *  Math.random();
-      }
-      
-      function initialize()
-      {
-        createGauges();
-        setInterval(updateGauges, 5000);
-      }
 
-      initialize();
 
-      
-    </script>
+<!-- Build Times Bar -->
+
+<script>
+
+var margin = {top: 20, right: 20, bottom: 30, left: 40},
+    width = parseInt(d3.select("#curve1").style("width")) - margin.left - margin.right,
+    height = 200 - margin.top - margin.bottom;
+
+var x = d3.scale.ordinal()
+    .rangeRoundBands([0, width], .1);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+    .ticks(10, "%");
+
+var svg = d3.select("#curve1").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+d3.tsv("data1.tsv", type, function(error, data) {
+  x.domain(data.map(function(d) { return d.letter; }));
+  y.domain([0, d3.max(data, function(d) { return d.frequency; })]);
+
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Frequency");
+
+  svg.selectAll(".bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.letter); })
+      .attr("width", x.rangeBand())
+      .attr("y", function(d) { return y(d.frequency); })
+      .attr("height", function(d) { return height - y(d.frequency); });
+
+});
+
+function type(d) {
+  d.frequency = +d.frequency;
+  return d;
+}
+
+</script>
+
   </body>
 </html>
