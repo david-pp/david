@@ -12,6 +12,43 @@ static int multi_timer_cb(CURLM *multi, long timeout_ms, HttpWork* work)
 	return work ? work->onMultiTimer(timeout_ms) : 0;
 }
 
+
+/* CURLMOPT_SOCKETFUNCTION */
+static int sock_cb(CURL *e, curl_socket_t s, int what, void *cbp, void *sockp)
+{
+	fprintf(MSG_OUT, "\nsock_cb: socket=%d, what=%d, sockp=%p", s, what, sockp);
+
+	HttpWork* work = (HttpWork*)cbp;
+	int *actionp = (int*) sockp;
+
+	const char *whatstr[]={ "none", "IN", "OUT", "INOUT", "REMOVE"};
+
+	fprintf(MSG_OUT,
+	      "\nsocket callback: s=%d e=%p what=%s ", s, e, whatstr[what]);
+
+	if (what == CURL_POLL_REMOVE )
+	{
+		//fprintf(MSG_OUT, "\n");
+		work->remsock(actionp);
+	}
+	else
+	{
+		if (!actionp)
+		{
+		  //fprintf(MSG_OUT, "\nAdding data: %s", whatstr[what]);
+		  work->addsock(s, e, what);
+		}
+		else
+		{
+		  //fprintf(MSG_OUT, "\nChanging action from %s to %s", whatstr[*actionp], whatstr[what]);
+		  work->setsock(actionp, s, e, what);
+		}
+	}
+
+	return 0;
+}
+
+
 void HttpWork::check_multi_info()
 {
   char *eff_url;
@@ -60,7 +97,7 @@ void HttpWork::event_cb(boost::asio::ip::tcp::socket * tcp_socket, int action)
 /* Clean up any data */
 void HttpWork::remsock(int *f)
 {
-  fprintf(MSG_OUT, "\nremsock: ");
+  fprintf(MSG_OUT, "\nremsock: %d", *f);
 
   if ( f )
   {
@@ -127,44 +164,6 @@ void HttpWork::addsock(curl_socket_t s, CURL *easy, int action)
   curl_multi_assign(multi_, s, fdp);
 }
 
-
-/* CURLMOPT_SOCKETFUNCTION */
-static int sock_cb(CURL *e, curl_socket_t s, int what, void *cbp, void *sockp)
-{
-	fprintf(MSG_OUT, "\nsock_cb: socket=%d, what=%d, sockp=%p", s, what, sockp);
-
-	HttpWork* work = (HttpWork*)cbp;
-	int *actionp = (int*) sockp;
-
-	const char *whatstr[]={ "none", "IN", "OUT", "INOUT", "REMOVE"};
-
-	fprintf(MSG_OUT,
-	      "\nsocket callback: s=%d e=%p what=%s ", s, e, whatstr[what]);
-
-	if (what == CURL_POLL_REMOVE )
-	{
-		fprintf(MSG_OUT, "\n");
-		work->remsock(actionp);
-	}
-	else
-	{
-		if (!actionp)
-		{
-		  fprintf(MSG_OUT, "\nAdding data: %s", whatstr[what]);
-		  work->addsock(s, e, what);
-		}
-		else
-		{
-		  fprintf(MSG_OUT,
-		          "\nChanging action from %s to %s",
-		          whatstr[*actionp], whatstr[what]);
-		  work->setsock(actionp, s, e, what);
-		}
-	}
-
-	return 0;
-}
-
 static size_t write_cb(void *ptr, size_t size, size_t nmemb, void *data)
 {
 
@@ -202,7 +201,6 @@ static int closesocket(void *clientp, curl_socket_t item)
 	HttpWork* work = (HttpWork*)clientp;
 	work->onHttpCloseSocket(item);
 	return 0;
-	return 0;
 }
 
 
@@ -210,15 +208,6 @@ HttpWork::HttpWork() : timer_(ios_)
 {
 	multi_ = NULL;
 }
-
-
-/* Update the event timer after curl_multi library calls */
-/*static int multi_timer_cb(CURLM *multi, long timeout_ms, HttpWork* work)
-{
-	return work ? work->onMultiTimer(timeout_ms) : 0;
-}
-int onMultiTimer(long timeout_ms);*/
-
 
 bool HttpWork::init()
 {
@@ -271,9 +260,6 @@ void HttpWork::onHttpTimer(const boost::system::error_code& error)
 
 	if (!error)
 	{
-		std::cout << __PRETTY_FUNCTION__ << ":" << this << ":"
-	          << std::endl;
-
 		CURLMcode rc = curl_multi_socket_action(multi_, CURL_SOCKET_TIMEOUT, 0, &still_running_);
 		if (rc != CURLM_OK)
 		{
@@ -286,19 +272,17 @@ void HttpWork::onHttpTimer(const boost::system::error_code& error)
 
 int HttpWork::onMultiTimer(long timeout_ms)
 {
-	DEBUG << timeout_ms << std::endl;
+	TRACE(timeout_ms);
 
 	timer_.cancel();
 
 	if (timeout_ms > 0)
 	{
-		DEBUG << "update timer" << std::endl;
 		timer_.expires_from_now(boost::posix_time::millisec(timeout_ms));
 		timer_.async_wait(boost::bind(&HttpWork::onHttpTimer, this, _1));
 	}
 	else
 	{
-		DEBUG << " over" << std::endl;
 		boost::system::error_code error;
 		this->onHttpTimer(error);
 	}
@@ -325,11 +309,11 @@ curl_socket_t HttpWork::onHttpOpenSocket()
 	else
 	{
 		sockfd = tcp_socket->native_handle();
-	
-		fprintf(MSG_OUT, "\nOpened socket %d", sockfd);
 
 		/* save it for monitoring */
 		sockets_.insert(std::pair<curl_socket_t, boost::asio::ip::tcp::socket *>(sockfd, tcp_socket));
+
+		TRACE(sockfd);
 	}
 
 	return sockfd;

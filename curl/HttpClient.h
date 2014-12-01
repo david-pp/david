@@ -6,6 +6,14 @@
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
 
+class EasyHttp
+{
+public:
+	bool init();
+private:
+	CURL* easy;
+};
+
 class HttpWork
 {
 public:
