@@ -442,8 +442,8 @@ int main(int argc, char **argv)
   curl_multi_setopt(g.multi, CURLMOPT_TIMERFUNCTION, multi_timer_cb);
   curl_multi_setopt(g.multi, CURLMOPT_TIMERDATA, &g);
 
-  for (int i = 0; i < 1000; ++i)
-    new_conn((char *)"www.baidu.com", &g);  /* add a URL */
+  for (int i = 0; i < 1; ++i)
+    new_conn((char *)"www.example.com", &g);  /* add a URL */
 
   /* enter io_service run loop */
   io_service.run();
