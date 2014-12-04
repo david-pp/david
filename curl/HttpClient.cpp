@@ -2,9 +2,118 @@
 #include <boost/bind.hpp>
 
 #define MSG_OUT stdout
-
 #define TRACE(log) std::cout << __PRETTY_FUNCTION__ << ":" << this << ":" << log << std::endl;
 #define DEBUG std::cout << __PRETTY_FUNCTION__ << ":" << this << ":"
+
+
+///////////////////////
+
+static size_t httpWriteMemoryCallback(void *contents, size_t size, size_t nmemb, HttpConnection* http)
+{
+	size_t realsize = size * nmemb;
+	if (http)
+	{
+		http->onRecv((const char*)contents, realsize);
+	}
+	
+	return realsize;
+}
+
+HttpConnection::HttpConnection()
+{
+	result_okay = false;
+	easy = NULL;
+	memset(error, 0, sizeof(error));
+	init();
+}
+
+HttpConnection::~HttpConnection()
+{
+	fini();
+}
+
+bool HttpConnection::init()
+{
+	easy = curl_easy_init();
+	if (!easy)
+	{
+		std::cerr << "curl_easy_init() failed, exiting!" << std::endl;
+		return false;
+	}
+
+	curl_easy_setopt(this->easy, CURLOPT_WRITEFUNCTION, httpWriteMemoryCallback);
+	curl_easy_setopt(this->easy, CURLOPT_WRITEDATA, this);
+	curl_easy_setopt(this->easy, CURLOPT_ERRORBUFFER, this->error);
+	curl_easy_setopt(this->easy, CURLOPT_PRIVATE, this);
+	curl_easy_setopt(this->easy, CURLOPT_FORBID_REUSE, 1L);
+	return true;
+}
+
+bool HttpConnection::fini()
+{
+	if (easy)
+		curl_easy_cleanup(easy);
+	return true;
+}
+
+void HttpConnection::setVerbose()
+{
+	if (easy) curl_easy_setopt(easy, CURLOPT_VERBOSE, 1L);
+}
+
+void HttpConnection::setTimeout(long ms)
+{
+	if (easy) curl_easy_setopt(easy, CURLOPT_TIMEOUT_MS, ms);
+}
+
+void HttpConnection::setConnectionTimeout(long ms)
+{
+	if (easy) curl_easy_setopt(this->easy, CURLOPT_CONNECTTIMEOUT_MS, ms);
+}
+
+void HttpConnection::setURL(const HttpURL& _url)
+{
+	if (easy)
+	{
+		this->url = _url;
+		curl_easy_setopt(this->easy, CURLOPT_URL, url.c_str());
+	}
+}
+
+void HttpConnection::onRecv(const char* content, size_t size)
+{
+	TRACE(size);
+	result.append(content, size);
+}
+
+const HttpResult& HttpConnection::get(const HttpURL& _url, long timeout_ms)
+{
+	result_okay = false;
+	result.clear();
+
+	if (easy)
+	{
+		setURL(_url);
+		setTimeout(timeout_ms);
+
+		CURLcode res = curl_easy_perform(easy);
+		if(res != CURLE_OK) 
+		{
+			result_okay = false;
+			strncpy(error, curl_easy_strerror(res), CURL_ERROR_SIZE - 1);
+		}
+		else
+		{
+			result_okay = true;
+		}
+	}
+
+	return result;
+}
+
+//////////
+
+
 
 /* Update the event timer after curl_multi library calls */
 static int multi_timer_cb(CURLM *multi, long timeout_ms, HttpWork* work)
@@ -166,7 +275,6 @@ void HttpWork::addsock(curl_socket_t s, CURL *easy, int action)
 
 static size_t write_cb(void *ptr, size_t size, size_t nmemb, void *data)
 {
-
   size_t written = size * nmemb;
 
   char* pBuffer = (char*)malloc(written + 1);
@@ -370,6 +478,9 @@ bool HttpWork::new_conn(const char* url)
 	/* call this function to close a socket */
 	curl_easy_setopt(conn->easy, CURLOPT_CLOSESOCKETFUNCTION, closesocket);
 	curl_easy_setopt(conn->easy, CURLOPT_CLOSESOCKETDATA, this);
+	curl_easy_setopt(conn->easy, CURLOPT_FORBID_REUSE, 1L);
+	curl_easy_setopt(conn->easy, CURLOPT_TIMEOUT_MS, 5000L);
+	curl_easy_setopt(conn->easy, CURLOPT_CONNECTTIMEOUT_MS, 1000L);
 
     CURLMcode rc = curl_multi_add_handle(multi_, conn->easy);
     if (rc != CURLM_OK)

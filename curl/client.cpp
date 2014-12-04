@@ -19,15 +19,29 @@ void test_boost()
 	//std::cout << boost::bind(f, _1, _2)(6, 5) << std::endl;
 }
 
+void test_HttpConnection()
+{
+	HttpConnection http;
+
+	const std::string& result = http.get("http://www.example.com/", 5000);
+
+	std::cout << "-------------- " << std::endl;
+	std::cout << result << std::endl;
+	std::cout << "error:" << http.error << std::endl;
+	//std::cout << http.get("www.baidu.com") << std::endl;
+}
+
 int main(int argc, const char* argv [])
 {
 	test_boost();
+	test_HttpConnection();
+	return 0;
 
 	HttpWork http;
 	if (http.init())
 	{
-		for (size_t i = 0; i < 1; ++i)
-			http.new_conn("http://www.example.com/");
+		for (size_t i = 0; i < 1000; ++i)
+			http.new_conn("http://www.baidu.com/");
 		http.run();
 	}
 #if 0

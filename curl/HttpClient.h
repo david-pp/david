@@ -6,12 +6,34 @@
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
 
-class EasyHttp
+typedef std::string HttpURL;
+typedef std::string HttpResult;
+
+class HttpConnection
 {
 public:
+	HttpConnection();
+	~HttpConnection();
+
+	const HttpResult& get(const HttpURL& url, long timeout_ms = 0);
+
+	bool isOkay() { return result_okay; }
+
+	void setVerbose();
+	void setTimeout(long ms);
+	void setConnectionTimeout(long ms);
+	void setURL(const HttpURL& url);
+
+public:
 	bool init();
-private:
+	bool fini();
+	void onRecv(const char* content, size_t size);
+
 	CURL* easy;
+	std::string url;
+	char error[CURL_ERROR_SIZE];
+	HttpResult result;
+	bool result_okay;
 };
 
 class HttpWork
