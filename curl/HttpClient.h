@@ -9,6 +9,8 @@
 typedef std::string HttpURL;
 typedef std::string HttpResult;
 
+class HttpWork;
+
 class HttpConnection
 {
 public:
@@ -24,6 +26,8 @@ public:
 	void setConnectionTimeout(long ms);
 	void setURL(const HttpURL& url);
 
+	void setWork(HttpWork* w);
+
 public:
 	bool init();
 	bool fini();
@@ -34,21 +38,33 @@ public:
 	char error[CURL_ERROR_SIZE];
 	HttpResult result;
 	bool result_okay;
+
+	HttpWork* work;
+};
+
+struct HttpCallBack
+{
+	virtual void callback(HttpConnection* http)
+	{
+	}
 };
 
 class HttpWork
 {
 public:
 	HttpWork();
+	~HttpWork();
 
 	bool init();
-	void run();
 	void fini();
+	void run();
 	void timer();
 
+	bool get(const HttpURL& url, HttpCallBack* callback, long timeout_ms = 0);
+
 public:
-	int onMultiTimer(long timeout_ms);
-	int onMultiSocket();
+	int curlmTimerFunction(long timeout_ms);
+	int curlmSocketFunction(CURL* easy, curl_socket_t s, int what, void *sockp);
 
 	void onHttpTimer(const boost::system::error_code& error);
 
@@ -91,12 +107,6 @@ private:
 	int still_running_;
 };
 
-struct HttpCallBack
-{
-	virtual void callback()
-	{
-	}
-};
 
 class AsyncHttpClient 
 {

@@ -23,41 +23,42 @@ void test_HttpConnection()
 {
 	HttpConnection http;
 
-	const std::string& result = http.get("http://www.example.com/", 5000);
+	const std::string& result = http.get("http://www.example.com/", 1000);
+	if (http.isOkay())
+	{
+		std::cout << result << std::endl;
+	}
+	else
+	{
+		std::cout << http.error << std::endl;
+	}
 
-	std::cout << "-------------- " << std::endl;
-	std::cout << result << std::endl;
-	std::cout << "error:" << http.error << std::endl;
-	//std::cout << http.get("www.baidu.com") << std::endl;
+	std::cout << http.get("www.linuxvirtualserveraa.org") << std::endl;
+}
+
+void test_HttpWork()
+{
+	HttpWork http;
+
+	struct MyCB : public HttpCallBack
+	{
+		virtual void callback(HttpConnection* http)
+		{
+			std::cout << http->result << std::endl;
+		}
+	};
+
+	for (size_t i = 0; i < 1; ++i)
+		http.get("http://www.baidu.com/", new MyCB);
+
+	http.run();
 }
 
 int main(int argc, const char* argv [])
 {
-	test_boost();
-	test_HttpConnection();
-	return 0;
-
-	HttpWork http;
-	if (http.init())
-	{
-		for (size_t i = 0; i < 1000; ++i)
-			http.new_conn("http://www.baidu.com/");
-		http.run();
-	}
-#if 0
-	// ..
-	{
-		HttpWork http;
-		if (http.init())
-		{
-			http.run();
-		}
-
-	}
-
-#endif
-
-
+	//test_boost();
+	//test_HttpConnection();
+	test_HttpWork();
 	return 0;
 
 	AsyncHttpClient::instance().init();

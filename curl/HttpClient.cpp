@@ -19,6 +19,25 @@ static size_t httpWriteMemoryCallback(void *contents, size_t size, size_t nmemb,
 	return realsize;
 }
 
+// CURLOPT_OPENSOCKETFUNCTION
+static curl_socket_t curlOpenSocketFunction(HttpWork* work, curlsocktype purpose, struct curl_sockaddr *address)
+{
+	// restrict to ipv4
+	if (work && purpose == CURLSOCKTYPE_IPCXN && address->family == AF_INET)
+	{
+		return work->onHttpOpenSocket();
+	}
+
+	return CURL_SOCKET_BAD;
+}
+
+// CURLOPT_CLOSESOCKETFUNCTION
+static int curlCloseSocketFunction(HttpWork* work, curl_socket_t item)
+{
+	if (work) work->onHttpCloseSocket(item);
+	return 0;
+}
+
 HttpConnection::HttpConnection()
 {
 	result_okay = false;
@@ -80,6 +99,19 @@ void HttpConnection::setURL(const HttpURL& _url)
 	}
 }
 
+void HttpConnection::setWork(HttpWork* w)
+{
+	if (w)
+	{
+		this->work = w;
+		curl_easy_setopt(this->easy, CURLOPT_OPENSOCKETFUNCTION, ::curlOpenSocketFunction);
+		curl_easy_setopt(this->easy, CURLOPT_OPENSOCKETDATA, w);
+
+		curl_easy_setopt(this->easy, CURLOPT_CLOSESOCKETFUNCTION, ::curlCloseSocketFunction);
+		curl_easy_setopt(this->easy, CURLOPT_CLOSESOCKETDATA, w);	
+	}
+}
+
 void HttpConnection::onRecv(const char* content, size_t size)
 {
 	TRACE(size);
@@ -89,6 +121,7 @@ void HttpConnection::onRecv(const char* content, size_t size)
 const HttpResult& HttpConnection::get(const HttpURL& _url, long timeout_ms)
 {
 	result_okay = false;
+	memset(error, 0, sizeof(error));
 	result.clear();
 
 	if (easy)
@@ -114,49 +147,17 @@ const HttpResult& HttpConnection::get(const HttpURL& _url, long timeout_ms)
 //////////
 
 
-
-/* Update the event timer after curl_multi library calls */
-static int multi_timer_cb(CURLM *multi, long timeout_ms, HttpWork* work)
+// CURLMOPT_TIMERFUNCTION : Update the event timer after curl_multi library calls
+static int curlmTimerFunction(CURLM *multi, long timeout_ms, HttpWork* work)
 {
-	return work ? work->onMultiTimer(timeout_ms) : 0;
+	return work ? work->curlmTimerFunction(timeout_ms) : 0;
 }
 
-
-/* CURLMOPT_SOCKETFUNCTION */
-static int sock_cb(CURL *e, curl_socket_t s, int what, void *cbp, void *sockp)
+// CURLMOPT_SOCKETFUNCTION
+static int curlmSocketFunction(CURL *e, curl_socket_t s, int what, HttpWork* work, void *sockp)
 {
-	fprintf(MSG_OUT, "\nsock_cb: socket=%d, what=%d, sockp=%p", s, what, sockp);
-
-	HttpWork* work = (HttpWork*)cbp;
-	int *actionp = (int*) sockp;
-
-	const char *whatstr[]={ "none", "IN", "OUT", "INOUT", "REMOVE"};
-
-	fprintf(MSG_OUT,
-	      "\nsocket callback: s=%d e=%p what=%s ", s, e, whatstr[what]);
-
-	if (what == CURL_POLL_REMOVE )
-	{
-		//fprintf(MSG_OUT, "\n");
-		work->remsock(actionp);
-	}
-	else
-	{
-		if (!actionp)
-		{
-		  //fprintf(MSG_OUT, "\nAdding data: %s", whatstr[what]);
-		  work->addsock(s, e, what);
-		}
-		else
-		{
-		  //fprintf(MSG_OUT, "\nChanging action from %s to %s", whatstr[*actionp], whatstr[what]);
-		  work->setsock(actionp, s, e, what);
-		}
-	}
-
-	return 0;
+	return work ? work->curlmSocketFunction(e, s, what, sockp) : 0;
 }
-
 
 void HttpWork::check_multi_info()
 {
@@ -312,28 +313,43 @@ static int closesocket(void *clientp, curl_socket_t item)
 }
 
 
+
 HttpWork::HttpWork() : timer_(ios_)
 {
 	multi_ = NULL;
+	init();
+}
+
+HttpWork::~HttpWork()
+{
+	fini();
 }
 
 bool HttpWork::init()
 {
-	TRACE("init:begin");
+	TRACE("");
 
 	multi_ = curl_multi_init();
 	if (!multi_)
 	{
-		std::cerr << "error:curl_multi_init.." << std::endl;
+		std::cerr << "error:curl_multi_init() failed !" << std::endl;
 		return false;
 	}
 
-	curl_multi_setopt(multi_, CURLMOPT_SOCKETFUNCTION, sock_cb);
+	curl_multi_setopt(multi_, CURLMOPT_SOCKETFUNCTION, ::curlmSocketFunction);
 	curl_multi_setopt(multi_, CURLMOPT_SOCKETDATA, this);
-	curl_multi_setopt(multi_, CURLMOPT_TIMERFUNCTION, multi_timer_cb);
+	curl_multi_setopt(multi_, CURLMOPT_TIMERFUNCTION, ::curlmTimerFunction);
 	curl_multi_setopt(multi_, CURLMOPT_TIMERDATA, this);
 
 	return true;
+}
+
+void HttpWork::fini()
+{
+	TRACE("");
+
+	if (multi_)
+		curl_multi_cleanup(multi_);
 }
 
 void HttpWork::timer()
@@ -343,7 +359,6 @@ void HttpWork::timer()
 	//timer_.expires_from_now(boost::posix_time::milliseconds(1000));
 	//timer_.async_wait(boost::bind(&HttpWork::timer, this));
 }
-
 
 void HttpWork::run()
 {
@@ -356,29 +371,25 @@ void HttpWork::run()
 	TRACE("done");
 }
 
-void HttpWork::fini()
-{
-	if (multi_)
-		curl_multi_cleanup(multi_);
-}
+
 
 void HttpWork::onHttpTimer(const boost::system::error_code& error)
 {
-	std::cout << __PRETTY_FUNCTION__ << ":" << this << ":" << error << std::endl;
+	TRACE(error);
 
 	if (!error)
 	{
 		CURLMcode rc = curl_multi_socket_action(multi_, CURL_SOCKET_TIMEOUT, 0, &still_running_);
 		if (rc != CURLM_OK)
 		{
-			std::cout << "curl_multi_socket_action : " << curl_multi_strerror(rc) << std::endl;
+			std::cerr << "curl_multi_socket_action : " << curl_multi_strerror(rc) << std::endl;
 			return;
 		}
 		check_multi_info();
 	}
 }
 
-int HttpWork::onMultiTimer(long timeout_ms)
+int HttpWork::curlmTimerFunction(long timeout_ms)
 {
 	TRACE(timeout_ms);
 
@@ -396,6 +407,40 @@ int HttpWork::onMultiTimer(long timeout_ms)
 	}
 
 	return 0;
+}
+
+int HttpWork::curlmSocketFunction(CURL* e, curl_socket_t s, int what, void *sockp)
+{
+	fprintf(MSG_OUT, "\nsock_cb: socket=%d, what=%d, sockp=%p", s, what, sockp);
+
+	HttpWork* work = this;
+	int *actionp = (int*) sockp;
+
+	const char *whatstr[]={ "none", "IN", "OUT", "INOUT", "REMOVE"};
+
+	fprintf(MSG_OUT,
+	      "\nsocket callback: s=%d e=%p what=%s ", s, e, whatstr[what]);
+
+	if (what == CURL_POLL_REMOVE )
+	{
+		//fprintf(MSG_OUT, "\n");
+		work->remsock(actionp);
+	}
+	else
+	{
+		if (!actionp)
+		{
+		  //fprintf(MSG_OUT, "\nAdding data: %s", whatstr[what]);
+		  work->addsock(s, e, what);
+		}
+		else
+		{
+		  //fprintf(MSG_OUT, "\nChanging action from %s to %s", whatstr[*actionp], whatstr[what]);
+		  work->setsock(actionp, s, e, what);
+		}
+	}
+
+	return 0;	
 }
 
 curl_socket_t HttpWork::onHttpOpenSocket()
@@ -435,6 +480,30 @@ void HttpWork::onHttpCloseSocket(curl_socket_t socket)
 		delete it->second;
 		sockets_.erase(it);
 	}
+}
+
+
+bool HttpWork::get(const HttpURL& url, HttpCallBack* callback, long timeout_ms)
+{
+	if (!callback) return false;
+
+	HttpConnection* conn = new HttpConnection;
+	if (!conn) return false;
+
+	conn->setURL(url);
+	conn->setTimeout(timeout_ms);
+	conn->setWork(this);
+
+	CURLMcode rc = curl_multi_add_handle(multi_, conn->easy);
+    if (rc != CURLM_OK)
+    {
+    	delete callback;
+    	delete conn;
+    	std::cerr << "curl_multi_add_handle() failed:" << curl_multi_strerror(rc) << std::endl;
+    	return false;
+    }
+
+	return true;
 }
 
 
