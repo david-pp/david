@@ -1,0 +1,125 @@
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_PROGRAM_VERSION	5.8	//
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+DEBUG	HttpClient.cpp	6;"	d	file:
+HttpConnection	HttpClient.cpp	/^HttpConnection::HttpConnection()$/;"	f	class:HttpConnection
+HttpWork	HttpClient.cpp	/^HttpWork::HttpWork() : timer_(ios_)$/;"	f	class:HttpWork
+MSG_OUT	HttpClient.cpp	4;"	d	file:
+TRACE	HttpClient.cpp	5;"	d	file:
+addsock	HttpClient.cpp	/^void HttpWork::addsock(curl_socket_t s, CURL *easy, int action)$/;"	f	class:HttpWork
+check_multi_info	HttpClient.cpp	/^void HttpWork::check_multi_info()$/;"	f	class:HttpWork
+closesocket	HttpClient.cpp	/^static int closesocket(void *clientp, curl_socket_t item)$/;"	f	file:
+curlCloseSocketFunction	HttpClient.cpp	/^static int curlCloseSocketFunction(HttpWork* work, curl_socket_t item)$/;"	f	file:
+curlOpenSocketFunction	HttpClient.cpp	/^static curl_socket_t curlOpenSocketFunction(HttpWork* work, curlsocktype purpose, struct curl_sockaddr *address)$/;"	f	file:
+curlmSocketFunction	HttpClient.cpp	/^int HttpWork::curlmSocketFunction(CURL* e, curl_socket_t s, int what, void *sockp)$/;"	f	class:HttpWork
+curlmSocketFunction	HttpClient.cpp	/^static int curlmSocketFunction(CURL *e, curl_socket_t s, int what, HttpWork* work, void *sockp)$/;"	f	file:
+curlmTimerFunction	HttpClient.cpp	/^int HttpWork::curlmTimerFunction(long timeout_ms)$/;"	f	class:HttpWork
+curlmTimerFunction	HttpClient.cpp	/^static int curlmTimerFunction(CURLM *multi, long timeout_ms, HttpWork* work)$/;"	f	file:
+event_cb	HttpClient.cpp	/^void HttpWork::event_cb(boost::asio::ip::tcp::socket * tcp_socket, int action)$/;"	f	class:HttpWork
+fini	HttpClient.cpp	/^bool AsyncHttpClient::fini()$/;"	f	class:AsyncHttpClient
+fini	HttpClient.cpp	/^bool HttpConnection::fini()$/;"	f	class:HttpConnection
+fini	HttpClient.cpp	/^void HttpWork::fini()$/;"	f	class:HttpWork
+get	HttpClient.cpp	/^bool HttpWork::get(const HttpURL& url, HttpCallBack* callback, long timeout_ms)$/;"	f	class:HttpWork
+get	HttpClient.cpp	/^const HttpResult& HttpConnection::get(const HttpURL& _url, long timeout_ms)$/;"	f	class:HttpConnection
+httpWriteMemoryCallback	HttpClient.cpp	/^static size_t httpWriteMemoryCallback(void *contents, size_t size, size_t nmemb, HttpConnection* http)$/;"	f	file:
+init	HttpClient.cpp	/^bool AsyncHttpClient::init()$/;"	f	class:AsyncHttpClient
+init	HttpClient.cpp	/^bool HttpConnection::init()$/;"	f	class:HttpConnection
+init	HttpClient.cpp	/^bool HttpWork::init()$/;"	f	class:HttpWork
+instance	HttpClient.cpp	/^AsyncHttpClient& AsyncHttpClient::instance()$/;"	f	class:AsyncHttpClient
+new_conn	HttpClient.cpp	/^bool HttpWork::new_conn(const char* url)$/;"	f	class:HttpWork
+onHttpCloseSocket	HttpClient.cpp	/^void HttpWork::onHttpCloseSocket(curl_socket_t socket)$/;"	f	class:HttpWork
+onHttpOpenSocket	HttpClient.cpp	/^curl_socket_t HttpWork::onHttpOpenSocket()$/;"	f	class:HttpWork
+onHttpTimer	HttpClient.cpp	/^void HttpWork::onHttpTimer(const boost::system::error_code& error)$/;"	f	class:HttpWork
+onRecv	HttpClient.cpp	/^void HttpConnection::onRecv(const char* content, size_t size)$/;"	f	class:HttpConnection
+opensocket	HttpClient.cpp	/^static curl_socket_t opensocket(void *clientp, curlsocktype purpose, struct curl_sockaddr *address)$/;"	f	file:
+remsock	HttpClient.cpp	/^void HttpWork::remsock(int *f)$/;"	f	class:HttpWork
+run	HttpClient.cpp	/^int  AsyncHttpClient::run()$/;"	f	class:AsyncHttpClient
+run	HttpClient.cpp	/^void HttpWork::run()$/;"	f	class:HttpWork
+setConnectionTimeout	HttpClient.cpp	/^void HttpConnection::setConnectionTimeout(long ms)$/;"	f	class:HttpConnection
+setTimeout	HttpClient.cpp	/^void HttpConnection::setTimeout(long ms)$/;"	f	class:HttpConnection
+setURL	HttpClient.cpp	/^void HttpConnection::setURL(const HttpURL& _url)$/;"	f	class:HttpConnection
+setVerbose	HttpClient.cpp	/^void HttpConnection::setVerbose()$/;"	f	class:HttpConnection
+setWork	HttpClient.cpp	/^void HttpConnection::setWork(HttpWork* w)$/;"	f	class:HttpConnection
+setsock	HttpClient.cpp	/^void HttpWork::setsock(int *fdp, curl_socket_t s, CURL* e, int act)$/;"	f	class:HttpWork
+timer	HttpClient.cpp	/^void HttpWork::timer()$/;"	f	class:HttpWork
+write_cb	HttpClient.cpp	/^static size_t write_cb(void *ptr, size_t size, size_t nmemb, void *data)$/;"	f	file:
+~HttpConnection	HttpClient.cpp	/^HttpConnection::~HttpConnection()$/;"	f	class:HttpConnection
+~HttpWork	HttpClient.cpp	/^HttpWork::~HttpWork()$/;"	f	class:HttpWork
+AsyncHttpClient	HttpClient.h	/^class AsyncHttpClient $/;"	c
+ConnInfo	HttpClient.h	/^		ConnInfo()$/;"	f	struct:HttpWork::ConnInfo
+ConnInfo	HttpClient.h	/^	struct ConnInfo$/;"	s	class:HttpWork
+HttpCallBack	HttpClient.h	/^struct HttpCallBack$/;"	s
+HttpConnection	HttpClient.h	/^class HttpConnection$/;"	c
+HttpResult	HttpClient.h	/^typedef std::string HttpResult;$/;"	t
+HttpURL	HttpClient.h	/^typedef std::string HttpURL;$/;"	t
+HttpWork	HttpClient.h	/^class HttpWork$/;"	c
+SocketMap	HttpClient.h	/^	typedef std::map<curl_socket_t, boost::asio::ip::tcp::socket*> SocketMap;$/;"	t	class:HttpWork
+__HTTP_CLIENT_H_	HttpClient.h	2;"	d
+callback	HttpClient.h	/^	virtual void callback(HttpConnection* http)$/;"	f	struct:HttpCallBack
+easy	HttpClient.h	/^		CURL* easy;$/;"	m	struct:HttpWork::ConnInfo
+easy	HttpClient.h	/^	CURL* easy;$/;"	m	class:HttpConnection
+error	HttpClient.h	/^		char error[CURL_ERROR_SIZE];$/;"	m	struct:HttpWork::ConnInfo
+error	HttpClient.h	/^	char error[CURL_ERROR_SIZE];$/;"	m	class:HttpConnection
+getIOService	HttpClient.h	/^	boost::asio::io_service&  getIOService() { return ios_; }$/;"	f	class:HttpWork
+ios_	HttpClient.h	/^	boost::asio::io_service ios_;$/;"	m	class:HttpWork
+isOkay	HttpClient.h	/^	bool isOkay() { return result_okay; }$/;"	f	class:HttpConnection
+multi_	HttpClient.h	/^	CURLM* multi_;$/;"	m	class:HttpWork
+result	HttpClient.h	/^	HttpResult result;$/;"	m	class:HttpConnection
+result_okay	HttpClient.h	/^	bool result_okay;$/;"	m	class:HttpConnection
+sockets_	HttpClient.h	/^	SocketMap sockets_;$/;"	m	class:HttpWork
+still_running_	HttpClient.h	/^	int still_running_;$/;"	m	class:HttpWork
+timer_	HttpClient.h	/^	boost::asio::deadline_timer timer_;$/;"	m	class:HttpWork
+url	HttpClient.h	/^		std::string url;$/;"	m	struct:HttpWork::ConnInfo
+url	HttpClient.h	/^	std::string url;$/;"	m	class:HttpConnection
+work	HttpClient.h	/^	HttpWork* work;$/;"	m	class:HttpConnection
+CXXFLAGS	Makefile	/^CXXFLAGS=-I\/usr\/include $/;"	m
+CXXLIBS	Makefile	/^CXXLIBS=-L\/usr\/lib -lboost_thread-mt -lboost_system-mt$/;"	m
+ConnInfo	asio.cpp	/^} ConnInfo;$/;"	t	typeref:struct:_ConnInfo	file:
+GlobalInfo	asio.cpp	/^} GlobalInfo;$/;"	t	typeref:struct:_GlobalInfo	file:
+MSG_OUT	asio.cpp	52;"	d	file:
+_ConnInfo	asio.cpp	/^typedef struct _ConnInfo$/;"	s	file:
+_GlobalInfo	asio.cpp	/^typedef struct _GlobalInfo$/;"	s	file:
+addsock	asio.cpp	/^static void addsock(curl_socket_t s, CURL *easy, int action, GlobalInfo *g)$/;"	f	file:
+check_multi_info	asio.cpp	/^static void check_multi_info(GlobalInfo *g)$/;"	f	file:
+closesocket	asio.cpp	/^static int closesocket(void *clientp, curl_socket_t item)$/;"	f	file:
+easy	asio.cpp	/^  CURL *easy;$/;"	m	struct:_ConnInfo	file:
+error	asio.cpp	/^  char error[CURL_ERROR_SIZE];$/;"	m	struct:_ConnInfo	file:
+event_cb	asio.cpp	/^static void event_cb(GlobalInfo * g, boost::asio::ip::tcp::socket * tcp_socket, int action)$/;"	f	file:
+global	asio.cpp	/^  GlobalInfo *global;$/;"	m	struct:_ConnInfo	file:
+io_service	asio.cpp	/^boost::asio::io_service io_service;$/;"	v
+main	asio.cpp	/^int main(int argc, char **argv)$/;"	f
+mcode_or_die	asio.cpp	/^static void mcode_or_die(const char *where, CURLMcode code)$/;"	f	file:
+multi	asio.cpp	/^  CURLM *multi;$/;"	m	struct:_GlobalInfo	file:
+multi_timer_cb	asio.cpp	/^static int multi_timer_cb(CURLM *multi, long timeout_ms, GlobalInfo *g)$/;"	f	file:
+new_conn	asio.cpp	/^static void new_conn(char *url, GlobalInfo *g )$/;"	f	file:
+opensocket	asio.cpp	/^static curl_socket_t opensocket(void *clientp,$/;"	f	file:
+prog_cb	asio.cpp	/^static int prog_cb (void *p, double dltotal, double dlnow, double ult,$/;"	f	file:
+remsock	asio.cpp	/^static void remsock(int *f, GlobalInfo *g)$/;"	f	file:
+setsock	asio.cpp	/^static void setsock(int *fdp, curl_socket_t s, CURL*e, int act, GlobalInfo*g)$/;"	f	file:
+sock_cb	asio.cpp	/^static int sock_cb(CURL *e, curl_socket_t s, int what, void *cbp, void *sockp)$/;"	f	file:
+socket_map	asio.cpp	/^std::map<curl_socket_t, boost::asio::ip::tcp::socket *> socket_map;$/;"	v
+still_running	asio.cpp	/^  int still_running;$/;"	m	struct:_GlobalInfo	file:
+timer_cb	asio.cpp	/^static void timer_cb(const boost::system::error_code & error, GlobalInfo *g)$/;"	f	file:
+url	asio.cpp	/^  char *url;$/;"	m	struct:_ConnInfo	file:
+write_cb	asio.cpp	/^static size_t write_cb(void *ptr, size_t size, size_t nmemb, void *data)$/;"	f	file:
+f	client.cpp	/^int f(int a, int b)$/;"	f
+g	client.cpp	/^int g(int a, int b, int c)$/;"	f
+main	client.cpp	/^int main(int argc, const char* argv [])$/;"	f
+test_HttpConnection	client.cpp	/^void test_HttpConnection()$/;"	f
+test_HttpWork	client.cpp	/^void test_HttpWork()$/;"	f
+test_boost	client.cpp	/^void test_boost()$/;"	f
+data	debug.c	/^struct data {$/;"	s	file:
+dump	debug.c	/^void dump(const char *text,$/;"	f	file:
+main	debug.c	/^int main(void)$/;"	f
+my_trace	debug.c	/^int my_trace(CURL *handle, curl_infotype type,$/;"	f	file:
+trace_ascii	debug.c	/^  char trace_ascii; \/* 1 or 0 *\/$/;"	m	struct:data	file:
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+CNT	multi.cpp	89;"	d	file:
+MAX	multi.cpp	88;"	d	file:
+cb	multi.cpp	/^static size_t cb(char *d, size_t n, size_t l, void *p)$/;"	f	file:
+init	multi.cpp	/^static void init(CURLM *cm, int i)$/;"	f	file:
+main	multi.cpp	/^int main(void)$/;"	f
+urls	multi.cpp	/^static const char *urls[] = {$/;"	v	file:
+main	simple.c	/^int main(void)$/;"	f

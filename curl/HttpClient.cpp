@@ -164,7 +164,7 @@ void HttpWork::check_multi_info()
   char *eff_url;
   CURLMsg *msg;
   int msgs_left;
-  ConnInfo *conn;
+  HttpConnection *conn;
   CURL *easy;
   CURLcode res;
 
@@ -181,7 +181,7 @@ void HttpWork::check_multi_info()
       fprintf(MSG_OUT, "\nDONE: %s => (%d) %s", eff_url, res, conn->error);
       curl_multi_remove_handle(multi_, easy);
       curl_easy_cleanup(easy);
-      free(conn);
+      //free(conn);
     }
   }
 }
