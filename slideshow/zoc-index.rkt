@@ -77,29 +77,6 @@ static inline char *duplicateStringValue(const char *value,
  (item "XXXXXXXXXXXX")
  (item "XXXXXXXXXXXX"))
 
-(slide
- #:title "1.2 有意义"
- (t "good VS. evil")
- (hc-append
-  10
-  (scale-to-fit (frame (para "int main(void)  { "
-                             "\n\tCURL *curl;
-  CURLcode res;
-  struct data config;
-
-  config.trace_ascii = 1; /* enable ascii tracing */
-
-  curl = curl_easy_init();
-  if(curl) {
-    curl_easy_setopt(curl, CURLOPT_DEBUGFUNCTION, my_trace);
-    curl_easy_setopt(curl, CURLOPT_DEBUGDATA, &config);")) 400 500)
-   (scale-to-fit (frame (para "int main {}, aaaaaaaaaaaaaaaa"
-               "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-               "aaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbb")) 400 500)
-  )
- (item "XXXXXXXXXXXX")
- (item "XXXXXXXXXXXX"))
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
