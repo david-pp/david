@@ -11,7 +11,9 @@
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(provide codify)
+(provide codify
+         goodcode
+         badcode)
 
 
 (define (codify-line line linenum [size 14])
@@ -33,6 +35,12 @@
                                  #f)
                              size)) 
               (string-split codetext "\n"))))
+
+(define (goodcode codetext #:size [size 12])
+  (frame (colorize (codify codetext #:size size) "black")))
+
+(define (badcode codetext #:size [size 12])
+  (frame (colorize (codify codetext #:size size) "red")))
 
 #|
 ;;
