@@ -11,6 +11,12 @@
  (bitmap "./cleancode.png"))
 
 (slide
+ #:title "推荐阅读"
+ (item "《代码整洁之道》")
+ (item "《编写可读代码的艺术》")
+ (item "《重构:改善既有代码的设计》"))
+
+(slide
  (t "0 代码就像我们的孩子"))
 
 (slide
