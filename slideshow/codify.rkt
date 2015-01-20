@@ -13,7 +13,8 @@
 
 (provide codify
          goodcode
-         badcode)
+         badcode
+         chapter)
 
 
 (define (codify-line line linenum [size 14])
@@ -41,6 +42,10 @@
 
 (define (badcode codetext #:size [size 12])
   (frame (colorize (codify codetext #:size size) "red")))
+
+(define (chapter title)
+  (colorize (text title null 32) "blue"))
+
 
 #|
 ;;
