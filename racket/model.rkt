@@ -1,5 +1,9 @@
 #lang racket
 
+(provide get-qa-hosts
+         get-build-history)
+         
+
 (require db)
 
 (struct build-history 

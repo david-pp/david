@@ -1,0 +1,20 @@
+
+
+@in[h hosts]
+{
+ @h
+}
+
+
+@hash-keys{
+           @get-qa-hosts{}
+           }
+
+  <table>
+   @for/list[([c hosts])]{
+    @list{
+     <tr><td> @c </td></tr>
+    }
+   }
+  </table>
+
