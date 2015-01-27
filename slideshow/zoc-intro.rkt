@@ -8,7 +8,7 @@
 
 (slide
  #:title "谨记:代码是写给人看的"
- (bitmap "./cleancode.png"))
+ (bitmap "img/cleancode.png"))
 
 (slide
  #:title "推荐阅读"
