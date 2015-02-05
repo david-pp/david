@@ -1,0 +1,8 @@
+[2015-02-04 20:46:35.047] [INFO] http - 127.0.0.1 - - "GET / HTTP/1.1" 404 - "" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36"
+[2015-02-04 20:46:36.095] [INFO] http - 127.0.0.1 - - "GET / HTTP/1.1" 404 - "" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36"
+[2015-02-05 10:58:04.608] [INFO] http - 127.0.0.1 - - "GET / HTTP/1.1" 404 - "" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36"
+[2015-02-05 10:58:05.681] [INFO] http - 127.0.0.1 - - "GET / HTTP/1.1" 404 - "" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36"
+[2015-02-05 10:58:08.255] [INFO] http - 127.0.0.1 - - "GET / HTTP/1.1" 404 - "" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36"
+[2015-02-05 10:58:18.875] [INFO] http - 127.0.0.1 - - "GET / HTTP/1.1" 404 - "" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36"
+[2015-02-05 10:58:19.569] [INFO] http - 127.0.0.1 - - "GET / HTTP/1.1" 404 - "" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36"
+[2015-02-05 10:58:20.172] [INFO] http - 127.0.0.1 - - "GET / HTTP/1.1" 404 - "" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36"

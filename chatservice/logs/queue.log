@@ -1,0 +1,13 @@
+[2015-02-04 20:46:17.752] [ERROR] QueueApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-04 20:46:19.013] [ERROR] QueueApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-04 20:46:20.451] [ERROR] QueueApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-04 20:46:22.192] [ERROR] QueueApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-04 20:46:24.452] [ERROR] QueueApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-04 20:46:34.001] [ERROR] QueueApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-04 20:46:35.261] [ERROR] QueueApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-04 20:46:36.712] [ERROR] QueueApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-04 20:46:38.460] [ERROR] QueueApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-04 20:46:40.723] [ERROR] QueueApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-04 20:46:43.865] [ERROR] QueueApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-04 20:46:48.496] [ERROR] QueueApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-04 20:46:55.642] [ERROR] QueueApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED

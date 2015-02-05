@@ -1,0 +1,1419 @@
+[2015-02-04 21:00:51.887] [ERROR] QueueApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-04 21:00:53.159] [ERROR] QueueApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-04 22:45:49.804] [ERROR] ChatApp - { [Error: connect ECONNREFUSED]
+  code: 'ECONNREFUSED',
+  errno: 'ECONNREFUSED',
+  syscall: 'connect',
+  fatal: true }
+Error: connect ECONNREFUSED
+    at errnoException (net.js:770:11)
+    at Object.afterConnect [as oncomplete] (net.js:761:19)
+    --------------------
+    at Protocol._enqueue (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:135:48)
+    at Protocol.handshake (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:52:41)
+    at Connection.connect (E:\Code\david\chatservice\node_modules\mysql\lib\Connection.js:109:18)
+    at connect (E:\Code\david\chatservice\mysql.js:14:13)
+    at Object.<anonymous> (E:\Code\david\chatservice\mysql.js:33:1)
+    at Module._compile (module.js:449:26)
+    at Object.Module._extensions..js (module.js:467:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.runMain (module.js:492:10)
+[2015-02-04 22:45:50.809] [ERROR] ChatApp - { [Error: connect ECONNREFUSED]
+  code: 'ECONNREFUSED',
+  errno: 'ECONNREFUSED',
+  syscall: 'connect',
+  fatal: true }
+Error: connect ECONNREFUSED
+    at errnoException (net.js:770:11)
+    at Object.afterConnect [as oncomplete] (net.js:761:19)
+    --------------------
+    at Protocol._enqueue (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:135:48)
+    at Protocol.handshake (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:52:41)
+    at Connection.connect (E:\Code\david\chatservice\node_modules\mysql\lib\Connection.js:109:18)
+    at connect (E:\Code\david\chatservice\mysql.js:14:13)
+    at Query._callback (E:\Code\david\chatservice\mysql.js:41:4)
+    at Query.Sequence.end (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\sequences\Sequence.js:96:24)
+    at Protocol._delegateError.process.nextTick.queue.length (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:390:18)
+    at Array.forEach (native)
+    at Protocol._delegateError (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:389:13)
+    at process.startup.processNextTick.process._tickCallback (node.js:245:9)
+[2015-02-04 22:45:51.815] [ERROR] ChatApp - { [Error: connect ECONNREFUSED]
+  code: 'ECONNREFUSED',
+  errno: 'ECONNREFUSED',
+  syscall: 'connect',
+  fatal: true }
+Error: connect ECONNREFUSED
+    at errnoException (net.js:770:11)
+    at Object.afterConnect [as oncomplete] (net.js:761:19)
+    --------------------
+    at Protocol._enqueue (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:135:48)
+    at Protocol.handshake (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:52:41)
+    at Connection.connect (E:\Code\david\chatservice\node_modules\mysql\lib\Connection.js:109:18)
+    at connect (E:\Code\david\chatservice\mysql.js:14:13)
+    at Query._callback (E:\Code\david\chatservice\mysql.js:41:4)
+    at Query.Sequence.end (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\sequences\Sequence.js:96:24)
+    at Protocol._delegateError.process.nextTick.queue.length (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:390:18)
+    at Array.forEach (native)
+    at Protocol._delegateError (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:389:13)
+    at process.startup.processNextTick.process._tickCallback (node.js:245:9)
+[2015-02-04 22:45:52.818] [ERROR] ChatApp - { [Error: connect ECONNREFUSED]
+  code: 'ECONNREFUSED',
+  errno: 'ECONNREFUSED',
+  syscall: 'connect',
+  fatal: true }
+Error: connect ECONNREFUSED
+    at errnoException (net.js:770:11)
+    at Object.afterConnect [as oncomplete] (net.js:761:19)
+    --------------------
+    at Protocol._enqueue (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:135:48)
+    at Protocol.handshake (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:52:41)
+    at Connection.connect (E:\Code\david\chatservice\node_modules\mysql\lib\Connection.js:109:18)
+    at connect (E:\Code\david\chatservice\mysql.js:14:13)
+    at Query._callback (E:\Code\david\chatservice\mysql.js:41:4)
+    at Query.Sequence.end (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\sequences\Sequence.js:96:24)
+    at Protocol._delegateError.process.nextTick.queue.length (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:390:18)
+    at Array.forEach (native)
+    at Protocol._delegateError (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:389:13)
+    at process.startup.processNextTick.process._tickCallback (node.js:245:9)
+[2015-02-04 22:45:53.821] [ERROR] ChatApp - { [Error: connect ECONNREFUSED]
+  code: 'ECONNREFUSED',
+  errno: 'ECONNREFUSED',
+  syscall: 'connect',
+  fatal: true }
+Error: connect ECONNREFUSED
+    at errnoException (net.js:770:11)
+    at Object.afterConnect [as oncomplete] (net.js:761:19)
+    --------------------
+    at Protocol._enqueue (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:135:48)
+    at Protocol.handshake (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:52:41)
+    at Connection.connect (E:\Code\david\chatservice\node_modules\mysql\lib\Connection.js:109:18)
+    at connect (E:\Code\david\chatservice\mysql.js:14:13)
+    at Query._callback (E:\Code\david\chatservice\mysql.js:41:4)
+    at Query.Sequence.end (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\sequences\Sequence.js:96:24)
+    at Protocol._delegateError.process.nextTick.queue.length (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:390:18)
+    at Array.forEach (native)
+    at Protocol._delegateError (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:389:13)
+    at process.startup.processNextTick.process._tickCallback (node.js:245:9)
+[2015-02-04 22:45:54.821] [ERROR] ChatApp - { [Error: connect ECONNREFUSED]
+  code: 'ECONNREFUSED',
+  errno: 'ECONNREFUSED',
+  syscall: 'connect',
+  fatal: true }
+Error: connect ECONNREFUSED
+    at errnoException (net.js:770:11)
+    at Object.afterConnect [as oncomplete] (net.js:761:19)
+    --------------------
+    at Protocol._enqueue (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:135:48)
+    at Protocol.handshake (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:52:41)
+    at Connection.connect (E:\Code\david\chatservice\node_modules\mysql\lib\Connection.js:109:18)
+    at connect (E:\Code\david\chatservice\mysql.js:14:13)
+    at Query._callback (E:\Code\david\chatservice\mysql.js:41:4)
+    at Query.Sequence.end (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\sequences\Sequence.js:96:24)
+    at Protocol._delegateError.process.nextTick.queue.length (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:390:18)
+    at Array.forEach (native)
+    at Protocol._delegateError (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:389:13)
+    at process.startup.processNextTick.process._tickCallback (node.js:245:9)
+[2015-02-04 22:45:55.820] [ERROR] ChatApp - { [Error: connect ECONNREFUSED]
+  code: 'ECONNREFUSED',
+  errno: 'ECONNREFUSED',
+  syscall: 'connect',
+  fatal: true }
+Error: connect ECONNREFUSED
+    at errnoException (net.js:770:11)
+    at Object.afterConnect [as oncomplete] (net.js:761:19)
+    --------------------
+    at Protocol._enqueue (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:135:48)
+    at Protocol.handshake (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:52:41)
+    at Connection.connect (E:\Code\david\chatservice\node_modules\mysql\lib\Connection.js:109:18)
+    at connect (E:\Code\david\chatservice\mysql.js:14:13)
+    at Query._callback (E:\Code\david\chatservice\mysql.js:41:4)
+    at Query.Sequence.end (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\sequences\Sequence.js:96:24)
+    at Protocol._delegateError.process.nextTick.queue.length (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:390:18)
+    at Array.forEach (native)
+    at Protocol._delegateError (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:389:13)
+    at process.startup.processNextTick.process._tickCallback (node.js:245:9)
+[2015-02-04 22:45:56.825] [ERROR] ChatApp - { [Error: connect ECONNREFUSED]
+  code: 'ECONNREFUSED',
+  errno: 'ECONNREFUSED',
+  syscall: 'connect',
+  fatal: true }
+Error: connect ECONNREFUSED
+    at errnoException (net.js:770:11)
+    at Object.afterConnect [as oncomplete] (net.js:761:19)
+    --------------------
+    at Protocol._enqueue (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:135:48)
+    at Protocol.handshake (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:52:41)
+    at Connection.connect (E:\Code\david\chatservice\node_modules\mysql\lib\Connection.js:109:18)
+    at connect (E:\Code\david\chatservice\mysql.js:14:13)
+    at Query._callback (E:\Code\david\chatservice\mysql.js:41:4)
+    at Query.Sequence.end (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\sequences\Sequence.js:96:24)
+    at Protocol._delegateError.process.nextTick.queue.length (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:390:18)
+    at Array.forEach (native)
+    at Protocol._delegateError (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:389:13)
+    at process.startup.processNextTick.process._tickCallback (node.js:245:9)
+[2015-02-04 22:47:24.984] [ERROR] ChatApp - { [Error: connect ECONNREFUSED]
+  code: 'ECONNREFUSED',
+  errno: 'ECONNREFUSED',
+  syscall: 'connect',
+  fatal: true }
+Error: connect ECONNREFUSED
+    at errnoException (net.js:770:11)
+    at Object.afterConnect [as oncomplete] (net.js:761:19)
+    --------------------
+    at Protocol._enqueue (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:135:48)
+    at Protocol.handshake (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:52:41)
+    at Connection.connect (E:\Code\david\chatservice\node_modules\mysql\lib\Connection.js:109:18)
+    at connect (E:\Code\david\chatservice\mysql.js:14:13)
+    at Object.<anonymous> (E:\Code\david\chatservice\mysql.js:33:1)
+    at Module._compile (module.js:449:26)
+    at Object.Module._extensions..js (module.js:467:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.runMain (module.js:492:10)
+[2015-02-04 22:47:25.995] [ERROR] ChatApp - { [Error: connect ECONNREFUSED]
+  code: 'ECONNREFUSED',
+  errno: 'ECONNREFUSED',
+  syscall: 'connect',
+  fatal: true }
+Error: connect ECONNREFUSED
+    at errnoException (net.js:770:11)
+    at Object.afterConnect [as oncomplete] (net.js:761:19)
+    --------------------
+    at Protocol._enqueue (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:135:48)
+    at Protocol.handshake (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:52:41)
+    at Connection.connect (E:\Code\david\chatservice\node_modules\mysql\lib\Connection.js:109:18)
+    at connect (E:\Code\david\chatservice\mysql.js:14:13)
+    at Query._callback (E:\Code\david\chatservice\mysql.js:41:4)
+    at Query.Sequence.end (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\sequences\Sequence.js:96:24)
+    at Protocol._delegateError.process.nextTick.queue.length (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:390:18)
+    at Array.forEach (native)
+    at Protocol._delegateError (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:389:13)
+    at process.startup.processNextTick.process._tickCallback (node.js:245:9)
+[2015-02-04 22:47:26.998] [ERROR] ChatApp - { [Error: connect ECONNREFUSED]
+  code: 'ECONNREFUSED',
+  errno: 'ECONNREFUSED',
+  syscall: 'connect',
+  fatal: true }
+Error: connect ECONNREFUSED
+    at errnoException (net.js:770:11)
+    at Object.afterConnect [as oncomplete] (net.js:761:19)
+    --------------------
+    at Protocol._enqueue (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:135:48)
+    at Protocol.handshake (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:52:41)
+    at Connection.connect (E:\Code\david\chatservice\node_modules\mysql\lib\Connection.js:109:18)
+    at connect (E:\Code\david\chatservice\mysql.js:14:13)
+    at Query._callback (E:\Code\david\chatservice\mysql.js:41:4)
+    at Query.Sequence.end (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\sequences\Sequence.js:96:24)
+    at Protocol._delegateError.process.nextTick.queue.length (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:390:18)
+    at Array.forEach (native)
+    at Protocol._delegateError (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:389:13)
+    at process.startup.processNextTick.process._tickCallback (node.js:245:9)
+[2015-02-04 22:47:28.002] [ERROR] ChatApp - { [Error: connect ECONNREFUSED]
+  code: 'ECONNREFUSED',
+  errno: 'ECONNREFUSED',
+  syscall: 'connect',
+  fatal: true }
+Error: connect ECONNREFUSED
+    at errnoException (net.js:770:11)
+    at Object.afterConnect [as oncomplete] (net.js:761:19)
+    --------------------
+    at Protocol._enqueue (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:135:48)
+    at Protocol.handshake (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:52:41)
+    at Connection.connect (E:\Code\david\chatservice\node_modules\mysql\lib\Connection.js:109:18)
+    at connect (E:\Code\david\chatservice\mysql.js:14:13)
+    at Query._callback (E:\Code\david\chatservice\mysql.js:41:4)
+    at Query.Sequence.end (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\sequences\Sequence.js:96:24)
+    at Protocol._delegateError.process.nextTick.queue.length (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:390:18)
+    at Array.forEach (native)
+    at Protocol._delegateError (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:389:13)
+    at process.startup.processNextTick.process._tickCallback (node.js:245:9)
+[2015-02-04 22:47:29.006] [ERROR] ChatApp - { [Error: connect ECONNREFUSED]
+  code: 'ECONNREFUSED',
+  errno: 'ECONNREFUSED',
+  syscall: 'connect',
+  fatal: true }
+Error: connect ECONNREFUSED
+    at errnoException (net.js:770:11)
+    at Object.afterConnect [as oncomplete] (net.js:761:19)
+    --------------------
+    at Protocol._enqueue (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:135:48)
+    at Protocol.handshake (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:52:41)
+    at Connection.connect (E:\Code\david\chatservice\node_modules\mysql\lib\Connection.js:109:18)
+    at connect (E:\Code\david\chatservice\mysql.js:14:13)
+    at Query._callback (E:\Code\david\chatservice\mysql.js:41:4)
+    at Query.Sequence.end (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\sequences\Sequence.js:96:24)
+    at Protocol._delegateError.process.nextTick.queue.length (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:390:18)
+    at Array.forEach (native)
+    at Protocol._delegateError (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:389:13)
+    at process.startup.processNextTick.process._tickCallback (node.js:245:9)
+[2015-02-04 22:47:30.006] [ERROR] ChatApp - { [Error: connect ECONNREFUSED]
+  code: 'ECONNREFUSED',
+  errno: 'ECONNREFUSED',
+  syscall: 'connect',
+  fatal: true }
+Error: connect ECONNREFUSED
+    at errnoException (net.js:770:11)
+    at Object.afterConnect [as oncomplete] (net.js:761:19)
+    --------------------
+    at Protocol._enqueue (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:135:48)
+    at Protocol.handshake (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:52:41)
+    at Connection.connect (E:\Code\david\chatservice\node_modules\mysql\lib\Connection.js:109:18)
+    at connect (E:\Code\david\chatservice\mysql.js:14:13)
+    at Query._callback (E:\Code\david\chatservice\mysql.js:41:4)
+    at Query.Sequence.end (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\sequences\Sequence.js:96:24)
+    at Protocol._delegateError.process.nextTick.queue.length (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:390:18)
+    at Array.forEach (native)
+    at Protocol._delegateError (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:389:13)
+    at process.startup.processNextTick.process._tickCallback (node.js:245:9)
+[2015-02-04 22:47:31.007] [ERROR] ChatApp - { [Error: connect ECONNREFUSED]
+  code: 'ECONNREFUSED',
+  errno: 'ECONNREFUSED',
+  syscall: 'connect',
+  fatal: true }
+Error: connect ECONNREFUSED
+    at errnoException (net.js:770:11)
+    at Object.afterConnect [as oncomplete] (net.js:761:19)
+    --------------------
+    at Protocol._enqueue (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:135:48)
+    at Protocol.handshake (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:52:41)
+    at Connection.connect (E:\Code\david\chatservice\node_modules\mysql\lib\Connection.js:109:18)
+    at connect (E:\Code\david\chatservice\mysql.js:14:13)
+    at Query._callback (E:\Code\david\chatservice\mysql.js:41:4)
+    at Query.Sequence.end (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\sequences\Sequence.js:96:24)
+    at Protocol._delegateError.process.nextTick.queue.length (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:390:18)
+    at Array.forEach (native)
+    at Protocol._delegateError (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:389:13)
+    at process.startup.processNextTick.process._tickCallback (node.js:245:9)
+[2015-02-04 22:47:32.010] [ERROR] ChatApp - { [Error: connect ECONNREFUSED]
+  code: 'ECONNREFUSED',
+  errno: 'ECONNREFUSED',
+  syscall: 'connect',
+  fatal: true }
+Error: connect ECONNREFUSED
+    at errnoException (net.js:770:11)
+    at Object.afterConnect [as oncomplete] (net.js:761:19)
+    --------------------
+    at Protocol._enqueue (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:135:48)
+    at Protocol.handshake (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:52:41)
+    at Connection.connect (E:\Code\david\chatservice\node_modules\mysql\lib\Connection.js:109:18)
+    at connect (E:\Code\david\chatservice\mysql.js:14:13)
+    at Query._callback (E:\Code\david\chatservice\mysql.js:41:4)
+    at Query.Sequence.end (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\sequences\Sequence.js:96:24)
+    at Protocol._delegateError.process.nextTick.queue.length (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:390:18)
+    at Array.forEach (native)
+    at Protocol._delegateError (E:\Code\david\chatservice\node_modules\mysql\lib\protocol\Protocol.js:389:13)
+    at process.startup.processNextTick.process._tickCallback (node.js:245:9)
+[2015-02-04 22:48:10.499] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:48:11.508] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:48:12.513] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:48:13.513] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:48:14.516] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:48:15.519] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:48:16.523] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:48:31.644] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:48:32.659] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:48:33.660] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:48:34.663] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:48:35.666] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:48:36.670] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:48:37.674] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:48:38.678] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:49:28.186] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:49:29.195] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:49:30.203] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:49:31.210] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:49:32.213] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:49:33.217] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:49:34.219] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:49:35.221] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:49:36.220] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:49:37.224] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:49:38.226] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:49:39.231] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:49:40.235] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:49:41.236] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:49:42.245] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:49:43.253] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:49:44.258] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:49:45.266] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:49:46.272] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:49:47.287] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:49:48.290] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:49:49.294] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:49:50.297] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:49:51.300] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:49:52.304] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:49:53.314] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:49:54.319] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:49:55.322] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:49:56.331] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:49:57.329] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:49:58.333] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:49:59.336] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:50:00.337] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:50:01.342] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:50:02.356] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:50:03.358] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:50:04.361] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:50:05.365] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:50:07.551] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:50:08.559] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:50:09.563] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:50:10.565] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:50:11.567] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:50:12.570] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-04 22:50:32.400] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:50:33.400] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:50:34.414] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:50:35.418] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:50:36.421] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:50:37.431] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:50:38.436] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:50:39.440] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:50:40.453] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:50:41.459] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:50:42.463] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:50:43.468] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:50:44.472] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:50:45.479] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:50:46.481] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:50:47.494] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:50:48.498] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:50:49.514] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:50:50.516] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:50:51.519] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:50:52.524] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:50:53.527] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:50:54.530] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:50:55.532] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:50:56.544] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:50:57.548] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:50:58.551] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:50:59.551] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:51:00.550] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:51:01.555] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:51:02.557] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:51:03.563] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:51:04.568] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:51:05.574] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:51:06.573] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:51:07.575] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:51:08.572] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:51:09.576] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:51:10.578] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:51:11.590] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:51:12.593] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:51:15.100] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:51:16.105] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:51:17.109] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:51:18.114] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:51:19.117] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:51:20.122] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-04 22:51:42.961] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-04 22:52:07.182] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-04 22:52:08.023] [DEBUG] ChatApp - [ { name: 'QA0',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA1',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA2',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA3',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA4',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA5',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA6',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA7',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA8',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA9',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' } ]
+[2015-02-04 22:52:09.022] [DEBUG] ChatApp - [ { name: 'QA0',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA1',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA2',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA3',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA4',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA5',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA6',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA7',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA8',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA9',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' } ]
+[2015-02-04 22:52:10.021] [DEBUG] ChatApp - [ { name: 'QA0',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA1',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA2',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA3',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA4',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA5',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA6',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA7',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA8',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA9',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' } ]
+[2015-02-04 22:52:11.023] [DEBUG] ChatApp - [ { name: 'QA0',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA1',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA2',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA3',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA4',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA5',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA6',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA7',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA8',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA9',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' } ]
+[2015-02-04 22:52:12.018] [DEBUG] ChatApp - [ { name: 'QA0',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA1',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA2',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA3',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA4',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA5',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA6',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA7',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA8',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA9',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' } ]
+[2015-02-04 22:52:13.014] [DEBUG] ChatApp - [ { name: 'QA0',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA1',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA2',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA3',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA4',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA5',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA6',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA7',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA8',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA9',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' } ]
+[2015-02-04 22:52:14.015] [DEBUG] ChatApp - [ { name: 'QA0',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA1',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA2',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA3',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA4',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA5',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA6',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA7',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA8',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA9',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' } ]
+[2015-02-04 22:52:15.014] [DEBUG] ChatApp - [ { name: 'QA0',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA1',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA2',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA3',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA4',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA5',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA6',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA7',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA8',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA9',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' } ]
+[2015-02-04 22:52:16.013] [DEBUG] ChatApp - [ { name: 'QA0',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA1',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA2',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA3',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA4',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA5',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA6',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA7',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA8',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA9',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' } ]
+[2015-02-04 22:52:17.017] [DEBUG] ChatApp - [ { name: 'QA0',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA1',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA2',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA3',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA4',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA5',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA6',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA7',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA8',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' },
+  { name: 'QA9',
+    user: 'david',
+    ip: '127.0.0.1',
+    status: 0,
+    running: 1,
+    log: 'test.....' } ]
+[2015-02-04 22:52:59.000] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-04 22:53:08.676] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-04 22:53:09.515] [INFO] ChatApp - QA0
+[2015-02-04 22:53:10.514] [INFO] ChatApp - QA0
+[2015-02-04 22:53:11.513] [INFO] ChatApp - QA0
+[2015-02-04 22:53:12.511] [INFO] ChatApp - QA0
+[2015-02-04 22:53:13.510] [INFO] ChatApp - QA0
+[2015-02-04 22:53:14.514] [INFO] ChatApp - QA0
+[2015-02-04 22:53:15.510] [INFO] ChatApp - QA0
+[2015-02-04 22:53:16.507] [INFO] ChatApp - QA0
+[2015-02-04 22:53:17.505] [INFO] ChatApp - QA0
+[2015-02-04 22:53:18.514] [INFO] ChatApp - QA0
+[2015-02-04 22:53:19.513] [INFO] ChatApp - QA0
+[2015-02-04 22:53:20.513] [INFO] ChatApp - QA0
+[2015-02-04 22:53:21.511] [INFO] ChatApp - QA0
+[2015-02-04 22:53:49.391] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:53:50.397] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:53:51.401] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:53:52.404] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:53:53.407] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:53:54.414] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-04 22:53:54.438] [INFO] ChatApp - QA0
+[2015-02-04 22:53:55.012] [INFO] ChatApp - QA0
+[2015-02-04 22:53:56.007] [INFO] ChatApp - QA0
+[2015-02-04 22:53:57.007] [INFO] ChatApp - QA0
+[2015-02-04 22:53:58.008] [INFO] ChatApp - QA0
+[2015-02-04 22:53:59.010] [INFO] ChatApp - QA0
+[2015-02-04 22:54:00.011] [INFO] ChatApp - QA0
+[2015-02-04 22:54:01.009] [INFO] ChatApp - QA0
+[2015-02-04 22:54:02.005] [INFO] ChatApp - QA0
+[2015-02-04 22:54:03.004] [INFO] ChatApp - QA0
+[2015-02-04 22:54:04.007] [INFO] ChatApp - QA0
+[2015-02-04 22:54:06.015] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:54:07.018] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:54:08.017] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:54:09.022] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:54:10.046] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:54:11.054] [ERROR] ChatApp - [mysql] connect failed:ECONNREFUSED
+[2015-02-04 22:54:11.558] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-04 22:54:12.028] [INFO] ChatApp - QA0
+[2015-02-04 22:54:13.004] [INFO] ChatApp - QA0
+[2015-02-04 22:54:14.009] [INFO] ChatApp - QA0
+[2015-02-04 22:54:15.004] [INFO] ChatApp - QA0
+[2015-02-04 22:55:12.319] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-04 22:55:13.172] [INFO] ChatApp - QA0
+[2015-02-04 22:55:14.169] [INFO] ChatApp - QA0
+[2015-02-04 22:55:15.168] [INFO] ChatApp - QA0
+[2015-02-04 22:55:40.136] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-04 22:55:40.983] [INFO] ChatApp - QA0
+[2015-02-04 22:55:41.982] [INFO] ChatApp - QA0
+[2015-02-04 22:55:42.980] [INFO] ChatApp - QA0
+[2015-02-04 22:55:54.018] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-04 22:56:34.973] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-04 22:56:40.615] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-04 22:56:44.199] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-04 22:57:04.840] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-04 22:57:04.843] [INFO] ChatApp - QA0
+[2015-02-05 10:11:53.481] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 10:11:53.484] [INFO] ChatApp - QA0
+[2015-02-05 10:13:38.228] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 10:13:38.230] [INFO] ChatApp - QA0
+[2015-02-05 10:21:55.758] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 10:21:55.760] [INFO] ChatApp - QA0
+[2015-02-05 10:22:19.162] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 10:22:19.165] [INFO] ChatApp - QA0
+[2015-02-05 10:23:16.254] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 10:23:17.108] [INFO] ChatApp - QA0
+[2015-02-05 10:23:18.105] [INFO] ChatApp - QA0
+[2015-02-05 10:23:19.104] [INFO] ChatApp - QA0
+[2015-02-05 10:23:20.102] [INFO] ChatApp - QA0
+[2015-02-05 10:23:21.102] [INFO] ChatApp - QA0
+[2015-02-05 10:23:22.097] [INFO] ChatApp - QA0
+[2015-02-05 10:23:36.568] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 10:23:36.571] [INFO] ChatApp - QA0
+[2015-02-05 10:23:57.325] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 10:23:57.327] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 10:23:57.328] [INFO] ChatApp - QA0
+[2015-02-05 10:24:51.210] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 10:24:51.211] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 10:24:51.212] [INFO] ChatApp - QA0
+[2015-02-05 10:24:52.060] [INFO] ChatApp - QA0
+[2015-02-05 10:24:53.060] [INFO] ChatApp - QA0
+[2015-02-05 10:24:54.059] [INFO] ChatApp - QA0
+[2015-02-05 10:24:55.057] [INFO] ChatApp - QA0
+[2015-02-05 10:24:56.057] [INFO] ChatApp - QA0
+[2015-02-05 10:24:57.054] [INFO] ChatApp - QA0
+[2015-02-05 10:24:58.049] [INFO] ChatApp - QA0
+[2015-02-05 10:24:59.047] [INFO] ChatApp - QA0
+[2015-02-05 10:25:00.046] [INFO] ChatApp - QA0
+[2015-02-05 10:25:01.059] [INFO] ChatApp - QA0
+[2015-02-05 10:25:02.057] [INFO] ChatApp - QA0
+[2015-02-05 10:25:03.056] [INFO] ChatApp - QA0
+[2015-02-05 10:25:04.405] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 10:25:04.408] [INFO] ChatApp - QA0
+[2015-02-05 10:25:13.853] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 10:25:13.856] [INFO] ChatApp - QA0
+[2015-02-05 10:25:16.611] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 10:25:16.615] [INFO] ChatApp - QA0
+[2015-02-05 10:26:08.332] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 10:26:08.335] [INFO] ChatApp - QA0
+[2015-02-05 10:26:09.772] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 10:26:09.775] [INFO] ChatApp - QA0
+[2015-02-05 10:26:28.908] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 10:26:28.910] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 10:26:28.911] [INFO] ChatApp - QA0
+[2015-02-05 10:26:43.098] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 10:26:43.101] [INFO] ChatApp - QA0
+[2015-02-05 10:26:44.510] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 10:26:44.513] [INFO] ChatApp - QA0
+[2015-02-05 10:26:58.404] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 10:26:58.407] [INFO] ChatApp - QA0
+[2015-02-05 10:27:23.806] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 10:27:23.809] [INFO] ChatApp - QA0
+[2015-02-05 10:27:45.017] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 10:27:45.020] [INFO] ChatApp - QA0
+[2015-02-05 10:27:46.908] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 10:27:46.911] [INFO] ChatApp - QA0
+[2015-02-05 10:27:50.686] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 10:27:50.689] [INFO] ChatApp - QA0
+[2015-02-05 10:28:14.963] [INFO] ChatApp - null
+[2015-02-05 10:28:14.965] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 10:28:14.966] [INFO] ChatApp - QA0
+[2015-02-05 10:28:17.093] [INFO] ChatApp - null
+[2015-02-05 10:28:17.094] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 10:28:17.096] [INFO] ChatApp - QA0
+[2015-02-05 10:28:23.665] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 10:28:23.667] [INFO] ChatApp - QA0
+[2015-02-05 10:28:51.635] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 10:28:51.638] [INFO] ChatApp - QA0
+[2015-02-05 10:29:08.802] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 10:29:08.805] [INFO] ChatApp - QA0
+[2015-02-05 10:32:39.687] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 10:32:39.688] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 10:32:39.690] [INFO] ChatApp - QA0
+[2015-02-05 10:32:51.083] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 10:32:51.086] [INFO] ChatApp - QA0
+[2015-02-05 10:33:07.712] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 10:33:07.715] [INFO] ChatApp - QA0
+[2015-02-05 10:33:47.790] [INFO] QueueApp - QA0
+[2015-02-05 10:33:48.785] [ERROR] QueueApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 10:33:50.069] [ERROR] QueueApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 10:33:51.506] [ERROR] QueueApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 10:36:08.845] [ERROR] ChatApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 10:36:10.109] [ERROR] ChatApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 10:36:11.560] [ERROR] ChatApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 10:36:13.311] [ERROR] ChatApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 10:36:15.574] [ERROR] ChatApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 10:36:18.708] [ERROR] ChatApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 10:36:23.325] [ERROR] ChatApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 10:36:30.472] [ERROR] ChatApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 10:36:41.923] [ERROR] ChatApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 10:37:00.689] [ERROR] ChatApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 10:37:31.874] [ERROR] ChatApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 10:38:24.181] [ERROR] ChatApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 10:40:26.292] [INFO] ChatApp - false
+[2015-02-05 10:40:54.042] [INFO] ChatApp - false
+[2015-02-05 10:41:51.048] [INFO] ChatApp - false
+[2015-02-05 10:42:34.240] [INFO] ChatApp - david
+[2015-02-05 10:44:31.715] [INFO] ChatApp - david
+[2015-02-05 10:44:36.166] [INFO] ChatApp - david
+[2015-02-05 10:45:59.851] [INFO] ChatApp - david
+[2015-02-05 10:48:12.642] [INFO] QueueApp - QA0
+[2015-02-05 10:48:24.834] [INFO] QueueApp - QA0
+[2015-02-05 10:50:59.480] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 10:50:59.482] [INFO] ChatApp - QA0
+[2015-02-05 10:52:29.385] [INFO] ChatApp - david
+[2015-02-05 10:52:43.644] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 10:52:43.646] [INFO] ChatApp - david
+[2015-02-05 10:52:43.647] [INFO] ChatApp - QA0
+[2015-02-05 10:54:15.553] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 10:54:15.555] [INFO] ChatApp - david
+[2015-02-05 10:54:15.556] [INFO] ChatApp - QA0
+[2015-02-05 10:56:35.110] [INFO] ChatApp - david
+[2015-02-05 10:56:35.111] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 10:56:35.113] [INFO] ChatApp - QA0
+[2015-02-05 10:57:56.552] [INFO] ChatApp - david
+[2015-02-05 10:57:56.554] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 10:57:56.555] [INFO] ChatApp - QA0
+[2015-02-05 10:59:28.795] [INFO] ChatApp - david
+[2015-02-05 10:59:29.794] [INFO] ChatApp - david
+[2015-02-05 10:59:30.794] [INFO] ChatApp - david
+[2015-02-05 10:59:31.795] [INFO] ChatApp - david
+[2015-02-05 10:59:32.792] [INFO] ChatApp - david
+[2015-02-05 10:59:33.793] [INFO] ChatApp - david
+[2015-02-05 10:59:34.786] [INFO] ChatApp - david
+[2015-02-05 10:59:35.793] [INFO] ChatApp - david
+[2015-02-05 10:59:36.790] [INFO] ChatApp - david
+[2015-02-05 10:59:37.788] [INFO] ChatApp - david
+[2015-02-05 10:59:38.794] [INFO] ChatApp - david
+[2015-02-05 10:59:39.792] [INFO] ChatApp - david
+[2015-02-05 10:59:40.794] [INFO] ChatApp - david
+[2015-02-05 10:59:41.789] [INFO] ChatApp - david
+[2015-02-05 10:59:42.789] [INFO] ChatApp - david
+[2015-02-05 10:59:43.791] [INFO] ChatApp - david
+[2015-02-05 10:59:44.787] [INFO] ChatApp - david
+[2015-02-05 10:59:45.784] [INFO] ChatApp - david
+[2015-02-05 10:59:47.583] [INFO] ChatApp - undefined
+[2015-02-05 10:59:47.584] [ERROR] ChatApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 10:59:49.025] [INFO] ChatApp - undefined
+[2015-02-05 10:59:49.025] [INFO] ChatApp - undefined
+[2015-02-05 10:59:49.026] [ERROR] ChatApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 10:59:50.765] [INFO] ChatApp - undefined
+[2015-02-05 10:59:50.765] [ERROR] ChatApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 10:59:52.531] [INFO] ChatApp - david
+[2015-02-05 10:59:52.531] [INFO] ChatApp - david
+[2015-02-05 10:59:52.789] [INFO] ChatApp - david
+[2015-02-05 10:59:53.794] [INFO] ChatApp - david
+[2015-02-05 10:59:54.788] [INFO] ChatApp - david
+[2015-02-05 10:59:55.784] [INFO] ChatApp - david
+[2015-02-05 10:59:57.474] [INFO] ChatApp - undefined
+[2015-02-05 10:59:57.474] [ERROR] ChatApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 10:59:59.202] [INFO] ChatApp - undefined
+[2015-02-05 10:59:59.206] [ERROR] ChatApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 11:00:00.471] [INFO] ChatApp - david
+[2015-02-05 11:00:01.120] [INFO] ChatApp - david
+[2015-02-05 11:00:02.115] [INFO] ChatApp - david
+[2015-02-05 11:00:03.114] [INFO] ChatApp - david
+[2015-02-05 11:00:04.115] [INFO] ChatApp - david
+[2015-02-05 11:00:05.120] [INFO] ChatApp - david
+[2015-02-05 11:00:06.115] [INFO] ChatApp - david
+[2015-02-05 11:00:07.112] [INFO] ChatApp - david
+[2015-02-05 11:00:08.112] [INFO] ChatApp - david
+[2015-02-05 11:00:09.120] [INFO] ChatApp - david
+[2015-02-05 11:00:10.118] [INFO] ChatApp - david
+[2015-02-05 11:00:11.116] [INFO] ChatApp - david
+[2015-02-05 11:00:12.119] [INFO] ChatApp - david
+[2015-02-05 11:00:13.118] [INFO] ChatApp - david
+[2015-02-05 11:00:14.446] [INFO] ChatApp - undefined
+[2015-02-05 11:00:14.446] [ERROR] ChatApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 11:00:15.891] [INFO] ChatApp - undefined
+[2015-02-05 11:00:15.891] [ERROR] ChatApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 11:00:17.642] [INFO] ChatApp - undefined
+[2015-02-05 11:00:17.642] [INFO] ChatApp - undefined
+[2015-02-05 11:00:17.642] [ERROR] ChatApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 11:00:19.909] [INFO] ChatApp - david
+[2015-02-05 11:00:19.909] [INFO] ChatApp - david
+[2015-02-05 11:00:20.120] [INFO] ChatApp - david
+[2015-02-05 11:00:21.118] [INFO] ChatApp - david
+[2015-02-05 11:00:39.796] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 11:00:39.798] [INFO] ChatApp - david
+[2015-02-05 11:00:39.799] [INFO] ChatApp - QA0
+[2015-02-05 11:01:17.987] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 11:02:50.929] [INFO] ChatApp - undefined
+[2015-02-05 11:02:50.932] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 11:03:00.876] [INFO] ChatApp - undefined
+[2015-02-05 11:03:00.880] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 11:03:09.438] [ERROR] ChatApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 11:03:10.875] [ERROR] ChatApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 11:03:12.620] [ERROR] ChatApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 11:03:14.250] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 11:03:15.251] [ERROR] ChatApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 11:03:16.520] [ERROR] ChatApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 11:03:17.955] [ERROR] ChatApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 11:03:19.695] [ERROR] ChatApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 11:03:21.962] [ERROR] ChatApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 11:03:46.566] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 11:03:47.564] [ERROR] ChatApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 11:03:48.828] [ERROR] ChatApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 11:03:50.265] [ERROR] ChatApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 11:03:52.007] [ERROR] ChatApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 11:03:54.267] [ERROR] ChatApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 11:03:57.406] [ERROR] ChatApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 11:04:02.035] [ERROR] ChatApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 11:04:03.364] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 11:04:04.362] [ERROR] ChatApp - { stream: 
+   { domain: null,
+     _events: 
+      { connect: [Function],
+        data: [Function],
+        error: [Function],
+        close: [Function],
+        end: [Function],
+        drain: [Function] },
+     _maxListeners: 10,
+     _handle: null,
+     _pendingWriteReqs: 0,
+     _flags: 0,
+     _connectQueueSize: 0,
+     destroyed: true,
+     errorEmitted: true,
+     bytesRead: 0,
+     _bytesDispatched: 0,
+     allowHalfOpen: undefined,
+     _connecting: false,
+     writable: false,
+     _connectQueue: null,
+     readable: false,
+     _idleNext: null,
+     _idlePrev: null,
+     _idleTimeout: -1 },
+  options: { socket_nodelay: true, socket_keepalive: true },
+  connection_id: 1,
+  connected: false,
+  ready: false,
+  connections: 0,
+  should_buffer: false,
+  command_queue_high_water: 1000,
+  command_queue_low_water: 0,
+  max_attempts: null,
+  command_queue: { tail: [], head: [], offset: 0 },
+  offline_queue: { tail: [], head: [], offset: 0 },
+  commands_sent: 0,
+  connect_timeout: false,
+  enable_offline_queue: true,
+  retry_max_delay: null,
+  retry_timer: null,
+  retry_totaltime: 0,
+  retry_delay: 150,
+  retry_backoff: 1.7,
+  attempts: 1,
+  pub_sub_mode: false,
+  subscription_set: {},
+  monitoring: false,
+  closing: false,
+  server_info: {},
+  auth_pass: null,
+  parser_module: null,
+  selected_db: null,
+  old_state: null,
+  domain: null,
+  _events: { connect: [Function], error: [Function] },
+  _maxListeners: 10,
+  connectionOption: { port: 6379, host: '127.0.0.1', family: 4 },
+  address: '127.0.0.1:6379' }
+[2015-02-05 11:04:04.367] [ERROR] ChatApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 11:04:05.626] [ERROR] ChatApp - { stream: 
+   { domain: null,
+     _events: 
+      { connect: [Function],
+        data: [Function],
+        error: [Function],
+        close: [Function],
+        end: [Function],
+        drain: [Function] },
+     _maxListeners: 10,
+     _handle: null,
+     _pendingWriteReqs: 0,
+     _flags: 0,
+     _connectQueueSize: 0,
+     destroyed: true,
+     errorEmitted: true,
+     bytesRead: 0,
+     _bytesDispatched: 0,
+     allowHalfOpen: undefined,
+     _connecting: false,
+     writable: false,
+     _connectQueue: null,
+     readable: false,
+     _idleNext: null,
+     _idlePrev: null,
+     _idleTimeout: -1 },
+  options: { socket_nodelay: true, socket_keepalive: true },
+  connection_id: 1,
+  connected: false,
+  ready: false,
+  connections: 0,
+  should_buffer: false,
+  command_queue_high_water: 1000,
+  command_queue_low_water: 0,
+  max_attempts: null,
+  command_queue: { tail: [], head: [], offset: 0 },
+  offline_queue: { tail: [], head: [], offset: 0 },
+  commands_sent: 0,
+  connect_timeout: false,
+  enable_offline_queue: true,
+  retry_max_delay: null,
+  retry_timer: null,
+  retry_totaltime: 255,
+  retry_delay: 255,
+  retry_backoff: 1.7,
+  attempts: 2,
+  pub_sub_mode: false,
+  subscription_set: {},
+  monitoring: false,
+  closing: false,
+  server_info: {},
+  auth_pass: null,
+  parser_module: null,
+  selected_db: null,
+  old_state: { monitoring: false, pub_sub_mode: false, selected_db: null },
+  domain: null,
+  _events: { connect: [Function], error: [Function] },
+  _maxListeners: 10,
+  connectionOption: { port: 6379, host: '127.0.0.1', family: 4 },
+  address: '127.0.0.1:6379',
+  emitted_end: true }
+[2015-02-05 11:04:05.628] [ERROR] ChatApp - [redis]undefined:undefined - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 11:04:28.184] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 11:04:29.188] [ERROR] ChatApp - [redis]127.0.0.1:6379 - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 11:04:30.446] [ERROR] ChatApp - [redis]127.0.0.1:6379 - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 11:04:31.882] [ERROR] ChatApp - [redis]127.0.0.1:6379 - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 11:05:20.904] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 11:05:21.901] [ERROR] ChatApp - [redis]127.0.0.1:6379 - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 11:05:23.179] [ERROR] ChatApp - [redis]127.0.0.1:6379 - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 11:05:24.625] [ERROR] ChatApp - [redis]127.0.0.1:6379 - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 11:05:26.367] [ERROR] ChatApp - [redis]127.0.0.1:6379 - Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
+[2015-02-05 11:05:28.128] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 11:06:46.436] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 11:06:46.440] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 11:06:59.518] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 11:06:59.522] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 11:07:19.198] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 11:07:19.201] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 11:07:52.086] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 11:07:52.089] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
