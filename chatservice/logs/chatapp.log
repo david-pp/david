@@ -1472,3 +1472,227 @@ Error: connect ECONNREFUSED
 [2015-02-05 12:01:13.101] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
 [2015-02-05 12:01:13.104] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
 [2015-02-05 12:02:15.662] [INFO] ChatApp - 1 2 '测试一下 看OKAY不!'
+[2015-02-05 12:18:33.573] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 12:18:33.577] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 12:18:48.361] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 12:18:48.365] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 12:19:10.571] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 12:19:10.574] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 12:19:11.379] [INFO] ChatApp - 1423109951.379
+[2015-02-05 12:20:21.944] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 12:20:21.947] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 12:20:35.848] [INFO] ChatApp - 1423110035
+[2015-02-05 12:22:54.768] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 12:22:54.772] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 12:23:07.289] [INFO] ChatApp - 1 2 '测试一下 看OKAY不!'
+[2015-02-05 12:25:34.311] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 12:25:34.315] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 12:25:34.922] [INFO] ChatApp - qchat:2 { timestamp: 1423110334,
+  id: 1,
+  name: '朋友1',
+  type: NaN,
+  content: '测试一下 看OKAY不!' }
+[2015-02-05 12:25:39.403] [INFO] ChatApp - qchat:2 { timestamp: 1423110339,
+  id: 1,
+  name: '朋友1',
+  type: NaN,
+  content: '测试一下 看OKAY不!' }
+[2015-02-05 12:25:40.285] [INFO] ChatApp - qchat:2 { timestamp: 1423110340,
+  id: 1,
+  name: '朋友1',
+  type: NaN,
+  content: '测试一下 看OKAY不!' }
+[2015-02-05 12:26:12.391] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 12:26:12.395] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 12:26:13.155] [INFO] ChatApp - qchat:2 { timestamp: 1423110373,
+  id: 1,
+  name: '朋友1',
+  type: 0,
+  content: '测试一下 看OKAY不!' }
+[2015-02-05 12:26:14.469] [INFO] ChatApp - qchat:2 { timestamp: 1423110374,
+  id: 1,
+  name: '朋友1',
+  type: 0,
+  content: '测试一下 看OKAY不!' }
+[2015-02-05 12:26:18.098] [INFO] ChatApp - qchat:2 { timestamp: 1423110378,
+  id: 1,
+  name: '朋友1',
+  type: 0,
+  content: '测试一下 看OKAY不aaaaaa!' }
+[2015-02-05 12:26:29.165] [INFO] ChatApp - qchat:2 { timestamp: 1423110389,
+  id: 1,
+  name: '朋友1',
+  type: 0,
+  content: '测试一下 看OKAY不aaaaaa!' }
+[2015-02-05 12:26:29.863] [INFO] ChatApp - qchat:2 { timestamp: 1423110389,
+  id: 1,
+  name: '朋友1',
+  type: 0,
+  content: '测试一下 看OKAY不aaaaaa!' }
+[2015-02-05 12:26:33.732] [INFO] ChatApp - qchat:2 { timestamp: 1423110393,
+  id: 1,
+  name: '朋友1',
+  type: 0,
+  content: '测试一下 看OKAY不aaaaaa!' }
+[2015-02-05 12:28:04.565] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 12:28:04.568] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 12:28:06.406] [INFO] ChatApp - qchat:2 { timestamp: 1423110486,
+  id: 1,
+  name: '朋友1',
+  type: 0,
+  content: '测试一下 看OKAY不aaaaaa!' }
+[2015-02-05 12:28:09.201] [INFO] ChatApp - qchat:2 { timestamp: 1423110489,
+  id: 1,
+  name: '朋友1',
+  type: 0,
+  content: '测试一下 看OKAY不aaaaaa!' }
+[2015-02-05 14:01:20.460] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 14:01:20.463] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 14:01:24.269] [INFO] ChatApp - qchat:2 { timestamp: 1423116084,
+  id: 1,
+  name: '朋友1',
+  type: 0,
+  content: '测试一下 看OKAY不aaaaaa!' }
+[2015-02-05 14:01:25.095] [INFO] ChatApp - qchat:2 { timestamp: 1423116085,
+  id: 1,
+  name: '朋友1',
+  type: 0,
+  content: '测试一下 看OKAY不aaaaaa!' }
+[2015-02-05 14:01:51.291] [INFO] ChatApp - qchat:2 { timestamp: 1423116111,
+  id: 1,
+  name: '朋友1',
+  type: 0,
+  content: '测试一下 看OKAY不aaaaaa!' }
+[2015-02-05 14:01:52.192] [INFO] ChatApp - qchat:2 { timestamp: 1423116112,
+  id: 1,
+  name: '朋友1',
+  type: 0,
+  content: '测试一下 看OKAY不aaaaaa!' }
+[2015-02-05 14:08:03.037] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 14:08:03.040] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 14:08:27.200] [INFO] ChatApp - { errcode: 0, chats: [] }
+[2015-02-05 14:08:27.202] [INFO] ChatApp - [ '{"timestamp":1423116112,"id":1,"name":"朋友1","type":0,"content":"测试一下 看OKAY不aaaaaa!"}',
+  '{"timestamp":1423116111,"id":1,"name":"朋友1","type":0,"content":"测试一下 看OKAY不aaaaaa!"}' ]
+[2015-02-05 14:11:08.578] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 14:11:08.582] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 14:11:09.979] [INFO] ChatApp - { errcode: 0, chats: [] }
+[2015-02-05 14:11:09.981] [INFO] ChatApp - 0
+[2015-02-05 14:11:09.981] [INFO] ChatApp - 1
+[2015-02-05 14:11:11.762] [INFO] ChatApp - { errcode: 0, chats: [] }
+[2015-02-05 14:11:11.763] [INFO] ChatApp - 0
+[2015-02-05 14:11:11.764] [INFO] ChatApp - 1
+[2015-02-05 14:11:13.816] [INFO] ChatApp - { errcode: 0, chats: [] }
+[2015-02-05 14:11:13.817] [INFO] ChatApp - 0
+[2015-02-05 14:11:13.817] [INFO] ChatApp - 1
+[2015-02-05 14:11:27.937] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 14:11:27.941] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 14:11:28.878] [INFO] ChatApp - { errcode: 0, chats: [] }
+[2015-02-05 14:11:28.880] [INFO] ChatApp - 0
+[2015-02-05 14:11:28.880] [INFO] ChatApp - 0
+[2015-02-05 14:11:28.880] [INFO] ChatApp - 1
+[2015-02-05 14:11:28.880] [INFO] ChatApp - 1
+[2015-02-05 14:11:30.015] [INFO] ChatApp - { errcode: 0, chats: [] }
+[2015-02-05 14:11:30.016] [INFO] ChatApp - 0
+[2015-02-05 14:11:30.016] [INFO] ChatApp - 0
+[2015-02-05 14:11:30.016] [INFO] ChatApp - 1
+[2015-02-05 14:11:30.016] [INFO] ChatApp - 1
+[2015-02-05 14:11:30.876] [INFO] ChatApp - { errcode: 0, chats: [] }
+[2015-02-05 14:11:30.877] [INFO] ChatApp - 0
+[2015-02-05 14:11:30.877] [INFO] ChatApp - 0
+[2015-02-05 14:11:30.877] [INFO] ChatApp - 1
+[2015-02-05 14:11:30.877] [INFO] ChatApp - 1
+[2015-02-05 14:11:47.930] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 14:11:47.934] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 14:11:49.148] [INFO] ChatApp - { errcode: 0, chats: [] }
+[2015-02-05 14:11:49.150] [INFO] ChatApp - [ '{"timestamp":1423116112,"id":1,"name":"朋友1","type":0,"content":"测试一下 看OKAY不aaaaaa!"}',
+  '{"timestamp":1423116111,"id":1,"name":"朋友1","type":0,"content":"测试一下 看OKAY不aaaaaa!"}' ]
+[2015-02-05 14:11:49.150] [INFO] ChatApp - 0
+[2015-02-05 14:11:49.151] [INFO] ChatApp - 0
+[2015-02-05 14:11:49.151] [INFO] ChatApp - 1
+[2015-02-05 14:11:49.151] [INFO] ChatApp - 1
+[2015-02-05 14:12:40.515] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 14:12:40.519] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 14:12:41.442] [INFO] ChatApp - { errcode: 0, chats: [] }
+[2015-02-05 14:12:54.151] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 14:12:54.154] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 14:12:54.997] [INFO] ChatApp - { errcode: 0, chats: [] }
+[2015-02-05 14:12:55.000] [INFO] ChatApp - {"timestamp":1423116112,"id":1,"name":"朋友1","type":0,"content":"测试一下 看OKAY不aaaaaa!"}
+[2015-02-05 14:12:55.000] [INFO] ChatApp - { timestamp: 1423116112,
+  id: 1,
+  name: '朋友1',
+  type: 0,
+  content: '测试一下 看OKAY不aaaaaa!' }
+[2015-02-05 14:12:55.001] [INFO] ChatApp - {"timestamp":1423116111,"id":1,"name":"朋友1","type":0,"content":"测试一下 看OKAY不aaaaaa!"}
+[2015-02-05 14:12:55.001] [INFO] ChatApp - { timestamp: 1423116111,
+  id: 1,
+  name: '朋友1',
+  type: 0,
+  content: '测试一下 看OKAY不aaaaaa!' }
+[2015-02-05 14:12:59.579] [INFO] ChatApp - { errcode: 0, chats: [] }
+[2015-02-05 14:12:59.580] [INFO] ChatApp - {"timestamp":1423116112,"id":1,"name":"朋友1","type":0,"content":"测试一下 看OKAY不aaaaaa!"}
+[2015-02-05 14:12:59.580] [INFO] ChatApp - { timestamp: 1423116112,
+  id: 1,
+  name: '朋友1',
+  type: 0,
+  content: '测试一下 看OKAY不aaaaaa!' }
+[2015-02-05 14:12:59.580] [INFO] ChatApp - {"timestamp":1423116111,"id":1,"name":"朋友1","type":0,"content":"测试一下 看OKAY不aaaaaa!"}
+[2015-02-05 14:12:59.580] [INFO] ChatApp - { timestamp: 1423116111,
+  id: 1,
+  name: '朋友1',
+  type: 0,
+  content: '测试一下 看OKAY不aaaaaa!' }
+[2015-02-05 14:13:23.284] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 14:13:23.288] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 14:13:24.448] [INFO] ChatApp - { errcode: 0, chats: [] }
+[2015-02-05 14:13:24.451] [INFO] ChatApp - {"timestamp":1423116112,"id":1,"name":"朋友1","type":0,"content":"测试一下 看OKAY不aaaaaa!"}
+[2015-02-05 14:13:33.295] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 14:13:33.299] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 14:13:34.173] [INFO] ChatApp - { errcode: 0, chats: [] }
+[2015-02-05 14:13:34.175] [INFO] ChatApp - {"timestamp":1423116112,"id":1,"name":"朋友1","type":0,"content":"测试一下 看OKAY不aaaaaa!"}
+[2015-02-05 14:13:34.175] [INFO] ChatApp - {"timestamp":1423116111,"id":1,"name":"朋友1","type":0,"content":"测试一下 看OKAY不aaaaaa!"}
+[2015-02-05 14:13:36.955] [INFO] ChatApp - { errcode: 0, chats: [] }
+[2015-02-05 14:13:36.956] [INFO] ChatApp - {"timestamp":1423116112,"id":1,"name":"朋友1","type":0,"content":"测试一下 看OKAY不aaaaaa!"}
+[2015-02-05 14:13:36.956] [INFO] ChatApp - {"timestamp":1423116111,"id":1,"name":"朋友1","type":0,"content":"测试一下 看OKAY不aaaaaa!"}
+[2015-02-05 14:13:38.465] [INFO] ChatApp - { errcode: 0, chats: [] }
+[2015-02-05 14:13:38.466] [INFO] ChatApp - {"timestamp":1423116112,"id":1,"name":"朋友1","type":0,"content":"测试一下 看OKAY不aaaaaa!"}
+[2015-02-05 14:13:38.467] [INFO] ChatApp - {"timestamp":1423116111,"id":1,"name":"朋友1","type":0,"content":"测试一下 看OKAY不aaaaaa!"}
+[2015-02-05 14:13:39.295] [INFO] ChatApp - { errcode: 0, chats: [] }
+[2015-02-05 14:13:39.295] [INFO] ChatApp - {"timestamp":1423116112,"id":1,"name":"朋友1","type":0,"content":"测试一下 看OKAY不aaaaaa!"}
+[2015-02-05 14:13:39.295] [INFO] ChatApp - {"timestamp":1423116111,"id":1,"name":"朋友1","type":0,"content":"测试一下 看OKAY不aaaaaa!"}
+[2015-02-05 14:15:37.796] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 14:15:37.799] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 14:15:38.890] [INFO] ChatApp - {"timestamp":1423116112,"id":1,"name":"朋友1","type":0,"content":"测试一下 看OKAY不aaaaaa!"}
+[2015-02-05 14:15:38.890] [INFO] ChatApp - {"timestamp":1423116111,"id":1,"name":"朋友1","type":0,"content":"测试一下 看OKAY不aaaaaa!"}
+[2015-02-05 14:15:42.204] [INFO] ChatApp - {"timestamp":1423116112,"id":1,"name":"朋友1","type":0,"content":"测试一下 看OKAY不aaaaaa!"}
+[2015-02-05 14:15:42.204] [INFO] ChatApp - {"timestamp":1423116111,"id":1,"name":"朋友1","type":0,"content":"测试一下 看OKAY不aaaaaa!"}
+[2015-02-05 14:15:42.960] [INFO] ChatApp - {"timestamp":1423116112,"id":1,"name":"朋友1","type":0,"content":"测试一下 看OKAY不aaaaaa!"}
+[2015-02-05 14:15:42.960] [INFO] ChatApp - {"timestamp":1423116111,"id":1,"name":"朋友1","type":0,"content":"测试一下 看OKAY不aaaaaa!"}
+[2015-02-05 14:15:43.571] [INFO] ChatApp - {"timestamp":1423116112,"id":1,"name":"朋友1","type":0,"content":"测试一下 看OKAY不aaaaaa!"}
+[2015-02-05 14:15:43.571] [INFO] ChatApp - {"timestamp":1423116111,"id":1,"name":"朋友1","type":0,"content":"测试一下 看OKAY不aaaaaa!"}
+[2015-02-05 14:16:16.900] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 14:16:16.903] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 14:16:18.087] [INFO] ChatApp - {"timestamp":1423116112,"id":1,"name":"朋友1","type":0,"content":"测试一下 看OKAY不aaaaaa!"}
+[2015-02-05 14:16:18.088] [INFO] ChatApp - {"timestamp":1423116111,"id":1,"name":"朋友1","type":0,"content":"测试一下 看OKAY不aaaaaa!"}
+[2015-02-05 14:16:26.805] [INFO] ChatApp - qchat:2 { timestamp: 1423116986,
+  id: 1,
+  name: '朋友1',
+  type: 0,
+  content: '测试一下 看OKAY不aaaaaa!' }
+[2015-02-05 14:16:27.526] [INFO] ChatApp - qchat:2 { timestamp: 1423116987,
+  id: 1,
+  name: '朋友1',
+  type: 0,
+  content: '测试一下 看OKAY不aaaaaa!' }
+[2015-02-05 14:16:28.131] [INFO] ChatApp - qchat:2 { timestamp: 1423116988,
+  id: 1,
+  name: '朋友1',
+  type: 0,
+  content: '测试一下 看OKAY不aaaaaa!' }
+[2015-02-05 14:16:30.320] [INFO] ChatApp - {"timestamp":1423116988,"id":1,"name":"朋友1","type":0,"content":"测试一下 看OKAY不aaaaaa!"}
+[2015-02-05 14:16:30.320] [INFO] ChatApp - {"timestamp":1423116987,"id":1,"name":"朋友1","type":0,"content":"测试一下 看OKAY不aaaaaa!"}
+[2015-02-05 14:16:30.320] [INFO] ChatApp - {"timestamp":1423116986,"id":1,"name":"朋友1","type":0,"content":"测试一下 看OKAY不aaaaaa!"}
+[2015-02-05 14:16:35.324] [INFO] ChatApp - qchat:2 { timestamp: 1423116995,
+  id: 1,
+  name: '朋友1',
+  type: 0,
+  content: '测试一下 看OKAY不aaaaaa!' }
