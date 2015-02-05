@@ -1417,3 +1417,58 @@ Error: connect ECONNREFUSED
 [2015-02-05 11:07:19.201] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
 [2015-02-05 11:07:52.086] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
 [2015-02-05 11:07:52.089] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 11:16:06.050] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 11:16:06.054] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 11:18:37.655] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 11:18:37.658] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 11:21:15.342] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 11:21:15.345] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 11:21:21.535] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 11:21:21.539] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 11:22:20.246] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 11:22:20.249] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 11:23:26.696] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 11:23:26.699] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 11:24:11.037] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 11:24:11.039] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 11:30:04.724] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 11:30:04.728] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 11:30:41.687] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 11:30:41.690] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 11:33:58.219] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 11:33:58.223] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 11:34:11.110] [INFO] ChatApp - 1 22
+[2015-02-05 11:34:13.361] [INFO] ChatApp - 1 22
+[2015-02-05 11:35:55.946] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 11:35:55.949] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 11:35:57.016] [INFO] ChatApp - 122
+[2015-02-05 11:38:44.344] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 11:38:44.348] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 11:38:45.326] [INFO] ChatApp - 23
+[2015-02-05 11:39:53.896] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 11:39:53.900] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 11:39:54.925] [INFO] ChatApp - 23
+[2015-02-05 11:40:11.052] [INFO] ChatApp - 23
+[2015-02-05 11:40:19.067] [INFO] ChatApp - 23
+[2015-02-05 11:40:21.516] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 11:40:21.519] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 11:40:22.366] [INFO] ChatApp - 23
+[2015-02-05 11:41:04.862] [INFO] ChatApp - 23
+[2015-02-05 11:41:06.372] [INFO] ChatApp - 23
+[2015-02-05 11:41:10.057] [INFO] ChatApp - 23
+[2015-02-05 11:45:13.226] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 11:45:13.230] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 11:54:20.905] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 11:54:20.909] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 11:54:40.463] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 11:54:40.466] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 11:55:05.145] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 11:55:05.149] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 11:55:05.758] [INFO] ChatApp - 1 2 '测试一下 看OKAY不!'
+[2015-02-05 11:55:17.706] [INFO] ChatApp - 1 2 '测试一下 看OKAY不!'
+[2015-02-05 11:55:18.828] [INFO] ChatApp - 1 2 '测试一下 看OKAY不!'
+[2015-02-05 12:00:11.820] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 12:00:11.824] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 12:01:13.101] [INFO] ChatApp - [redis]127.0.0.1:6379 - connected
+[2015-02-05 12:01:13.104] [INFO] ChatApp - [mysql] connect success: mysql://david:123456@127.0.0.1:3306
+[2015-02-05 12:02:15.662] [INFO] ChatApp - 1 2 '测试一下 看OKAY不!'

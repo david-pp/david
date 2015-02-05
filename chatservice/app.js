@@ -4,11 +4,11 @@ var http = require('http');
 var path = require('path');
 
 var config = require('./config');
-
 var logger = require('./logger')
 var mysql = require('./mysql')
 var redis = require('./redis')
 
+var friend = require('./routes/friendship')
 
 function only4test() {
   redis.set('name', 'david');
@@ -60,9 +60,9 @@ app.configure('development', function(){
 });
 */
 
-app.get('/index.php', function(req, res){
-
-});
+app.get('/friendlist', friend.friendlist);
+app.get('/friendchat', friend.friendchat);
+app.get('/pullchat', friend.pullchats);
 
 //
 // 启动服务
