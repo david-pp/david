@@ -30,16 +30,18 @@ exports.friendlist = function(req, res) {
 	
 	res.json({ errcode : 0,
 		friends: [
-		{accid:100, charid:200, zoneid:300, name:'测试1', country:2, face:3, level:200},
-		{accid:100, charid:200, zoneid:300, name:'测试2', country:2, face:3, level:200},
-		{accid:100, charid:200, zoneid:300, name:'测试3', country:2, face:3, level:200},
+		{accid:100, charid:1, zoneid:300, name:'测试1', country:2, face:3, level:200},
+		{accid:100, charid:2, zoneid:300, name:'测试2', country:2, face:3, level:200},
+		{accid:100, charid:3, zoneid:300, name:'测试3', country:2, face:3, level:200},
 		]});
 };
 
 exports.friendchat = function (req, res) {
 	var charid = parseInt(req.query.charid);
 	var friendcharid = parseInt(req.query.friend);
-	var chatcontent = req.query.chat;
+	var chatcontent = unescape(req.query.chat);
+
+	logger.info(chatcontent);
 
 	var type = parseInt(req.query.type);
 	if (!type)
@@ -50,7 +52,7 @@ exports.friendchat = function (req, res) {
 		return;
 	}
 
-	friendChatEnque(charid, friendcharid, "朋友1", type, chatcontent);
+	friendChatEnque(charid, friendcharid, req.query.friendname, type, chatcontent);
 	res.json({ errcode : 0});
 }
 

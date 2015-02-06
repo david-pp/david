@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Chat</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <style type="text/css">
+      .chatmain {
+        position: relative;
+        height: 200px;
+        margin-top: 10px;
+        overflow: auto;
+      }
+
+      .mymsg {
+        text-align:right;
+      }
+
+      .friendmsg {
+        text-align:left;
+      }
+
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="panel panel-default">
+            <div class="panel-heading">Friends</div>
+            <div class="panel-body">
+              <div class="chatmain">
+                <div class="list-group" id="friendlist">
+                </div>
+              </div>
+            </div>
+            <div class="panel-footer">
+               <div class="input-group">
+                <input type="text" class="form-control" id="myname" placeholder="Your Name ..">
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="col-md-9">
+          <div class="panel panel-default">
+            <div class="panel-heading">Chat with <span id="chatfriend"></span> ... </div>
+            <div class="panel-body">
+              <div class="chatmain" id="content">
+              </div>
+            </div>
+            <div class="panel-footer">
+               <div class="input-group">
+                <input type="text" class="form-control" id="chatcontent" placeholder="text input ...">
+                <span class="input-group-btn">
+                  <button class="btn btn-default" id="btnsend" type="button">Go!</button>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/chat.js"></script>
+  </body>
+</html>

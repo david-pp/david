@@ -4,7 +4,7 @@ var config = {
 	app_port : 3000, 
 
 	// Redis的IP和端口
-	redis_ip  : '127.0.0.1',
+	redis_ip  : '192.168.122.232',
 	redis_port: 6379,
 
 	// MySQL地址
