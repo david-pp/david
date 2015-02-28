@@ -89,7 +89,7 @@ static void watcher(zhandle_t *, int type, int state, const char *path,void*v)
     }
 }
 
-static const char hostPorts[] = "127.0.0.1:2182";
+static char hostPorts[] = "127.0.0.1:2182";
 
 const char *getHostPorts() {
     return hostPorts;
@@ -231,7 +231,7 @@ void doSomething(const char* sth, int maxcount)
 {
     int count = 0;
     while (count++ < maxcount) {
-        std::cout << count << ". " << sth << " .... " << std::endl;
+        std::cout << count << ". " << sth << " .... thread:" << pthread_self() << std::endl;
         sleep(1);
     }
 }
@@ -261,8 +261,10 @@ void test_trylock()
     doSomething("dosomething trylock", 20);
 }
 
-int main() 
+int main(int argc, const char* argv[]) 
 {
+    if (argc > 1)
+        strcpy(hostPorts, argv[1]);
     //zoo_set_debug_level(ZOO_LOG_LEVEL_DEBUG);
     //test_lock();
     test_trylock();
