@@ -5,3 +5,8 @@
 
 *.zo
 *.bak
+*.class
+*.txt~
+*.exe
+zookeeper/Makefile~
+algo/Makefile~
