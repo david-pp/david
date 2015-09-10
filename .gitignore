@@ -10,3 +10,6 @@
 *.exe
 zookeeper/Makefile~
 algo/Makefile~
+*.aux
+*.log
+sjtu/master.pdf
