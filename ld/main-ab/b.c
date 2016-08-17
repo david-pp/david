@@ -1,6 +1,8 @@
 
+int func_a4b(int i);
+
 int func_b(int value)
 {
-	return 20+value;
+	return func_a4b(value);
 }
 
