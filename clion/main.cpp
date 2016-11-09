@@ -143,7 +143,7 @@ private:
 
 void dump_test(unsigned long elapsed_ns, TimeUsageStats::TimeStatMap& stats)
 {
-    std::cout << "test---循环用时:" << elapsed_ns << std::endl;
+    std::cout << "循环用时测试:" << elapsed_ns << std::endl;
     for (TimeUsageStats::TimeStatMap::iterator it = stats.begin(); it != stats.end(); ++ it)
     {
         std::cout << it->first << ":"
@@ -162,16 +162,16 @@ void test_time()
     TimeUsageStats::instance()->onLoopBegin();
 
     {
-        CODE_TIME_USAGE("函数1")
+        CODE_TIME_USAGE("X函数")
         sleep(1);
     }
 
     {
-        TimeUsage time1("X函数");
+        CODE_TIME_USAGE("Y函数");
         usleep(1);
         for (int i = 0; i < 100; i++)
         {
-            TimeUsage time1("Y函数");
+            CODE_TIME_USAGE("Y.1函数");
             usleep(1);
         }
     }
