@@ -179,7 +179,21 @@ void test_time()
     TimeUsageStats::instance()->onLoopEnd();
 }
 
+#include <list>
+#include <algorithm>
+void test_lambda_1()
+{
+    std::list<int> ids;
+    for (int i = 0; i < 10; i++)
+        ids.push_back(i);
+
+    std::for_each(ids.begin(), ids.end(), [](int i){
+        std::cout << i << std::endl;
+    });
+}
+
 int main() {
-    test_time();
+    //test_time();
+    test_lambda_1();
     return 0;
 }
