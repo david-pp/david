@@ -1,7 +1,9 @@
 
 #include <iostream>
+#include <sstream>
 #include <cstdio>
 #include <vector>
+#include <algorithm>
 
 //
 // Variadic macros
@@ -83,6 +85,7 @@ int add(std::initializer_list<int> values)
     return result;
 }
 
+
 void test_func()
 {
     std::cout <<"--------" << __PRETTY_FUNCTION__ << std::endl;
@@ -92,7 +95,9 @@ void test_func()
     simple_printf("dcff", 3, 'a', 1.999, 42.5);
 
     std::cout << add({1, 2, 3, 4, 5, 6}) << std::endl;
+
 }
+
 
 
 //
@@ -138,12 +143,38 @@ void tprintf(const char* format, T value, Args... args)
 };
 
 
+
+std::string stringfy()
+{
+    return std::string("");
+}
+
+template <typename T1, typename... Types>
+std::string stringfy(T1 arg1, Types... args)
+{
+    std::ostringstream oss;
+    oss << arg1;
+    return oss.str() + "," + stringfy(args...);
+}
+
+template <typename T>
+std::basic_ostream<char>& operator << (std::basic_ostream<char>& oss, const std::vector<T>& v)
+{
+    std::for_each(v.begin(), v.end(), [&oss](T value){
+        oss << value << "|";
+    });
+    return oss;
+}
+
+
 void test_func_template()
 {
     std::cout <<"--------" << __PRETTY_FUNCTION__ << std::endl;
     std::cout << print_all(1, "fuck", 3.24, std::string("you")) << std::endl;
 
-    tprintf("% world % %\n", std::string("hello"), "!", 3.146);
+    tprintf("% world % % %S\n", std::string("hello"), "!", 3.146, std::vector<int>({1, 2,34,5}));
+
+    std::cout << stringfy(1, 2.4, "test", std::string("aaa")) << std::endl;
 }
 
 // Variadic class template
@@ -214,11 +245,16 @@ void test_class_template()
     std::cout << Get<2>(t2) << std::endl;
 }
 
+//template<typename... Ts, typename U> struct Invalid;
+template<typename... Ts, typename U> void invalid(U) {};
+
 int main()
 {
     test_macro();
     test_func();
     test_func_template();
     test_class_template();
+
+    invalid<int, int>(20);
 }
 
