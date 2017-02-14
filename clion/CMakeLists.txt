@@ -3,9 +3,10 @@ project(clion)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
+
 add_subdirectory(zmq)
+add_subdirectory(learn-cpp)
 
 set(SOURCE_FILES main.cpp)
-add_executable(exam ${SOURCE_FILES})
+add_executable(clion ${SOURCE_FILES})
 
-add_executable(variadic variadic.cpp)
