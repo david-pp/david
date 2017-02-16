@@ -187,26 +187,6 @@ void test_bind_2()
 
 //////////////////////////////////////
 
-template <typename TP, typename Class>
-struct TinyMemFunctor
-{
-    TinyMemFunctor(TP Class::* pm) : pm_(pm) {}
-
-    TP operator() (Class& obj)
-    {
-        return (obj.*pm_);
-    }
-
-    TP Class::* pm_;
-};
-
-template <typename TP, typename Class>
-TinyMemFunctor<TP, Class> tiny_mem_fn(TP Class::* pm)
-{
-    return TinyMemFunctor<TP, Class>(pm);
-};
-
-
 int main(int argc, const char* argv[])
 {
     test_1();
