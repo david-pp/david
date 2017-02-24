@@ -93,101 +93,6 @@ int test_2() {
     }
 }
 
-///////////////////////////////////////////////////////////////
-
-struct Player {
-    int id = 0;
-    std::string name;
-    int score = 0;
-};
-
-struct MemberHolderBase {
-
-    template<typename T>
-    T get(Player& p) {
-        return boost::any_cast<T>(this->_get(p));
-    }
-
-
-    virtual boost::any _get(Player& p) = 0;
-
-};
-
-template<typename MemFun>
-struct MemberHolder : public MemberHolderBase {
-    MemberHolder(MemFun f) : get(f) {}
-
-
-    boost::any _get(Player& p)
-    {
-        return get(p);
-    }
-
-    MemFun get;
-};
-
-template<typename MemFunc>
-MemberHolder<MemFunc> *make_mem(MemFunc get) {
-    MemberHolder<MemFunc> *h = new MemberHolder<MemFunc>(get);
-    std::cout << __PRETTY_FUNCTION__ << std::endl;
-    return h;
-}
-
-
-boost::any getplayer(Player &p, const std::string &mem) {
-    if ("id" == mem)
-        return std::mem_fn(&Player::id)(p);
-    else if ("name" == mem)
-        return std::mem_fn(&Player::name)(p);
-}
-
-
-void test_1() {
-    std::unordered_multimap<std::string, int> name2id = {
-            {"david", 2},
-            {"jack",  3},
-            {"david", 4},
-    };
-
-    std::cout << name2id.count("david") << std::endl;
-
-    auto range = name2id.equal_range("david");
-    for (auto it = range.first; it != range.second; ++it) {
-        std::cout << it->first << ":" << it->second << std::endl;
-    }
-
-    Player p;
-    p.id = 1;
-    p.name = "david";
-
-    decltype(std::mem_fn(&Player::id)) get_id = std::mem_fn(&Player::id);
-    decltype(std::mem_fn(&Player::name)) get_name = std::mem_fn(&Player::name);
-
-
-    get_id(p) = 100;
-
-    std::cout << get_id(p) << std::endl;
-    std::cout << get_name(p) << std::endl;
-
-    std::cout << boost::any_cast<int>(getplayer(p, "id")) << std::endl;
-    std::cout << boost::any_cast<std::string>(getplayer(p, "name")) << std::endl;
-
-
-    std::cout << "------" << std::endl;
-
-
-    std::unordered_map<std::string, MemberHolderBase *> fields = {
-            {"id",   make_mem(std::mem_fn(&Player::id))},
-            {"name", make_mem(std::mem_fn(&Player::name))},
-    };
-
-    auto getid = make_mem(std::mem_fn(&Player::id));
-
-    std::cout << getid->get(p) << std::endl;
-    std::cout << fields["id"]->get<int>(p) << std::endl;
-    std::cout << fields["name"]->get<std::string>(p) << std::endl;
-}
-
 
 //////////////////////////////////////////////////
 
@@ -255,7 +160,8 @@ void test_4() {
 
 
 int main() {
-    test_1();
+//    test_n();
+//    test_1();
 //    test_2();
 //    test_4();
     return 0;
