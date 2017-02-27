@@ -1,77 +1,121 @@
 #include <iostream>
 #include <functional>
+#include <memory>
 #include <unordered_map>
 #include <typeinfo>
 #include <boost/any.hpp>
 
-template<typename StructT>
-class FieldHolderBase {
+template<typename T>
+class Property {
 public:
-    template<typename T>
-    T get(StructT &obj) {
-        return boost::any_cast<T>(this->_get(obj));
-    }
+    typedef std::shared_ptr<Property> Ptr;
 
-    template<typename T>
-    void set(StructT &obj, const T &value) {
-        boost::any v = value;
-        this->_set(obj, v);
-    }
+    Property(const std::string &nane) : name_() {}
 
-
-public:
     virtual const std::type_info &type() = 0;
 
-    virtual boost::any _get(StructT &) = 0;
+    virtual boost::any get(T &) = 0;
 
-    virtual void _set(StructT &, boost::any &) = 0;
+    virtual void set(T &, boost::any &) = 0;
+
+    const std::string &name() { return name_; }
+
+private:
+    std::string name_;
 };
 
-template<typename StructT, typename MemFn>
-class FieldHolder : public FieldHolderBase<StructT> {
-public:
-    FieldHolder(MemFn fn) : fn_(fn) {}
 
-    virtual const std::type_info &type() {
-        StructT obj;
-        return typeid(decltype(fn_(obj)));
+template<typename T, typename MemFn>
+class Property_T : public Property<T> {
+public:
+    Property_T(const std::string &name, MemFn fn)
+            : Property<T>(name), fn_(fn) {}
+
+    virtual const std::type_info &type() final {
+        return typeid(decltype(fn_(T())));
     };
 
-    boost::any _get(StructT &obj) final {
+    boost::any get(T &obj) final {
         return fn_(obj);
     }
 
-    void _set(StructT &obj, boost::any &v) final {
+    void set(T &obj, boost::any &v) final {
         fn_(obj) = boost::any_cast<decltype(fn_(obj))>(v);
     }
+
 
 private:
     MemFn fn_;
 };
 
-
-template<typename StructT, typename MemFn>
-FieldHolder<StructT, MemFn> *createFieldHolder(MemFn fn) {
-    return new FieldHolder<StructT, MemFn>(fn);
+template<typename T, typename MemFn>
+Property_T<T, MemFn> *makePropery(const std::string &name, MemFn fn) {
+    return new Property_T<T, MemFn>(name, fn);
 }
 
 
-template<typename StructT, typename D>
-struct Reflection : public StructT {
-    static D descriptor;
+///////////////////////////////////////////////
+
+
+template<typename T>
+struct Struct {
+public:
+    typedef std::vector<typename Property<T>::Ptr> PropertyContainer;
+    typedef std::unordered_map<std::string, typename Property<T>::Ptr> PropertyMap;
+
+    Struct(const std::string &name) : name_(name) {}
+
+    T *clone() { return new T; }
+
+    template<typename PropType>
+    Struct<T> &property(const std::string &name, PropType T::* prop) {
+        if (!hasPropery(name)) {
+            auto ptr = makePropery<T>(name, std::mem_fn(prop));
+            properties_[name].reset(ptr);
+            properties_ordered_.push_back(ptr);
+        }
+
+        return *this;
+    }
+
+    bool hasPropery(const std::string &name) {
+        return properties_.find(name) != properties_.end();
+    }
+
+    size_t propertyCount() { return properties_.size(); }
+
+    PropertyContainer propertyIterator() { return properties_ordered_; }
+
+    typename Property<T>::Ptr getPropertyByName(const std::string& name) {
+        auto it = properties_.find(name);
+        if (it != properties_.end())
+            return it->second;
+        return Property<T>::Ptr();
+    }
+
+private:
+    std::string name_;
+    PropertyContainer properties_ordered_;
+    PropertyMap properties_;
+};
+
+
+template<typename T>
+struct Reflection : public T {
+    static Struct<T> *descriptor;
 
     template<typename T>
     T get(const std::string &fieldname) {
-        return descriptor.fields_[fieldname]->get<T>(*this);
+        return descriptor->fields_[fieldname]->get<T>(*this);
     }
 
     template<typename T>
     void set(const std::string &fieldname, const T &value) {
-        descriptor.fields_[fieldname]->set<T>(*this, value);
+        descriptor->fields_[fieldname]->set<T>(*this, value);
     }
 
     void dump() {
-        for (auto it = descriptor.fields_.begin(); it != descriptor.fields_.end(); ++it) {
+        for (auto it = descriptor->fields_.begin(); it != descriptor->fields_.end(); ++it) {
             if (it->second->type() == typeid(int))
                 std::cout << it->first << ":" << it->second->get<int>(*this) << std::endl;
             else if (it->second->type() == typeid(std::string))
@@ -80,28 +124,47 @@ struct Reflection : public StructT {
     }
 };
 
-template<typename StructT, typename D>
-D Reflection<StructT, D>::descriptor;
+template<typename T>
+Struct<T> *Reflection<T>::descriptor = NULL;
 
-template<typename StructT>
-struct StructDescriptor {
-public:
-    StructDescriptor(const std::string &cname) : name(cname) {}
-
-    StructT *clone() { return new StructT; }
-
-    std::string name;
+struct StructFactory {
+    static StructFactory &instance() {
+        static StructFactory instance_;
+        return instance_;
+    }
 
     template<typename T>
-    StructDescriptor<StructT> &property(const std::string &fieldname, T StructT::* prop) {
-        fields_[fieldname] = createFieldHolder<StructT>(std::mem_fn(prop));
-        return *this;
+    Struct<T> &declare() {
+        std::string name = typeid(T).name();
+        Struct<T> *desc = new Struct<T>(name);
+        structs_[name] = desc;
+        return *desc;
+    }
+
+    template<typename T>
+    Struct<T> *classByType() {
+        std::string name = typeid(T).name();
+        if (structs_.find(name) != structs_.end())
+            return boost::any_cast<Struct<T> *>(structs_[name]);
+        return NULL;
     }
 
 private:
-    typedef std::unordered_map<std::string, FieldHolderBase<StructT> *> FieldsMap;
-    FieldsMap fields_;
+    typedef std::unordered_map<std::string, boost::any> Structs;
+
+    Structs structs_;
 };
+
+
+///////////////////////////////////////////////
+
+
+
+
+
+
+
+
 
 
 struct Player {
@@ -110,23 +173,43 @@ struct Player {
     int score = 0;
 };
 
+// in .cpp
+
+struct Register {
+    Register() {
+        StructDescriptorFactory::instance().declare<Player>("Player")
+                .property("id", &Player::id)
+                .property("name", &Player::name);
+
+        Reflection<Player>::descriptor = &StructDescriptorFactory::instance().classByType<Player>("Player");
+    }
+};
+
+Register reg;
+
+
 struct PlayerDescriptor {
-    typedef std::unordered_map<std::string, FieldHolderBase<Player> *> FieldsMap;
+    PlayerDescriptor() {
+        StructDescriptor <Player> descriptor("Player");
+        descriptor
+                .property("id", &Player::id)
+                .property("name", &Player::name);
+
+    }
+
+    typedef std::unordered_map<std::string, PropertyHolderBase < Player> *>
+    FieldsMap;
 
     FieldsMap fields_ = {
-            {"id",   createFieldHolder<Player>(std::mem_fn(&Player::id))},
-            {"name", createFieldHolder<Player>(std::mem_fn(&Player::name))},
+            {"id",   createPropertyHolder<Player>(std::mem_fn(&Player::id))},
+            {"name", createPropertyHolder<Player>(std::mem_fn(&Player::name))},
     };
 };
 
 
 void test_r() {
-    StructDescriptor<Player> descriptor("Player");
-    descriptor
-            .property("id", &Player::id)
-            .property("name", &Player::name);
 
-    Reflection<Player, PlayerDescriptor> p;
+    Reflection<Player> p;
     p.name = "david";
     p.set<int>("id", 100);
     p.set<std::string>("name", "wang");
@@ -134,7 +217,6 @@ void test_r() {
     p.dump();
     std::cout << p.get<int>("id") << std::endl;
     std::cout << p.get<std::string>("name") << std::endl;
-
 }
 
 
@@ -169,19 +251,19 @@ struct MemberHolderBase {
 
     template<typename T>
     T get(Player &p) {
-        return boost::any_cast<T>(this->_get(p));
+        return boost::any_cast<T>(this->getByAny(p));
     }
 
     template<typename T>
     void set(Player &p, const T &value) {
         boost::any v = value;
-        this->_set(p, v);
+        this->setByAny(p, v);
     }
 
 
-    virtual boost::any _get(Player &p) = 0;
+    virtual boost::any getByAny(Player &p) = 0;
 
-    virtual void _set(Player &p, boost::any &v) = 0;
+    virtual void setByAny(Player &p, boost::any &v) = 0;
 
 };
 
@@ -190,11 +272,11 @@ struct MemberHolder : public MemberHolderBase {
     MemberHolder(MemFun f) : get(f) {}
 
 
-    boost::any _get(Player &p) {
+    boost::any getByAny(Player &p) {
         return get(p);
     }
 
-    void _set(Player &p, boost::any &v) {
+    void setByAny(Player &p, boost::any &v) {
         get(p) = boost::any_cast<decltype(get(p))>(v);
     }
 
