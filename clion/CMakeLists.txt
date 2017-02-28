@@ -10,4 +10,5 @@ add_subdirectory(snippet)
 
 set(SOURCE_FILES main.cpp)
 add_executable(clion ${SOURCE_FILES})
+add_executable(catch catch.cpp)
 
