@@ -10,7 +10,7 @@ class Property {
 public:
     typedef std::shared_ptr<Property> Ptr;
 
-    Property(const std::string &nane) : name_() {}
+    Property(const std::string &name) : name_(name) {}
 
     virtual const std::type_info &type() = 0;
 
@@ -70,8 +70,8 @@ public:
     template<typename PropType>
     Struct<T> &property(const std::string &name, PropType T::* prop) {
         if (!hasPropery(name)) {
-            auto ptr = makePropery<T>(name, std::mem_fn(prop));
-            properties_[name].reset(ptr);
+            typename Property<T>::Ptr ptr(makePropery<T>(name, std::mem_fn(prop)));
+            properties_[name] = ptr;
             properties_ordered_.push_back(ptr);
         }
 
@@ -90,7 +90,7 @@ public:
         auto it = properties_.find(name);
         if (it != properties_.end())
             return it->second;
-        return Property<T>::Ptr();
+        return typename Property<T>::Ptr();
     }
 
 private:
@@ -104,22 +104,29 @@ template<typename T>
 struct Reflection : public T {
     static Struct<T> *descriptor;
 
-    template<typename T>
-    T get(const std::string &fieldname) {
-        return descriptor->fields_[fieldname]->get<T>(*this);
+    template<typename PropType>
+    PropType get(const std::string &propname) {
+        auto prop = descriptor->getPropertyByName(propname);
+        if (prop)
+            return boost::any_cast<PropType>(prop->get(*this));
+        return PropType();
     }
 
-    template<typename T>
-    void set(const std::string &fieldname, const T &value) {
-        descriptor->fields_[fieldname]->set<T>(*this, value);
+    template<typename PropType>
+    void set(const std::string &propname, const PropType &value) {
+        auto prop = descriptor->getPropertyByName(propname);
+        if (prop) {
+            boost::any v = value;
+            prop->set(*this, v);
+        }
     }
 
     void dump() {
-        for (auto it = descriptor->fields_.begin(); it != descriptor->fields_.end(); ++it) {
-            if (it->second->type() == typeid(int))
-                std::cout << it->first << ":" << it->second->get<int>(*this) << std::endl;
-            else if (it->second->type() == typeid(std::string))
-                std::cout << it->first << ":" << it->second->get<std::string>(*this) << std::endl;
+        for (auto it : descriptor->propertyIterator()) {
+            if (it->type() == typeid(int))
+                std::cout << it->name()  << ":" << get<int>(it->name()) << std::endl;
+            else if (it->type() == typeid(std::string))
+                std::cout << it->name() << ":" << get<std::string>(it->name()) << std::endl;
         }
     }
 };
@@ -137,6 +144,7 @@ struct StructFactory {
     Struct<T> &declare() {
         std::string name = typeid(T).name();
         Struct<T> *desc = new Struct<T>(name);
+        Reflection<T>::descriptor = desc;
         structs_[name] = desc;
         return *desc;
     }
@@ -160,13 +168,6 @@ private:
 
 
 
-
-
-
-
-
-
-
 struct Player {
     int id = 0;
     std::string name;
@@ -177,34 +178,14 @@ struct Player {
 
 struct Register {
     Register() {
-        StructDescriptorFactory::instance().declare<Player>("Player")
+        StructFactory::instance().declare<Player>()
                 .property("id", &Player::id)
                 .property("name", &Player::name);
 
-        Reflection<Player>::descriptor = &StructDescriptorFactory::instance().classByType<Player>("Player");
     }
 };
 
 Register reg;
-
-
-struct PlayerDescriptor {
-    PlayerDescriptor() {
-        StructDescriptor <Player> descriptor("Player");
-        descriptor
-                .property("id", &Player::id)
-                .property("name", &Player::name);
-
-    }
-
-    typedef std::unordered_map<std::string, PropertyHolderBase < Player> *>
-    FieldsMap;
-
-    FieldsMap fields_ = {
-            {"id",   createPropertyHolder<Player>(std::mem_fn(&Player::id))},
-            {"name", createPropertyHolder<Player>(std::mem_fn(&Player::name))},
-    };
-};
 
 
 void test_r() {
