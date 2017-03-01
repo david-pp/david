@@ -103,6 +103,7 @@ void test_select() {
 
 #include <chrono>
 #include <thread>
+#include <errmsg.h>
 
 soci::connection_pool pool(5);
 
@@ -155,8 +156,52 @@ void test_multithread() {
     std::cout << __PRETTY_FUNCTION__ << std::endl;
 }
 
+void test_mysql_crash() {
+
+    try {
+        soci::session sql;
+        sql.open(soci::mysql, "host=127.0.0.1 db=tinyworld user=david password='123456'");
+
+        while (true) {
+            std::this_thread::sleep_for(std::chrono::seconds(1));
+
+            try {
+                if (sql.get_backend()) {
+                    soci::row player;
+                    sql << "select * from player", soci::into(player);
+                    std::cout << player.get<uint32_t>("id") << std::endl;
+                    std::cout << player.get<std::string>("name") << std::endl;
+                    std::cout << player.get<int>("age") << std::endl;
+                } else {
+                    sql.reconnect();
+                }
+            }
+            catch (const soci::mysql_soci_error &e) {
+                try {
+                    std::cout << "SELECT ERROR:" << e.what() << std::endl;
+
+                    if (e.err_num_ == CR_SERVER_LOST || e.err_num_ == CR_SERVER_GONE_ERROR)
+                        sql.reconnect();
+                }
+                catch (const soci::mysql_soci_error &e) {
+                    std::cout << "Reconnect Error:" << e.what() << std::endl;
+                }
+            }
+
+            std::cout << __PRETTY_FUNCTION__ << std::endl;
+        }
+    }
+    catch (const soci::mysql_soci_error &e) {
+        std::cout << "MySQL Error:" << e.what() << std::endl;
+    }
+    catch (const std::exception &e) {
+        std::cout << "Error:" << e.what() << std::endl;
+    }
+}
+
 int main() {
     test_1();
     test_select();
     test_multithread();
+    test_mysql_crash();
 }
