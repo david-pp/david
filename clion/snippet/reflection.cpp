@@ -1,5 +1,6 @@
 #include <iostream>
 #include <functional>
+#include <vector>
 #include <memory>
 #include <unordered_map>
 #include <typeinfo>
@@ -180,7 +181,8 @@ struct Register {
     Register() {
         StructFactory::instance().declare<Player>()
                 .property("id", &Player::id)
-                .property("name", &Player::name);
+                .property("name", &Player::name)
+                .property("score", &Player::score);
 
     }
 };
@@ -198,6 +200,15 @@ void test_r() {
     p.dump();
     std::cout << p.get<int>("id") << std::endl;
     std::cout << p.get<std::string>("name") << std::endl;
+
+    std::cout << "-----" << std::endl;
+
+    for (auto it : Reflection<Player>::descriptor->propertyIterator()) {
+        if (it->type() == typeid(int))
+            std::cout << it->name()  << ":" << p.get<int>(it->name()) << std::endl;
+        else if (it->type() == typeid(std::string))
+            std::cout << it->name() << ":" << p.get<std::string>(it->name()) << std::endl;
+    }
 }
 
 
