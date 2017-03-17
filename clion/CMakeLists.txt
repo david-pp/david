@@ -7,9 +7,11 @@ include_directories(/usr/local/include)
 include_directories(./)
 
 add_subdirectory(zmq)
-add_subdirectory(learn-cpp)
+add_subdirectory(cpp)
 add_subdirectory(snippet)
 add_subdirectory(db)
+
+add_definitions(-DCATCH_PLATFORM_WINDOWS)
 
 set(SOURCE_FILES main.cpp)
 add_executable(clion ${SOURCE_FILES})
