@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 2.8)
 project(clion)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -g -Wno-deprecated-declarations")
@@ -10,6 +10,7 @@ add_subdirectory(zmq)
 add_subdirectory(cpp)
 add_subdirectory(snippet)
 add_subdirectory(db)
+add_subdirectory(protobuf)
 
 add_definitions(-DCATCH_PLATFORM_WINDOWS)
 
