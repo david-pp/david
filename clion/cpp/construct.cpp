@@ -22,9 +22,6 @@ struct D : public T {
 };
 
 
-
-
-
 int main() {
     B b(1);
     C<int> c(1);
