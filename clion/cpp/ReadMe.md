@@ -28,6 +28,8 @@ life-forward.cpp
 
 - C++结构体属性反射
 
+>依赖boost::any
+
 ```
 reflection.h             简单反射的实现
 reflection-preq.cpp      前提知识
