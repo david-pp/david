@@ -1,0 +1,20 @@
+syntax = "proto2";
+
+import "/usr/local/include/google/protobuf/descriptor.proto";
+
+//
+// 自描述消息
+//
+// https://developers.google.com/protocol-buffers/docs/techniques?#self-description
+//
+message SelfDescribingMessage {
+    // Set of .proto files which define the type.
+    required FileDescriptorSet proto_files = 1;
+
+    // Name of the message type.  Must be defined by one of the files in
+    // proto_files.
+    required string type_name = 2;
+
+    // The message data.
+    required bytes message_data = 3;
+};
