@@ -1,3 +1,6 @@
+//
+// 定义protobuf消息
+//
 
 message WeaponProto  {
     optional uint32 type = 1;

@@ -2,6 +2,9 @@
 
 #include "player.pb.h"
 
+//
+// 设置PlayerProto对象
+//
 void set(PlayerProto &p) {
     // Scalar : 1 vs N
     p.set_id(1024);
@@ -22,7 +25,10 @@ void set(PlayerProto &p) {
     }
 }
 
-void get(PlayerProto& p) {
+//
+// 获取PlayerProto对象
+//
+void dump(PlayerProto& p) {
 
 //    std::cout << p.DebugString() << std::endl;
     std::cout << p.ShortDebugString() << std::endl;
@@ -46,6 +52,9 @@ void get(PlayerProto& p) {
 
 }
 
+//
+// 演示简单的序列化和反序列化用法
+//
 void test_serialize() {
     std::cout << "-------- " << __PRETTY_FUNCTION__ << std::endl;
 
@@ -57,7 +66,7 @@ void test_serialize() {
 
     PlayerProto p2;
     p2.ParseFromString(bin);
-    get(p);
+    dump(p);
 }
 
 int main() {

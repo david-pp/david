@@ -4,6 +4,68 @@
 
 #include <google/protobuf/reflection.h>
 
+using namespace google::protobuf;
+
+//
+// 演示：写一个通用的输出各种Proto的函数
+//
+void print_indent(int num) {
+    for (int i = 0; i < num; ++i)
+        std::cout << "  ";
+}
+
+void dump(const Message &p, int indent = 0) {
+    auto descriptor = p.GetDescriptor();
+    auto reflection = p.GetReflection();
+    if (reflection && descriptor) {
+        for (int i = 0; i < descriptor->field_count(); ++i) {
+            auto fd = descriptor->field(i);
+            if (fd) {
+                print_indent(indent);
+                std::cout << fd->number() << "," << fd->name() << " = ";
+
+                if (fd->is_repeated()) {
+                    std::cout << "repeated";
+                } else {
+                    if (FieldDescriptor::CPPTYPE_UINT32 == fd->cpp_type()) {
+                        std::cout << reflection->GetUInt32(p, fd);
+                    } else if (FieldDescriptor::CPPTYPE_STRING == fd->cpp_type()) {
+                        std::cout << reflection->GetString(p, fd);
+                    } else if (FieldDescriptor::CPPTYPE_MESSAGE == fd->cpp_type()) {
+                        const Message &msg = reflection->GetMessage(p, fd);
+                        std::cout << "{" << std::endl;
+                        dump(msg, indent + 1);
+                        std::cout << "}";
+                    } else {
+                        std::cout << "unkown";
+                    }
+                }
+
+                std::cout << std::endl;
+            }
+        }
+    }
+}
+
+void test_dump() {
+    std::cout << "------------" << __PRETTY_FUNCTION__ << std::endl;
+
+    std::cout << "------player" << std::endl;
+    {
+        PlayerProto p;
+        p.set_name("david");
+        p.mutable_weapon()->set_name("Sword");
+        dump(p);
+    }
+
+    std::cout << "------weapon" << std::endl;
+    {
+        WeaponProto w;
+        w.set_name("Sword");
+        dump(w);
+    }
+}
+
 //        enum CppType {
 //            CPPTYPE_INT32       = 1,     // TYPE_INT32, TYPE_SINT32, TYPE_SFIXED32
 //            CPPTYPE_INT64       = 2,     // TYPE_INT64, TYPE_SINT64, TYPE_SFIXED64
@@ -16,8 +78,10 @@
 //            CPPTYPE_STRING      = 9,     // TYPE_STRING, TYPE_BYTES
 //            CPPTYPE_MESSAGE     = 10,    // TYPE_MESSAGE, TYPE_GROUP
 
-using namespace google::protobuf;
 
+//
+// 使用反射来设置PlayerProto
+//
 void set_player(Message &p) {
 
     const Reflection *reflection = p.GetReflection();
@@ -115,6 +179,9 @@ void set_player(Message &p) {
     } // reflection && descriptor
 }
 
+//
+// 使用反射来获取PlayerProto的属性
+//
 void dump_player(const Message &p) {
     const Reflection *reflection = p.GetReflection();
     const Descriptor *descriptor = p.GetDescriptor();
@@ -203,6 +270,9 @@ void dump_player(const Message &p) {
     } // reflection && descriptor
 }
 
+//
+// 演示：使用生成的PlayerProto
+//
 void test_generated_1() {
     std::cout << "------------" << __PRETTY_FUNCTION__ << std::endl;
     PlayerProto p;
@@ -211,21 +281,212 @@ void test_generated_1() {
 //    std::cout << p.DebugString() << std::endl;
 }
 
+//
+// 演示：使用生成的"PlayerProto"对应的原型来创建对象
+//
 void test_generated_2() {
     std::cout << "------------" << __PRETTY_FUNCTION__ << std::endl;
 
-    const Descriptor* descriptor = DescriptorPool::generated_pool()->FindMessageTypeByName("PlayerProto");
-    const Message*    prototype  = MessageFactory::generated_factory()->GetPrototype(descriptor);
+    const Descriptor *descriptor = DescriptorPool::generated_pool()->FindMessageTypeByName("PlayerProto");
+    const Message *prototype = MessageFactory::generated_factory()->GetPrototype(descriptor);
 
-    Message* p = prototype->New();
-    if (p)
-    {
+    Message *p = prototype->New();
+    if (p) {
         set_player(*p);
         dump_player(*p);
     }
 }
 
+//
+// 演示：动态构造的"Player"
+//
+#include <google/protobuf/descriptor.pb.h>
+#include <google/protobuf/dynamic_message.h>
+
+DescriptorPool my_pool;
+DynamicMessageFactory my_factory(&my_pool);
+
+void create_player() {
+    FileDescriptorProto file_proto;
+    file_proto.set_name("player.proto");
+
+    //
+    // 创建Weapon动态Message
+    //
+    //    message WeaponProto  {
+    //            optional uint32 type = 1;
+    //            optional string name = 2;
+    //    }
+    DescriptorProto *weapon = file_proto.add_message_type();
+    {
+        weapon->set_name("Weapon");
+
+        // type
+        {
+            FieldDescriptorProto *fd = weapon->add_field();
+            fd->set_name("type");
+            fd->set_type(FieldDescriptorProto::TYPE_UINT32);
+            fd->set_number(1);
+            fd->set_label(FieldDescriptorProto::LABEL_OPTIONAL);
+        }
+        // name
+        {
+            FieldDescriptorProto *fd = weapon->add_field();
+            fd->set_name("name");
+            fd->set_type(FieldDescriptorProto::TYPE_STRING);
+            fd->set_number(2);
+            fd->set_label(FieldDescriptorProto::LABEL_OPTIONAL);
+        }
+    }
+
+    //
+    // 创建Player动态Message
+    //
+    //    message PlayerProto {
+    //            // Scalar: 1 vs N
+    //            optional uint32 id = 1;
+    //            optional string name = 2;
+    //            repeated uint32 quests = 3;
+    //
+    //            // Nested: 1 vs N
+    //            optional WeaponProto weapon = 4;
+    //            repeated WeaponProto weapons = 5;
+    //    }
+    {
+        DescriptorProto *player = file_proto.add_message_type();
+        player->set_name("Player");
+
+        // id
+        {
+            FieldDescriptorProto *fd = player->add_field();
+            fd->set_name("id");
+            fd->set_type(FieldDescriptorProto::TYPE_UINT32);
+            fd->set_number(1);
+            fd->set_label(FieldDescriptorProto::LABEL_OPTIONAL);
+        }
+
+        // name
+        {
+            FieldDescriptorProto *fd = player->add_field();
+            fd->set_name("name");
+            fd->set_type(FieldDescriptorProto::TYPE_STRING);
+            fd->set_number(2);
+            fd->set_label(FieldDescriptorProto::LABEL_OPTIONAL);
+        }
+
+        // quests
+        {
+            FieldDescriptorProto *fd = player->add_field();
+            fd->set_name("quests");
+            fd->set_type(FieldDescriptorProto::TYPE_UINT32);
+            fd->set_number(3);
+            fd->set_label(FieldDescriptorProto::LABEL_REPEATED);
+        }
+
+        // weapon
+        {
+            FieldDescriptorProto *fd = player->add_field();
+            fd->set_name("weapon");
+            fd->set_type(FieldDescriptorProto::TYPE_MESSAGE);
+            fd->set_type_name("Weapon");
+            fd->set_number(4);
+            fd->set_label(FieldDescriptorProto::LABEL_OPTIONAL);
+        }
+
+        // weapons
+        {
+            FieldDescriptorProto *fd = player->add_field();
+            fd->set_name("weapons");
+            fd->set_type(FieldDescriptorProto::TYPE_MESSAGE);
+            fd->set_type_name("Weapon");
+            fd->set_number(5);
+            fd->set_label(FieldDescriptorProto::LABEL_REPEATED);
+        }
+
+        // nested
+//        {
+//            DescriptorProto *player_weapon = player->add_nested_type();
+//            player_weapon->CopyFrom(*weapon);
+//        }
+
+//        std::cout << player->DebugString() << std::endl;
+//        std::cout << player->SerializeAsString() << std::endl;
+    }
+    my_pool.BuildFile(file_proto);
+//    std::cout << file_proto.DebugString() << std::endl;
+
+    std::cout << "---- player.proto ----" << std::endl;
+    const FileDescriptor* file_descriptor = my_pool.FindFileByName("player.proto");
+    if (file_descriptor) {
+        std::cout << file_descriptor->DebugString() << std::endl;
+    }
+}
+
+void test_dynamic_1() {
+    std::cout << "------------" << __PRETTY_FUNCTION__ << std::endl;
+
+    create_player();
+
+    const Descriptor *descriptor = my_pool.FindMessageTypeByName("Player");
+    if (descriptor) {
+        std::cout << "---- message:Player ----" << std::endl;
+        std::cout << descriptor->DebugString() << std::endl;
+
+        std::cout << "---- create player ----" << std::endl;
+        const Message *prototype = my_factory.GetPrototype(descriptor);
+        if (prototype) {
+            Message *p = prototype->New();
+            if (p) {
+                set_player(*p);
+                dump_player(*p);
+            }
+        }
+    }
+}
+
+//
+// 演示：动态编译的PlayerProto(来自player.proto)
+//
+#include <google/protobuf/compiler/importer.h>
+using namespace google::protobuf::compiler;
+void test_dynamic_2() {
+    std::cout << "------------" << __PRETTY_FUNCTION__ << std::endl;
+
+    DiskSourceTree source_tree;
+
+    // 在../../protobuf目录中查找*.proto源文件
+    source_tree.MapPath("", "../../protobuf");
+
+    Importer importer(&source_tree, NULL);
+
+    // 动态编译player.proto
+    importer.Import("player.proto");
+
+
+    // 动态消息工程
+    DynamicMessageFactory factory(importer.pool());
+
+    const Descriptor *descriptor = importer.pool()->FindMessageTypeByName("PlayerProto");
+    if (descriptor) {
+        std::cout << "---- message:PlayerProto ----" << std::endl;
+        cout << descriptor->DebugString();
+
+        std::cout << "---- create:PlayerProto ----" << std::endl;
+        const Message* prototype = factory.GetPrototype(descriptor);
+        if (prototype) {
+            Message *p = prototype->New();
+            if (p) {
+                set_player(*p);
+                dump_player(*p);
+            }
+        }
+    }
+}
+
 int main() {
+    test_dump();
     test_generated_1();
     test_generated_2();
+    test_dynamic_1();
+    test_dynamic_2();
 }
