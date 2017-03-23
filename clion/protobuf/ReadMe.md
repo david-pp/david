@@ -1,6 +1,9 @@
 Protobuf的用法
 --------------
 
+##1. 使用方式
+
+
 ### 方式1：使用proto文件生成.h和.cc
 
 ```
@@ -24,6 +27,8 @@ reflect.cpp
     - 使用Descritor 和 Reflection进行读写
     - 动态/静态都OK
     
+
+## 2. 用途    
     
 ### 用途1：消息
 
@@ -33,3 +38,26 @@ reflect.cpp
 
     
 ### 用途2：序列化
+
+ - 直接使用生成的C++类型
+ 
+``` c++
+struct XXX 
+{
+    PlayerProto player;
+}
+
+```
+ 
+ - 现有的类型映射到Proto类型
+ 
+``` c++
+
+struct Player {
+    uint32_t  id;
+    std::string name;
+};
+
+--> PlayerProto
+
+```
