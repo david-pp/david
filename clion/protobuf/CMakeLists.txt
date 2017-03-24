@@ -36,3 +36,6 @@ target_link_libraries(pb_simple protobuf)
 
 add_executable(pb_reflect reflect.cpp ${PB_CPPOUTS})
 target_link_libraries(pb_reflect protobuf)
+
+add_executable(pb_serialize serialize.cpp ${PB_CPPOUTS})
+target_link_libraries(pb_serialize protobuf)
