@@ -1,0 +1,33 @@
+
+message ArchiveMemberProto  {
+    optional uint32 number = 1;
+    optional bytes hexdata = 2;
+}
+
+
+
+message ArchiveProto {
+    repeated ArchiveMemberProto members = 1;
+}
+
+message SequenceProto {
+    repeated ArchiveMemberProto values = 1;
+}
+
+message AssociateProto {
+    message ValueType {
+        optional ArchiveMemberProto key   = 1;
+        optional ArchiveMemberProto value = 2;
+    }
+
+    repeated ValueType values = 1;
+}
+
+
+message UInt32Proto {
+    optional uint32 value = 1;
+}
+
+message StringProto {
+    optional string value = 1;
+}

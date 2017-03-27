@@ -16,4 +16,7 @@ message PlayerProto {
     // Nested: 1 vs N
     optional WeaponProto weapon = 4;
     repeated WeaponProto weapons = 5;
+
+    // STL
+    optional bytes weapons_map = 6;
 }
