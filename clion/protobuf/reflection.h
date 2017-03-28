@@ -16,6 +16,12 @@ std::string dyn_serialize(const T &object);
 template<typename T>
 bool dyn_deserialize(T &object, const std::string &bin);
 
+template<typename T>
+std::string serialize(const T &object);
+
+template<typename T>
+bool deserialize(T &object, const std::string &bin);
+
 //
 // 利用构造函数执行一些初始化代码的技巧
 //
@@ -54,7 +60,7 @@ public:
 
     virtual bool deserialize(T &object, const std::string &bin) = 0;
 
-private:
+protected:
     std::string name_;
     uint16_t id_;
 };
@@ -81,19 +87,19 @@ public:
         fn_(obj) = boost::any_cast<PropType>(v);
     }
 
-    std::string serialize(const T &obj) final {
-        return dyn_serialize<PropType>(fn_(obj));
-//        return tiny::serialize(fn_(obj));
+    std::string serialize(const T &obj) override {
+//        return dyn_serialize<PropType>(fn_(obj));
+//        return ::serialize(fn_(obj));
         return std::string();
     }
 
-    bool deserialize(T &obj, const std::string &bin) final {
-        return dyn_deserialize<PropType>(fn_(obj), bin);
-//        return tiny::deserialize(fn_(obj), bin);
+    bool deserialize(T &obj, const std::string &bin) override {
+//        return dyn_deserialize<PropType>(fn_(obj), bin);
+//        return ::deserialize(fn_(obj), bin);
         return true;
     }
 
-private:
+protected:
     MemFn fn_;
 };
 
@@ -104,6 +110,7 @@ Property_T<T, MemFn> *makePropery(const std::string &name, uint16_t id, MemFn fn
 
 
 struct StructBase {
+    virtual void create() {}
 };
 
 template<typename T>
@@ -183,7 +190,7 @@ public:
 
     uint16_t version() { return version_; }
 
-private:
+protected:
     std::string name_;
     PropertyContainer properties_ordered_;
     PropertyMap properties_;
@@ -228,7 +235,7 @@ struct StructFactory {
         return NULL;
     }
 
-private:
+protected:
     typedef std::unordered_map<std::string, std::shared_ptr<StructBase>> Structs;
 
     Structs structs_by_typeid_;
