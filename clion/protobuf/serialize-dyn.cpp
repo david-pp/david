@@ -19,19 +19,24 @@
 // STL         -> bytes
 //
 
+using namespace google::protobuf;
+
 
 template<typename T>
 class DynSerializer {
 public:
+    static const DescriptorPool *pool_;
+    static MessageFactory *factory_;
+
     static std::string serialize(const T &object) {
         using namespace google::protobuf;
 
         std::cout << __PRETTY_FUNCTION__ << std::endl;
         Struct<T> *st = StructFactory::instance().structByType<T>();
         if (st) {
-            const Descriptor *descriptor = DescriptorPool::generated_pool()->FindMessageTypeByName(
+            const Descriptor *descriptor = pool_->FindMessageTypeByName(
                     st->name() + "DynProto");
-            const Message *prototype = MessageFactory::generated_factory()->GetPrototype(descriptor);
+            const Message *prototype = factory_->GetPrototype(descriptor);
             if (descriptor && prototype) {
 //                std::cout << descriptor->DebugString() << std::endl;
 
@@ -75,9 +80,9 @@ public:
         std::cout << __PRETTY_FUNCTION__ << std::endl;
         Struct<T> *st = StructFactory::instance().structByType<T>();
         if (st) {
-            const Descriptor *descriptor = DescriptorPool::generated_pool()->FindMessageTypeByName(
+            const Descriptor *descriptor = pool_->FindMessageTypeByName(
                     st->name() + "DynProto");
-            const Message *prototype = MessageFactory::generated_factory()->GetPrototype(descriptor);
+            const Message *prototype = factory_->GetPrototype(descriptor);
             if (descriptor && prototype) {
 //                std::cout << descriptor->DebugString() << std::endl;
 
@@ -115,6 +120,11 @@ public:
         return false;
     }
 };
+
+template<typename T>
+const DescriptorPool *DynSerializer<T>::pool_ = DescriptorPool::generated_pool();
+template<typename T>
+MessageFactory *DynSerializer<T>::factory_ = MessageFactory::generated_factory();
 
 //
 // 序列化和反序列化的Helper函数
@@ -314,7 +324,78 @@ REFLECTION(Player) {
             .property("weapons_map", &Player::weapons_map, 4);
 }
 
-int main() {
+// 使用.proto生成的做映射
+void test_1() {
+    std::string data;
+
+    {
+        Player p;
+        p.init();
+        data = dyn_serialize(p);
+    }
+
+    {
+        Player p;
+        dyn_deserialize(p, data);
+        p.dump();
+    }
+}
+
+// 动态创建Descriptor
+
+template<typename T>
+struct Object2Proto {
+};
+
+
+DescriptorPool my_pool;
+DynamicMessageFactory my_factory(&my_pool);
+
+template<typename T>
+void create() {
+
+    std::cout << __PRETTY_FUNCTION__ << std::endl;
+    Struct<T> *st = StructFactory::instance().structByType<T>();
+    if (st) {
+        FileDescriptorProto file_proto;
+        file_proto.set_name(st->name() + ".proto");
+
+        DescriptorProto *descriptor = file_proto.add_message_type();
+        descriptor->set_name(st->name() + "DynProto");
+
+        for (auto cpp_fd : st->propertyIterator()) {
+            if (typeid(uint32_t) == cpp_fd->type()) {
+                FieldDescriptorProto *fd = descriptor->add_field();
+                fd->set_name(cpp_fd->name());
+                fd->set_type(FieldDescriptorProto::TYPE_UINT32);
+                fd->set_number(cpp_fd->id());
+                fd->set_label(FieldDescriptorProto::LABEL_OPTIONAL);
+            } else {
+                FieldDescriptorProto *fd = descriptor->add_field();
+                fd->set_name(cpp_fd->name());
+                fd->set_type(FieldDescriptorProto::TYPE_BYTES);
+                fd->set_number(cpp_fd->id());
+                fd->set_label(FieldDescriptorProto::LABEL_OPTIONAL);
+            }
+        }
+
+        my_pool.BuildFile(file_proto);
+
+//        std::cout << file_proto.DebugString() << std::endl;
+    }
+}
+
+void test_2() {
+    create<Player>();
+
+    const Descriptor *descriptor = my_pool.FindMessageTypeByName("PlayerDynProto");
+    if (descriptor) {
+        std::cout << "---- message:Player ----" << std::endl;
+        std::cout << descriptor->DebugString() << std::endl;
+    }
+
+    DynSerializer<Player>::pool_ = &my_pool;
+    DynSerializer<Player>::factory_ = &my_factory;
 
     std::string data;
 
@@ -329,4 +410,9 @@ int main() {
         dyn_deserialize(p, data);
         p.dump();
     }
+}
+
+int main() {
+    test_1();
+    test_2();
 }
