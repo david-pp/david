@@ -463,7 +463,7 @@ void test_dynamic_2() {
     importer.Import("player.proto");
 
 
-    // 动态消息工程
+    // 动态消息工厂
     DynamicMessageFactory factory(importer.pool());
 
     const Descriptor *descriptor = importer.pool()->FindMessageTypeByName("PlayerProto");

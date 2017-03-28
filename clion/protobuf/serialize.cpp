@@ -3,176 +3,46 @@
 #include "player.pb.h"
 #include "archive.pb.h"
 
+#include "serialize.h"
 
-template<typename T>
-class Serializer {
-public:
-    static std::string serialize(const T &object) {
-        return object.SerializeAsString();
-    }
-
-    static bool deserialize(T &object, const std::string &bin) {
-        return object.ParseFromString(bin);
-    }
-};
-
-template<typename T>
-std::string serialize(const T &object) {
-    return Serializer<T>::serialize(object);
-}
-
-template<typename T>
-bool deserialize(T &object, const std::string &bin) {
-    return Serializer<T>::deserialize(object, bin);
-}
-
-
-////////////////////////////////////////////
-
-class Archiver {
-public:
-    template<typename T>
-    Archiver &operator<<(const T &object) {
-        ArchiveMemberProto *mem = ar_.add_members();
-        if (mem) {
-            mem->set_hexdata(Serializer<T>::serialize(object));
-        }
-        return *this;
-    }
-
-    template<typename T>
-    Archiver &operator>>(T &object) {
-        if (read_pos_ < ar_.members_size()) {
-            const ArchiveMemberProto &mem = ar_.members(read_pos_);
-            Serializer<T>::deserialize(object, mem.hexdata());
-            read_pos_++;
-        }
-        return *this;
-    }
-
-private:
-    ArchiveProto ar_;
-    int read_pos_ = 0;
-};
-
-
-////////////////////////////////////////////
-
-
-template<typename T>
-class Serializer<std::vector<T> > {
-public:
-    static std::string serialize(const std::vector<T> &objects) {
-        SequenceProto proto;
-        for (auto &v : objects) {
-            ArchiveMemberProto *mem = proto.add_values();
-            if (mem) {
-                mem->set_hexdata(Serializer<T>::serialize(v));
-            }
-        }
-
-        return proto.SerializeAsString();
-    }
-
-    static bool deserialize(std::vector<T> &objects, const std::string &bin) {
-        SequenceProto proto;
-        if (proto.ParseFromString(bin)) {
-            for (int i = 0; i < proto.values_size(); ++i) {
-                T obj;
-                if (Serializer<T>::deserialize(obj, proto.values(i).hexdata()))
-                    objects.push_back(obj);
-            }
-            return true;
-        }
-        return false;
-    }
-};
-
-template<typename KeyT, typename ValueT>
-class Serializer<std::map<KeyT, ValueT> > {
-public:
-    static std::string serialize(const std::map<KeyT, ValueT> &objects) {
-        AssociateProto proto;
-        for (auto &v : objects) {
-            AssociateProto::ValueType *mem = proto.add_values();
-            if (mem) {
-                ArchiveMemberProto *key = mem->mutable_key();
-                ArchiveMemberProto *value = mem->mutable_value();
-                if (key && value) {
-                    std::cout << v.first << std::endl;
-                    key->set_hexdata(Serializer<KeyT>::serialize(v.first));
-                    value->set_hexdata(Serializer<ValueT>::serialize(v.second));
-                }
-            }
-        }
-
-        return proto.SerializeAsString();
-    }
-
-    static bool deserialize(std::map<KeyT, ValueT> &objects, const std::string &bin) {
-        AssociateProto proto;
-        if (proto.ParseFromString(bin)) {
-            for (int i = 0; i < proto.values_size(); ++i) {
-                KeyT key;
-                ValueT value;
-                if (Serializer<KeyT>::deserialize(key, proto.values(i).key().hexdata())
-                    && Serializer<ValueT>::deserialize(value, proto.values(i).value().hexdata())) {
-                    objects.insert(std::make_pair(key, value));
-                }
-            }
-            return true;
-        }
-        return false;
-    }
-};
-
-
-template<>
-class Serializer<uint32_t> {
-public:
-    static std::string serialize(const uint32_t &value) {
-        UInt32Proto proto;
-        proto.set_value(value);
-        return proto.SerializeAsString();
-    }
-
-    static bool deserialize(uint32_t &value, const std::string &bin) {
-        UInt32Proto proto;
-        if (proto.ParseFromString(bin)) {
-            value = proto.value();
-            return true;
-        }
-        return false;
-    }
-};
-
-
-
-
-////////////////////////////////////////////
-
+//////////////////////////////////////////////////////////////////////
 
 //
-// Archiver ar;
-// ar << obj1 << obj2 << ..;
-// ar >> obj1 >> obj2 >> ..;
-//
-
-
-//
-// 直接使用
-//
-// std::vector<PlayerProto>
-// std::map<uint32_t, PlayerProto>
+// 1. 演示：直接使用-最简单的(详见simple.cpp)
 //
 void test_direct_1() {
-    // simple.cpp
+
+    std::cout << "----" << __PRETTY_FUNCTION__ << "-----\n\n";
+
+    std::string data;
+
+    // 序列化
+    {
+        PlayerProto p;
+        p.set_id(1024);
+        p.set_name("david");
+        p.SerializeToString(&data);
+    }
+
+    // 反序列化
+    {
+        PlayerProto p;
+        p.ParseFromString(data);
+        std::cout << p.ShortDebugString() << std::endl;
+    }
 }
 
+//
+// 2. 演示：直接使用-按顺序拼装多个对象（对象类型只要满足序列化约束即可，默认支持STL和C++基本类型）
+//
+#include "archiver.h"
 void test_direct_2() {
-    Archiver ar;
 
-    // serialize
+    std::cout << "----" << __PRETTY_FUNCTION__ << "-----\n\n";
+
+    std::string data;
+
+    // 序列化
     {
         PlayerProto p;
         p.set_id(1024);
@@ -188,41 +58,51 @@ void test_direct_2() {
 
         std::vector<std::map<uint32_t, PlayerProto> > vecmap{pmap, pmap, pmap};
 
-        ar << p << p << p;
-        ar << pvec;
-        ar << pmap;
-        ar << vecmap;
+        Archiver ar;
+        ar << p << p << p;        // 支持：proto生成的类型
+        ar << pvec;               // 支持：std::vector
+        ar << pmap;               // 支持：std::map
+        ar << vecmap;             // 支持：STL的各种组合和嵌套
+        ar << ar;                 // 支持：自己? YES!
+
+//        ar.SerializeToString(&data);
+        data = ::serialize(ar);
     }
 
-    // deserialize
+    // 反序列化
     {
         PlayerProto p1, p2, p3;
         std::vector<PlayerProto> pvec;
         std::map<uint32_t, PlayerProto> pmap;
         std::vector<std::map<uint32_t, PlayerProto> > vecmap;
 
-        ar >> p1 >> p2 >> p3;
-        ar >> pvec;
-        ar >> pmap;
-        ar >> vecmap;
+        Archiver ar, ar2;
+//        if (ar.ParseFromString(data)) {
+        if (::deserialize(ar, data)) {
+            ar >> p1 >> p2 >> p3;
+            ar >> pvec;
+            ar >> pmap;
+            ar >> vecmap;
+            ar >> ar2;
+        }
 
         std::cout << "--- p1 ----" << std::endl;
         {
-            std::cout << p1.DebugString() << std::endl;
+            std::cout << p1.ShortDebugString() << std::endl;
         }
         std::cout << "--- p2 ----" << std::endl;
         {
-            std::cout << p2.DebugString() << std::endl;
+            std::cout << p2.ShortDebugString() << std::endl;
         }
         std::cout << "--- p3 ----" << std::endl;
         {
-            std::cout << p3.DebugString() << std::endl;
+            std::cout << p3.ShortDebugString() << std::endl;
         }
 
         std::cout << "--- vector<P> ----" << std::endl;
         {
             for (auto &p : pvec) {
-                std::cout << p.DebugString() << std::endl;
+                std::cout << p.ShortDebugString() << std::endl;
             }
         }
 
@@ -241,15 +121,23 @@ void test_direct_2() {
                 std::cout << std::endl;
             }
         }
+
+        std::cout << "---- ar ----" << std::endl;
+        {
+            std::cout << ar2.DebugString() << std::endl;
+        }
     }
 }
 
-//
-// 映射
+//////////////////////////////////////////////////////////////////////
 
-//   message WeaponProto  {
-//  optional uint32 type = 1;
-//  optional string name = 2;
+//
+// 演示：Static Object Mapping（静态对象映射）
+//
+// - Proto定义：
+//  message WeaponProto  {
+//      optional uint32 type = 1;
+//      optional string name = 2;
 //  }
 //
 //  message PlayerProto {
@@ -261,19 +149,45 @@ void test_direct_2() {
 //        // Nested: 1 vs N
 //        optional WeaponProto weapon = 4;
 //        repeated WeaponProto weapons = 5;
-//}
+// }
+
+// - Mapping：
+//    Weapon -> WeaponProto
+//    Player -> PlayerProto
 //
 
+//
+// 类型定义
+//
 struct Weapon {
     uint32_t type = 0;
     std::string name = "";
+
+    //
+    // 侵入式序列化支持
+    //
+    std::string SerializeAsString() const {
+        WeaponProto proto;
+        proto.set_type(type);
+        proto.set_name(name);
+        return proto.SerializeAsString();
+    }
+
+    bool ParseFromString(const std::string &data) {
+        WeaponProto proto;
+        if (proto.ParseFromString(data)) {
+            type = proto.type();
+            name = proto.name();
+            return true;
+        }
+        return false;
+    }
 };
 
 struct Player {
     uint32_t id = 0;
     std::string name = "";
     std::vector<uint32_t> quests;
-
     Weapon weapon;
     std::map<uint32_t, Weapon> weapons;
 
@@ -291,9 +205,9 @@ struct Player {
         std::cout << "weapon = {" << weapon.type << "," << weapon.name << "}" << std::endl;
 
         std::cout << "weapons_map = {" << std::endl;
-        for (auto& kv : weapons_map) {
+        for (auto &kv : weapons_map) {
             std::cout << "\t" << kv.first << ": [";
-            for (auto& p : kv.second) {
+            for (auto &p : kv.second) {
                 std::cout << "{" << p.type << "," << p.name << "},";
             }
             std::cout << "]" << std::endl;
@@ -302,27 +216,30 @@ struct Player {
     }
 };
 
-template<>
-class Serializer<Weapon> {
-public:
-    static std::string serialize(const Weapon &value) {
-        WeaponProto proto;
-        proto.set_type(value.type);
-        proto.set_name(value.name);
-        return proto.SerializeAsString();
-    }
+//template<>
+//class Serializer<Weapon> {
+//public:
+//    static std::string serialize(const Weapon &value) {
+//        WeaponProto proto;
+//        proto.set_type(value.type);
+//        proto.set_name(value.name);
+//        return proto.SerializeAsString();
+//    }
+//
+//    static bool deserialize(Weapon &value, const std::string &bin) {
+//        WeaponProto proto;
+//        if (proto.ParseFromString(bin)) {
+//            value.type = proto.type();
+//            value.name = proto.name();
+//            return true;
+//        }
+//        return false;
+//    }
+//};
 
-    static bool deserialize(Weapon &value, const std::string &bin) {
-        WeaponProto proto;
-        if (proto.ParseFromString(bin)) {
-            value.type = proto.type();
-            value.name = proto.name();
-            return true;
-        }
-        return false;
-    }
-};
-
+//
+// Player的序列化支持（通过特化）-- 非侵入式
+//
 template<>
 class Serializer<Player> {
 public:
@@ -330,7 +247,6 @@ public:
         PlayerProto proto;
         proto.set_id(p.id);
         proto.set_name(p.name);
-        //...
 
         // 复杂对象
         proto.set_weapons_map(::serialize(p.weapons_map));
@@ -343,7 +259,6 @@ public:
         if (proto.ParseFromString(bin)) {
             p.id = proto.id();
             p.name = proto.name();
-            //...
 
             // 复杂对象
             ::deserialize(p.weapons_map, proto.weapons_map());
@@ -353,7 +268,7 @@ public:
     }
 };
 
-void init_player(Player& p) {
+void init_player(Player &p) {
     p.id = 1024;
     p.name = "david";
     p.quests.push_back(1);
@@ -376,49 +291,36 @@ void init_player(Player& p) {
     };
 
 }
+
+//
+// 3.演示：静态映射
+//
 void test_mapping_1() {
+    std::cout << "----" << __PRETTY_FUNCTION__ << "-----\n\n";
 
-    Archiver ar;
+    std::string data;
 
-
-    // serialize
+    // 序列化
     {
         Player p;
         init_player(p);
-        ar << p;
+        data = ::serialize(p);
     }
 
-    // deseriaize
+    // 反序列化
     {
         Player p;
-        ar >> p;
-
+        ::deserialize(p, data);
         p.dump();
     }
 }
 
-
-
-#include <google/protobuf/reflection.h>
-
 //
-// 动态构建Message：根据C++的参数类型
+// 4.演示：动态映射(详见serialize-dyn.cpp)
 //
-//RUN(Player) {
-//    XXX::instance().declare<Player>
-//                .property("id", &Player::id, 1)
-//                .property("name", &Player::name, 2)
-//                .property("weapons_map", &Player::weapons_map, 3)
-//}
-//
-//  serialize(Player& p);
-//
-
-void test_mapping_2() {
-
-}
 
 int main() {
+    test_direct_1();
     test_direct_2();
     test_mapping_1();
     return 0;

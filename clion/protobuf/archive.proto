@@ -5,7 +5,6 @@ message ArchiveMemberProto  {
 }
 
 
-
 message ArchiveProto {
     repeated ArchiveMemberProto members = 1;
 }
