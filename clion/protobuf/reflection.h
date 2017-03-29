@@ -22,6 +22,9 @@ std::string serialize(const T &object);
 template<typename T>
 bool deserialize(T &object, const std::string &bin);
 
+template<typename T>
+class DynSerializer;
+
 //
 // 利用构造函数执行一些初始化代码的技巧
 //
@@ -31,7 +34,7 @@ struct Register {
     }
 };
 
-#define REFLECTION(structname) \
+#define RUN_ONCE(structname, ...) \
         void reg_func_##structname(); \
         Register reg_obj_##structname(reg_func_##structname); \
         void reg_func_##structname()
@@ -47,7 +50,7 @@ public:
 
     const std::string &name() { return name_; }
 
-    uint16_t id() { return id_; }
+    uint16_t number() { return id_; }
 
 public:
     virtual const std::type_info &type() = 0;
@@ -66,7 +69,7 @@ protected:
 };
 
 
-template<typename T, typename MemFn>
+template<typename T, typename MemFn, typename SerializerT>
 class Property_T : public Property<T> {
 public:
     Property_T(const std::string &name, uint16_t id, MemFn fn)
@@ -87,25 +90,21 @@ public:
         fn_(obj) = boost::any_cast<PropType>(v);
     }
 
-    std::string serialize(const T &obj) override {
-//        return dyn_serialize<PropType>(fn_(obj));
-//        return ::serialize(fn_(obj));
-        return std::string();
+    std::string serialize(const T &obj) final {
+        return SerializerT::serialize(fn_(obj));
     }
 
-    bool deserialize(T &obj, const std::string &bin) override {
-//        return dyn_deserialize<PropType>(fn_(obj), bin);
-//        return ::deserialize(fn_(obj), bin);
-        return true;
+    bool deserialize(T &obj, const std::string &bin) final {
+        return SerializerT::deserialize(fn_(obj), bin);
     }
 
 protected:
     MemFn fn_;
 };
 
-template<typename T, typename MemFn>
-Property_T<T, MemFn> *makePropery(const std::string &name, uint16_t id, MemFn fn) {
-    return new Property_T<T, MemFn>(name, id, fn);
+template<typename T, typename SerializerT, typename MemFn>
+Property_T<T, MemFn, SerializerT> *makePropery(const std::string &name, uint16_t id, MemFn fn) {
+    return new Property_T<T, MemFn, SerializerT>(name, id, fn);
 }
 
 
@@ -127,10 +126,10 @@ public:
 
     T *clone() { return new T; }
 
-    template<typename PropType>
+    template<template <typename> class SerializerT=DynSerializer, typename PropType>
     Struct<T> &property(const std::string &name, PropType T::* prop, uint16_t id = 0) {
         if (!hasPropery(name)) {
-            typename Property<T>::Ptr ptr(makePropery<T>(name, id, std::mem_fn(prop)));
+            typename Property<T>::Ptr ptr(makePropery<T, SerializerT<PropType>>(name, id, std::mem_fn(prop)));
             properties_[name] = ptr;
             properties_ordered_.push_back(ptr);
 

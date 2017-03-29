@@ -1,3 +1,5 @@
+syntax = "proto2";
+
 //
 // 定义protobuf消息
 //
@@ -29,17 +31,29 @@ message PlayerProto {
 //
 // 动态映射用
 //
-
-message WeaponDynProto  {
+message WeaponDynProto {
     optional uint32 type = 1;
     optional bytes name = 2;
 }
 
 message PlayerDynProto {
-    // Scalar: 1 vs N
-    optional uint32 id = 1;             // uint32_t
-    optional bytes  name = 2;            // string
-    optional bytes  quests = 3;         // std::set<uint32_t>
-    optional bytes  weapons_map = 4;    // 更复杂的类型
-    optional bytes  weapon = 5;         // 嵌套类型
+    optional uint32 id = 1;
+    optional bytes name = 2;
+    optional bytes weapon = 3;
+    optional bytes weapons_map = 4;
+}
+
+//
+// 动态编译用
+//
+message WeaponDyn2Proto {
+    optional uint32 type = 1;
+    optional bytes name = 2;
+}
+
+message PlayerDyn2Proto {
+    optional uint32 id = 1;
+    optional bytes name = 2;
+    optional bytes weapon = 3;
+    optional bytes weapons_map = 4;
 }

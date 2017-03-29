@@ -7,182 +7,9 @@
 
 #include "player.pb.h"
 #include "archive.pb.h"
-#include <google/protobuf/reflection.h>
-#include <google/protobuf/descriptor.pb.h>
-#include <google/protobuf/dynamic_message.h>
-
-template<typename T>
-class ProtoMapping;
-
-template<typename T, typename MemFn>
-class ProtoMappingProperty : public Property_T<T, MemFn> {
-public:
-    friend class ProtoMapping<T>;
-
-    using PropType = typename Property_T<T, MemFn>::PropType;
-
-    ProtoMappingProperty(const std::string &name, uint16_t id, MemFn fn)
-            : Property_T<T, MemFn>(name, id, fn) {}
 
 
-    std::string serialize(const T &obj) override {
-        return dyn_serialize<PropType>(this->fn_(obj));
-    }
-
-    bool deserialize(T &obj, const std::string &bin) override {
-        return dyn_deserialize<PropType>(this->fn_(obj), bin);
-    }
-
-private:
-    ProtoMapping<T> *struct_ = nullptr;
-};
-
-template<typename T, typename MemFn>
-ProtoMappingProperty<T, MemFn> *makeProtoMappingPropery(const std::string &name, uint16_t id, MemFn fn) {
-    return new ProtoMappingProperty<T, MemFn>(name, id, fn);
-}
-
-template<typename T>
-class ProtoMapping : public Struct<T>{
-public:
-    friend class ProtoMappingFactory;
-
-    ProtoMapping(const std::string &name, uint16_t version = 0)
-            : Struct<T>(name, version) {}
-
-    template<typename PropType>
-    ProtoMapping<T> &property(const std::string &name, PropType T::* prop, uint16_t id = 0) {
-        if (!this->hasPropery(name)) {
-
-            auto mapping_prop = makeProtoMappingPropery<T>(name, id, std::mem_fn(prop));
-            mapping_prop->struct_ = this;
-
-            typename Property<T>::Ptr ptr(mapping_prop);
-            this->properties_[name] = ptr;
-            this->properties_ordered_.push_back(ptr);
-
-            if (id) {
-                this->properties_byid_[id] = ptr;
-            }
-        }
-
-        return *this;
-    }
-
-    google::protobuf::DescriptorPool *proto_pool() { return pool_; }
-
-    google::protobuf::MessageFactory *proto_factory() { return factory_; }
-
-    void create() override {
-        using namespace google::protobuf;
-
-        FileDescriptorProto file_proto;
-        file_proto.set_name(this->name() + ".proto");
-
-        DescriptorProto *descriptor = file_proto.add_message_type();
-        descriptor->set_name(this->name() + "DynProto");
-
-        for (auto cpp_fd : this->propertyIterator()) {
-            if (typeid(uint32_t) == cpp_fd->type()) {
-                FieldDescriptorProto *fd = descriptor->add_field();
-                fd->set_name(cpp_fd->name());
-                fd->set_type(FieldDescriptorProto::TYPE_UINT32);
-                fd->set_number(cpp_fd->id());
-                fd->set_label(FieldDescriptorProto::LABEL_OPTIONAL);
-            } else {
-                FieldDescriptorProto *fd = descriptor->add_field();
-                fd->set_name(cpp_fd->name());
-                fd->set_type(FieldDescriptorProto::TYPE_BYTES);
-                fd->set_number(cpp_fd->id());
-                fd->set_label(FieldDescriptorProto::LABEL_OPTIONAL);
-            }
-        }
-
-        pool_->BuildFile(file_proto);
-    }
-
-
-private:
-    google::protobuf::DescriptorPool *pool_ = nullptr;
-    google::protobuf::MessageFactory *factory_ = nullptr;
-};
-
-
-class ProtoMappingFactory : public StructFactory {
-public:
-    static ProtoMappingFactory &instance() {
-        static ProtoMappingFactory instance_;
-        return instance_;
-    }
-
-    ProtoMappingFactory() : factory_(&pool_) {}
-
-    template<typename T>
-    ProtoMapping<T> &mapping(const std::string &name) {
-        std::string type_name = typeid(T).name();
-        std::string struct_name = name;
-        if (name.empty())
-            struct_name = type_name;
-
-        auto desc = std::make_shared<ProtoMapping<T>>(struct_name);
-        desc->pool_ = google::protobuf::DescriptorPool::generated_pool();
-        desc->factory_ = google::protobuf::MessageFactory::generated_factory();
-        structs_by_typeid_[type_name] = desc;
-        structs_by_name_[struct_name] = desc;
-        return *desc;
-    }
-
-    template<typename T>
-    ProtoMapping<T> &define(const std::string &name) {
-        std::string type_name = typeid(T).name();
-        std::string struct_name = name;
-        if (name.empty())
-            struct_name = type_name;
-
-        auto desc = std::make_shared<ProtoMapping<T>>(struct_name);
-        desc->pool_ = &pool_;
-        desc->factory_ = &factory_;
-        structs_by_typeid_[type_name] = desc;
-        structs_by_name_[struct_name] = desc;
-        return *desc;
-    }
-
-    template<typename T>
-    void clearByType() {
-        ProtoMapping<T> *mapping = mappingByType<T>();
-        if (mapping) {
-            structs_by_typeid_.erase(typeid(T).name());
-            structs_by_name_.erase(mapping->name());
-        }
-    }
-
-    template<typename T>
-    ProtoMapping<T> *mappingByType() {
-        std::string type_name = typeid(T).name();
-        auto it = structs_by_typeid_.find(type_name);
-        if (it != structs_by_typeid_.end())
-            return static_cast<ProtoMapping<T> *>(it->second.get());
-        return NULL;
-    }
-
-    template<typename T>
-    void createByType() {
-        ProtoMapping<T> *mapping = mappingByType<T>();
-        if (mapping) {
-            mapping->create();
-        }
-    }
-
-    void createAll() {
-        for (auto it : this->structs_by_name_) {
-            it.second->create();
-        }
-    }
-
-public:
-    google::protobuf::DescriptorPool pool_;
-    google::protobuf::DynamicMessageFactory factory_;
-};
+#include "serialize-dyn.h"
 
 
 //
@@ -199,17 +26,17 @@ using namespace google::protobuf;
 template<typename T>
 class DynSerializer {
 public:
+    using ProtoMappingFactoryT = DynamicProtoMappingFactory;
+
     static std::string serialize(const T &object) {
         using namespace google::protobuf;
 
-        std::cout << __PRETTY_FUNCTION__ << std::endl;
-        ProtoMapping<T> *mapping = ProtoMappingFactory::instance().mappingByType<T>();
+//        std::cout << __PRETTY_FUNCTION__ << std::endl;
+        ProtoMapping<T> *mapping = ProtoMappingFactoryT::instance().mappingByType<T>();
         if (mapping) {
-            const Descriptor *descriptor = mapping->proto_pool()->FindMessageTypeByName(
-                    mapping->name() + "DynProto");
-            const Message *prototype = mapping->proto_factory()->GetPrototype(descriptor);
+            const Descriptor *descriptor = mapping->descriptorPool()->FindMessageTypeByName(mapping->protoName());
+            const Message *prototype = mapping->messageFactory()->GetPrototype(descriptor);
             if (descriptor && prototype) {
-//                std::cout << descriptor->DebugString() << std::endl;
 
                 Message *proto = prototype->New();
                 const Reflection *refl = proto->GetReflection();
@@ -217,16 +44,16 @@ public:
                 if (refl && desc) {
 
                     try {
-                        for (auto fd : mapping->propertyIterator()) {
+                        for (auto fd : mapping->struct_reflection->propertyIterator()) {
 //                            std::cout << fd->name() << std::endl;
                             const FieldDescriptor *fd2 = desc->FindFieldByName(fd->name());
                             if (fd2) {
                                 if (FieldDescriptor::CPPTYPE_UINT32 == fd2->cpp_type()) {
-                                    uint32_t value = mapping->get<uint32_t>(object, fd->name());
+                                    uint32_t value = mapping->struct_reflection->get<uint32_t>(object, fd->name());
                                     refl->SetUInt32(proto, fd2, value);
 
                                 } else if (FieldDescriptor::TYPE_BYTES == fd2->type()) {
-                                    auto prop = mapping->propertyByName(fd->name());
+                                    auto prop = mapping->struct_reflection->propertyByName(fd->name());
                                     if (prop) {
                                         refl->SetString(proto, fd2, prop->serialize(object));
                                     }
@@ -248,14 +75,12 @@ public:
 
     static bool deserialize(T &object, const std::string &data) {
         using namespace google::protobuf;
-        std::cout << __PRETTY_FUNCTION__ << std::endl;
-        ProtoMapping<T> *mapping = ProtoMappingFactory::instance().mappingByType<T>();
+//        std::cout << __PRETTY_FUNCTION__ << std::endl;
+        ProtoMapping<T> *mapping = ProtoMappingFactoryT::instance().mappingByType<T>();
         if (mapping) {
-            const Descriptor *descriptor = mapping->proto_pool()->FindMessageTypeByName(
-                    mapping->name() + "DynProto");
-            const Message *prototype = mapping->proto_factory()->GetPrototype(descriptor);
+            const Descriptor *descriptor = mapping->descriptorPool()->FindMessageTypeByName(mapping->protoName());
+            const Message *prototype = mapping->messageFactory()->GetPrototype(descriptor);
             if (descriptor && prototype) {
-//                std::cout << descriptor->DebugString() << std::endl;
 
                 Message *proto = prototype->New();
                 const Reflection *refl = proto->GetReflection();
@@ -263,14 +88,14 @@ public:
                 if (refl && desc && proto->ParseFromString(data)) {
 
                     try {
-                        for (auto fd : mapping->propertyIterator()) {
+                        for (auto fd : mapping->struct_reflection->propertyIterator()) {
 //                            std::cout << fd->name() << std::endl;
                             const FieldDescriptor *fd2 = desc->FindFieldByName(fd->name());
                             if (fd2) {
                                 if (FieldDescriptor::CPPTYPE_UINT32 == fd2->cpp_type()) {
-                                    mapping->set(object, fd->name(), refl->GetUInt32(*proto, fd2));
+                                    mapping->struct_reflection->set(object, fd->name(), refl->GetUInt32(*proto, fd2));
                                 } else if (FieldDescriptor::TYPE_BYTES == fd2->type()) {
-                                    auto prop = mapping->propertyByName(fd->name());
+                                    auto prop = mapping->struct_reflection->propertyByName(fd->name());
                                     if (prop) {
                                         prop->deserialize(object, refl->GetString(*proto, fd2));
 //                                        refl->SetString(proto, fd2, prop->serialize(object));
@@ -389,7 +214,7 @@ template<>
 class DynSerializer<uint32_t> {
 public:
     static std::string serialize(const uint32_t &value) {
-        std::cout << __PRETTY_FUNCTION__ << std::endl;
+//        std::cout << __PRETTY_FUNCTION__ << std::endl;
         UInt32Proto proto;
         proto.set_value(value);
         return proto.SerializeAsString();
@@ -412,7 +237,7 @@ template<>
 class DynSerializer<std::string> {
 public:
     static std::string serialize(const std::string &value) {
-        std::cout << __PRETTY_FUNCTION__ << std::endl;
+//        std::cout << __PRETTY_FUNCTION__ << std::endl;
         StringProto proto;
         proto.set_value(value);
         return proto.SerializeAsString();
@@ -477,19 +302,94 @@ struct Player {
     }
 };
 
+#define USE_STRUCT_FACTORY
 
-//REFLECTION(Player) {
+RUN_ONCE(Player) {
+
+    StructFactory::instance().declare<Weapon>("Weapon")
+            .property<DynSerializer>("type", &Weapon::type, 1)
+            .property("name", &Weapon::name, 2);
+
+    StructFactory::instance().declare<Player>("Player")
+            .property("id", &Player::id, 1)
+            .property("name", &Player::name, 2)
+            .property("weapon", &Player::weapon, 3)
+            .property("weapons_map", &Player::weapons_map, 4);
+
+    std::cout << "------------------ generated -----------" << std::endl;
+    {
+#ifdef USE_STRUCT_FACTORY
+        ProtoMappingFactory::instance()
+                .mapping<Weapon>("WeaponDynProto")
+                .mapping<Player>("PlayerDynProto");
+
+#else
+        ProtoMappingFactory::instance().declare<Weapon>("Weapon", "WeaponDynProto")
+                .property("type", &Weapon::type, 1)
+                .property("name", &Weapon::name, 2);
+
+        ProtoMappingFactory::instance().declare<Player>("Player", "PlayerDynProto")
+                .property("id", &Player::id, 1)
+                .property("name", &Player::name, 2)
+                .property("weapon", &Player::weapon, 3)
+                .property("weapons_map", &Player::weapons_map, 4);
+#endif
+
+        ProtoMappingFactory::instance().generateAllProtoDefine();
+    }
+
+
+    std::cout << "------------------ imported -----------" << std::endl;
+    {
+#ifdef USE_STRUCT_FACTORY
+        ImportProtoMappingFactory::instance()
+                .mapping<Weapon>("WeaponDynProto")
+                .mapping<Player>("PlayerDynProto");
+
+#else
+        ImportProtoMappingFactory::instance().declare<Weapon>("Weapon", "WeaponDynProto")
+                .property("type", &Weapon::type, 1)
+                .property("name", &Weapon::name, 2);
+
+        ImportProtoMappingFactory::instance().declare<Player>("Player", "PlayerDynProto")
+                .property("id", &Player::id, 1)
+                .property("name", &Player::name, 2)
+                .property("weapon", &Player::weapon, 3)
+                .property("weapons_map", &Player::weapons_map, 4);
+#endif
+
+        ImportProtoMappingFactory::instance().opendDir("../../protobuf/");
+        ImportProtoMappingFactory::instance().import("player.proto");
+        ImportProtoMappingFactory::instance().generateAllProtoDefine();
+    }
+
+    std::cout << "------------------ dynamic -----------" << std::endl;
+    {
+#ifdef USE_STRUCT_FACTORY
+        DynamicProtoMappingFactory::instance()
+                .mapping<Weapon>("WeaponDyn2Proto")
+                .mapping<Player>("PlayerDyn2Proto");
+
+#else
+        DynamicProtoMappingFactory::instance().declare<Weapon>("Weapon", "WeaponDyn2Proto")
+                .property("type", &Weapon::type, 1)
+                .property("name", &Weapon::name, 2);
+
+        DynamicProtoMappingFactory::instance().declare<Player>("Player", "PlayerDyn2Proto")
+                .property("id", &Player::id, 1)
+                .property("name", &Player::name, 2)
+                .property("weapon", &Player::weapon, 3)
+                .property("weapons_map", &Player::weapons_map, 4);
+#endif
+
 //
-//    ProtoMappingFactory::instance().declare<Weapon>("Weapon")
-//            .property("type", &Weapon::type, 1)
-//            .property("name", &Weapon::name, 2);
-//
-//    ProtoMappingFactory::instance().declare<Player>("Player")
-//            .property("id", &Player::id, 1)
-//            .property("name", &Player::name, 2)
-//            .property("weapon", &Player::weapon, 3)
-//            .property("weapons_map", &Player::weapons_map, 4);
-//}
+//    DynamicProtoMappingFactory::instance().createProtoByType<Player>();
+//    DynamicProtoMappingFactory::instance().createProtoByType<Weapon>();
+        DynamicProtoMappingFactory::instance().createAllProto();
+        DynamicProtoMappingFactory::instance().generateAllProtoDefine();
+    }
+
+}
 
 // 使用.proto生成的做映射
 void test_1() {
@@ -509,38 +409,9 @@ void test_1() {
 }
 
 // 动态创建Descriptor
-
-template<typename T>
-struct Object2Proto {
-};
-
-
-REFLECTION(Player) {
-    ProtoMappingFactory::instance().clearByType<Weapon>();
-    ProtoMappingFactory::instance().clearByType<Player>();
-
-    ProtoMappingFactory::instance().define<Weapon>("Weapon")
-            .property("type", &Weapon::type, 1)
-            .property("name", &Weapon::name, 2);
-
-    ProtoMappingFactory::instance().define<Player>("Player")
-            .property("id", &Player::id, 1)
-            .property("name", &Player::name, 2)
-            .property("weapon", &Player::weapon, 3)
-            .property("weapons_map", &Player::weapons_map, 4);
-
-//    ProtoMappingFactory::instance().createByType<Player>();
-//    ProtoMappingFactory::instance().createByType<Weapon>();
-    ProtoMappingFactory::instance().createAll();
-}
-
 void test_2() {
 
-    const Descriptor *descriptor = ProtoMappingFactory::instance().pool_.FindMessageTypeByName("PlayerDynProto");
-    if (descriptor) {
-        std::cout << "---- message:Player ----" << std::endl;
-        std::cout << descriptor->DebugString() << std::endl;
-    }
+    std::cout << "----------" << __PRETTY_FUNCTION__ << "----\n\n";
 
     std::string data;
 
