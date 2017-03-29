@@ -8,251 +8,9 @@
 #include "player.pb.h"
 #include "archive.pb.h"
 
-
+#include "serialize.h"
 #include "serialize-dyn.h"
-
-
-//
-// uint32_t    -> uint32
-//
-// std::string -> bytes
-// Nested      -> bytes
-// STL         -> bytes
-//
-
-using namespace google::protobuf;
-
-
-template<typename T>
-class DynSerializer {
-public:
-    using ProtoMappingFactoryT = DynamicProtoMappingFactory;
-
-    static std::string serialize(const T &object) {
-        using namespace google::protobuf;
-
-//        std::cout << __PRETTY_FUNCTION__ << std::endl;
-        ProtoMapping<T> *mapping = ProtoMappingFactoryT::instance().mappingByType<T>();
-        if (mapping) {
-            const Descriptor *descriptor = mapping->descriptorPool()->FindMessageTypeByName(mapping->protoName());
-            const Message *prototype = mapping->messageFactory()->GetPrototype(descriptor);
-            if (descriptor && prototype) {
-
-                Message *proto = prototype->New();
-                const Reflection *refl = proto->GetReflection();
-                const Descriptor *desc = proto->GetDescriptor();
-                if (refl && desc) {
-
-                    try {
-                        for (auto fd : mapping->struct_reflection->propertyIterator()) {
-//                            std::cout << fd->name() << std::endl;
-                            const FieldDescriptor *fd2 = desc->FindFieldByName(fd->name());
-                            if (fd2) {
-                                if (FieldDescriptor::CPPTYPE_UINT32 == fd2->cpp_type()) {
-                                    uint32_t value = mapping->struct_reflection->get<uint32_t>(object, fd->name());
-                                    refl->SetUInt32(proto, fd2, value);
-
-                                } else if (FieldDescriptor::TYPE_BYTES == fd2->type()) {
-                                    auto prop = mapping->struct_reflection->propertyByName(fd->name());
-                                    if (prop) {
-                                        refl->SetString(proto, fd2, prop->serialize(object));
-                                    }
-                                }
-                            }
-                        }
-                    } catch (std::exception &e) {
-                        std::cout << e.what() << std::endl;
-                    }
-
-//                    std::cout << proto->DebugString() << std::endl;
-                    return proto->SerializeAsString();
-                }
-            }
-        }
-
-        return "";
-    }
-
-    static bool deserialize(T &object, const std::string &data) {
-        using namespace google::protobuf;
-//        std::cout << __PRETTY_FUNCTION__ << std::endl;
-        ProtoMapping<T> *mapping = ProtoMappingFactoryT::instance().mappingByType<T>();
-        if (mapping) {
-            const Descriptor *descriptor = mapping->descriptorPool()->FindMessageTypeByName(mapping->protoName());
-            const Message *prototype = mapping->messageFactory()->GetPrototype(descriptor);
-            if (descriptor && prototype) {
-
-                Message *proto = prototype->New();
-                const Reflection *refl = proto->GetReflection();
-                const Descriptor *desc = proto->GetDescriptor();
-                if (refl && desc && proto->ParseFromString(data)) {
-
-                    try {
-                        for (auto fd : mapping->struct_reflection->propertyIterator()) {
-//                            std::cout << fd->name() << std::endl;
-                            const FieldDescriptor *fd2 = desc->FindFieldByName(fd->name());
-                            if (fd2) {
-                                if (FieldDescriptor::CPPTYPE_UINT32 == fd2->cpp_type()) {
-                                    mapping->struct_reflection->set(object, fd->name(), refl->GetUInt32(*proto, fd2));
-                                } else if (FieldDescriptor::TYPE_BYTES == fd2->type()) {
-                                    auto prop = mapping->struct_reflection->propertyByName(fd->name());
-                                    if (prop) {
-                                        prop->deserialize(object, refl->GetString(*proto, fd2));
-//                                        refl->SetString(proto, fd2, prop->serialize(object));
-                                    }
-                                }
-                            }
-                        }
-                    } catch (std::exception &e) {
-                        std::cout << e.what() << std::endl;
-                    }
-
-//                    std::cout << proto->DebugString() << std::endl;
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-};
-
-//
-// 序列化和反序列化的Helper函数
-//
-template<typename T>
-std::string dyn_serialize(const T &object) {
-    return DynSerializer<T>::serialize(object);
-}
-
-template<typename T>
-bool dyn_deserialize(T &object, const std::string &bin) {
-    return DynSerializer<T>::deserialize(object, bin);
-}
-
-
-
-/////////////////////////////////////////////////////////
-
-//
-// 扩展：支持std::vector<T>
-//
-template<typename T>
-class DynSerializer<std::vector<T> > {
-public:
-    static std::string serialize(const std::vector<T> &objects) {
-        SequenceProto proto;
-        for (auto &v : objects) {
-            ArchiveMemberProto *mem = proto.add_values();
-            if (mem) {
-                mem->set_hexdata(DynSerializer<T>::serialize(v));
-            }
-        }
-
-        return proto.SerializeAsString();
-    }
-
-    static bool deserialize(std::vector<T> &objects, const std::string &bin) {
-        SequenceProto proto;
-        if (proto.ParseFromString(bin)) {
-            for (int i = 0; i < proto.values_size(); ++i) {
-                T obj;
-                if (DynSerializer<T>::deserialize(obj, proto.values(i).hexdata()))
-                    objects.push_back(obj);
-            }
-            return true;
-        }
-        return false;
-    }
-};
-
-//
-// 扩展：支持std::map<KeyT, ValueT>
-//
-template<typename KeyT, typename ValueT>
-class DynSerializer<std::map<KeyT, ValueT> > {
-public:
-    static std::string serialize(const std::map<KeyT, ValueT> &objects) {
-        AssociateProto proto;
-        for (auto &v : objects) {
-            AssociateProto::ValueType *mem = proto.add_values();
-            if (mem) {
-                ArchiveMemberProto *key = mem->mutable_key();
-                ArchiveMemberProto *value = mem->mutable_value();
-                if (key && value) {
-                    key->set_hexdata(DynSerializer<KeyT>::serialize(v.first));
-                    value->set_hexdata(DynSerializer<ValueT>::serialize(v.second));
-                }
-            }
-        }
-
-        return proto.SerializeAsString();
-    }
-
-    static bool deserialize(std::map<KeyT, ValueT> &objects, const std::string &bin) {
-        AssociateProto proto;
-        if (proto.ParseFromString(bin)) {
-            for (int i = 0; i < proto.values_size(); ++i) {
-                KeyT key;
-                ValueT value;
-                if (DynSerializer<KeyT>::deserialize(key, proto.values(i).key().hexdata())
-                    && DynSerializer<ValueT>::deserialize(value, proto.values(i).value().hexdata())) {
-                    objects.insert(std::make_pair(key, value));
-                }
-            }
-            return true;
-        }
-        return false;
-    }
-};
-
-
-//
-// 扩展：支持uint32_t
-//
-template<>
-class DynSerializer<uint32_t> {
-public:
-    static std::string serialize(const uint32_t &value) {
-//        std::cout << __PRETTY_FUNCTION__ << std::endl;
-        UInt32Proto proto;
-        proto.set_value(value);
-        return proto.SerializeAsString();
-    }
-
-    static bool deserialize(uint32_t &value, const std::string &bin) {
-        UInt32Proto proto;
-        if (proto.ParseFromString(bin)) {
-            value = proto.value();
-            return true;
-        }
-        return false;
-    }
-};
-
-//
-// 扩展：支持std::string
-//
-template<>
-class DynSerializer<std::string> {
-public:
-    static std::string serialize(const std::string &value) {
-//        std::cout << __PRETTY_FUNCTION__ << std::endl;
-        StringProto proto;
-        proto.set_value(value);
-        return proto.SerializeAsString();
-    }
-
-    static bool deserialize(std::string &value, const std::string &bin) {
-        StringProto proto;
-        if (proto.ParseFromString(bin)) {
-            value = proto.value();
-            return true;
-        }
-        return false;
-    }
-};
-
+#include "serialize-mapping.h"
 
 //
 // 类型定义
@@ -302,19 +60,31 @@ struct Player {
     }
 };
 
-#define USE_STRUCT_FACTORY
+//#define USE_STRUCT_FACTORY
+
+#define SERIALIZER DynSerializer
 
 RUN_ONCE(Player) {
 
+
     StructFactory::instance().declare<Weapon>("Weapon")
-            .property<DynSerializer>("type", &Weapon::type, 1)
-            .property("name", &Weapon::name, 2);
+            .property<SERIALIZER>("type", &Weapon::type, 1)
+            .property<SERIALIZER>("name", &Weapon::name, 2);
 
     StructFactory::instance().declare<Player>("Player")
-            .property("id", &Player::id, 1)
-            .property("name", &Player::name, 2)
-            .property("weapon", &Player::weapon, 3)
-            .property("weapons_map", &Player::weapons_map, 4);
+            .property<SERIALIZER>("id", &Player::id, 1)
+            .property<SERIALIZER>("name", &Player::name, 2)
+            .property<SERIALIZER>("weapon", &Player::weapon, 3)
+            .property<SERIALIZER>("weapons_map", &Player::weapons_map, 4);
+
+
+
+
+
+
+}
+
+RUN_ONCE(PlayerGenerate) {
 
     std::cout << "------------------ generated -----------" << std::endl;
     {
@@ -325,44 +95,43 @@ RUN_ONCE(Player) {
 
 #else
         ProtoMappingFactory::instance().declare<Weapon>("Weapon", "WeaponDynProto")
-                .property("type", &Weapon::type, 1)
-                .property("name", &Weapon::name, 2);
+                .property<GenSerializer>("type", &Weapon::type, 1)
+                .property<GenSerializer>("name", &Weapon::name, 2);
 
         ProtoMappingFactory::instance().declare<Player>("Player", "PlayerDynProto")
-                .property("id", &Player::id, 1)
-                .property("name", &Player::name, 2)
-                .property("weapon", &Player::weapon, 3)
-                .property("weapons_map", &Player::weapons_map, 4);
+                .property<GenSerializer>("id", &Player::id, 1)
+                .property<GenSerializer>("name", &Player::name, 2)
+                .property<GenSerializer>("weapon", &Player::weapon, 3)
+                .property<GenSerializer>("weapons_map", &Player::weapons_map, 4);
 #endif
 
         ProtoMappingFactory::instance().generateAllProtoDefine();
     }
+}
 
+//
+// 1.演示：使用.proto生成的做映射
+//
+void test_1() {
+    std::cout << "----------" << __PRETTY_FUNCTION__ << "----\n\n";
 
-    std::cout << "------------------ imported -----------" << std::endl;
+    std::string data;
+
     {
-#ifdef USE_STRUCT_FACTORY
-        ImportProtoMappingFactory::instance()
-                .mapping<Weapon>("WeaponDynProto")
-                .mapping<Player>("PlayerDynProto");
-
-#else
-        ImportProtoMappingFactory::instance().declare<Weapon>("Weapon", "WeaponDynProto")
-                .property("type", &Weapon::type, 1)
-                .property("name", &Weapon::name, 2);
-
-        ImportProtoMappingFactory::instance().declare<Player>("Player", "PlayerDynProto")
-                .property("id", &Player::id, 1)
-                .property("name", &Player::name, 2)
-                .property("weapon", &Player::weapon, 3)
-                .property("weapons_map", &Player::weapons_map, 4);
-#endif
-
-        ImportProtoMappingFactory::instance().opendDir("../../protobuf/");
-        ImportProtoMappingFactory::instance().import("player.proto");
-        ImportProtoMappingFactory::instance().generateAllProtoDefine();
+        Player p;
+        p.init();
+        data = dyn_serialize<GenSerializer>(p);
     }
 
+    {
+        Player p;
+        dyn_deserialize<GenSerializer>(p, data);
+        p.dump();
+    }
+}
+
+
+RUN_ONCE(PlayerDynamic) {
     std::cout << "------------------ dynamic -----------" << std::endl;
     {
 #ifdef USE_STRUCT_FACTORY
@@ -371,44 +140,33 @@ RUN_ONCE(Player) {
                 .mapping<Player>("PlayerDyn2Proto");
 
 #else
-        DynamicProtoMappingFactory::instance().declare<Weapon>("Weapon", "WeaponDyn2Proto")
-                .property("type", &Weapon::type, 1)
-                .property("name", &Weapon::name, 2);
+        DynamicProtoMappingFactory::instance().declare<Weapon>("Weapon", "WeaponDyn3Proto")
+                .property<DynSerializer>("type", &Weapon::type, 1)
+                .property<DynSerializer>("name", &Weapon::name, 2);
 
-        DynamicProtoMappingFactory::instance().declare<Player>("Player", "PlayerDyn2Proto")
-                .property("id", &Player::id, 1)
-                .property("name", &Player::name, 2)
-                .property("weapon", &Player::weapon, 3)
-                .property("weapons_map", &Player::weapons_map, 4);
+        DynamicProtoMappingFactory::instance().declare<Player>("Player", "PlayerDyn3Proto")
+                .property<DynSerializer>("id", &Player::id, 1)
+                .property<DynSerializer>("name", &Player::name, 2)
+                .property<DynSerializer>("weapon", &Player::weapon, 3)
+                .property<DynSerializer>("weapons_map", &Player::weapons_map, 4);
 #endif
 
 //
 //    DynamicProtoMappingFactory::instance().createProtoByType<Player>();
 //    DynamicProtoMappingFactory::instance().createProtoByType<Weapon>();
+
+        // 代码创建proto描述符
         DynamicProtoMappingFactory::instance().createAllProto();
+
+        // 输出描述符
         DynamicProtoMappingFactory::instance().generateAllProtoDefine();
     }
-
 }
 
-// 使用.proto生成的做映射
-void test_1() {
-    std::string data;
 
-    {
-        Player p;
-        p.init();
-        data = dyn_serialize(p);
-    }
-
-    {
-        Player p;
-        dyn_deserialize(p, data);
-        p.dump();
-    }
-}
-
-// 动态创建Descriptor
+//
+// 2. 演示：动态创建Descriptor
+//
 void test_2() {
 
     std::cout << "----------" << __PRETTY_FUNCTION__ << "----\n\n";
@@ -428,7 +186,55 @@ void test_2() {
     }
 }
 
+RUN_ONCE(PlayerImported) {
+    std::cout << "------------------ imported -----------" << std::endl;
+    {
+#ifdef USE_STRUCT_FACTORY
+        ImportProtoMappingFactory::instance()
+                .mapping<Weapon>("WeaponDynProto")
+                .mapping<Player>("PlayerDynProto");
+
+#else
+        ImportProtoMappingFactory::instance().declare<Weapon>("Weapon", "WeaponDyn2Proto")
+                .property<ImportSerializer>("type", &Weapon::type, 1)
+                .property<ImportSerializer>("name", &Weapon::name, 2);
+
+        ImportProtoMappingFactory::instance().declare<Player>("Player", "PlayerDyn2Proto")
+                .property<ImportSerializer>("id", &Player::id, 1)
+                .property<ImportSerializer>("name", &Player::name, 2)
+                .property<ImportSerializer>("weapon", &Player::weapon, 3)
+                .property<ImportSerializer>("weapons_map", &Player::weapons_map, 4);
+#endif
+
+        ImportProtoMappingFactory::instance().opendDir("../../protobuf/");
+        ImportProtoMappingFactory::instance().import("player.proto");
+        ImportProtoMappingFactory::instance().generateAllProtoDefine();
+    }
+}
+
+//
+// 3. 演示：动态编译创建Descriptor
+//
+void test_3() {
+    std::cout << "----------" << __PRETTY_FUNCTION__ << "----\n\n";
+
+    std::string data;
+
+    {
+        Player p;
+        p.init();
+        data = dyn_serialize<ImportSerializer>(p);
+    }
+
+    {
+        Player p;
+        dyn_deserialize<ImportSerializer>(p, data);
+        p.dump();
+    }
+}
+
 int main() {
-//    test_1();
+    test_1();
     test_2();
+    test_3();
 }

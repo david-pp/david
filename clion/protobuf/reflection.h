@@ -10,21 +10,6 @@
 #include <type_traits>
 #include <boost/any.hpp>
 
-template<typename T>
-std::string dyn_serialize(const T &object);
-
-template<typename T>
-bool dyn_deserialize(T &object, const std::string &bin);
-
-template<typename T>
-std::string serialize(const T &object);
-
-template<typename T>
-bool deserialize(T &object, const std::string &bin);
-
-template<typename T>
-class DynSerializer;
-
 //
 // 利用构造函数执行一些初始化代码的技巧
 //
@@ -126,7 +111,7 @@ public:
 
     T *clone() { return new T; }
 
-    template<template <typename> class SerializerT=DynSerializer, typename PropType>
+    template<template <typename> class SerializerT/*=DynSerializer*/, typename PropType>
     Struct<T> &property(const std::string &name, PropType T::* prop, uint16_t id = 0) {
         if (!hasPropery(name)) {
             typename Property<T>::Ptr ptr(makePropery<T, SerializerT<PropType>>(name, id, std::mem_fn(prop)));
