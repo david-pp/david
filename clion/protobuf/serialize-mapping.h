@@ -49,6 +49,7 @@ public:
         auto *descriptor = descriptor_pool_->FindMessageTypeByName(proto_name_);
         if (descriptor)
             return descriptor->DebugString();
+        return "";
     }
 
     //
@@ -108,7 +109,7 @@ public:
 
     template<template <typename> class SerializerT/*=DynSerializer*/, typename PropType>
     ProtoMapping<T> &property(const std::string &name, PropType T::* prop, uint16_t number) {
-        struct_reflection->property<SerializerT, PropType>(name, prop, number);
+        struct_reflection->template property<SerializerT, PropType>(name, prop, number);
         return *this;
     }
 

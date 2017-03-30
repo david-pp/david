@@ -40,7 +40,7 @@ public:
                             const FieldDescriptor *fd2 = desc->FindFieldByName(fd->name());
                             if (fd2) {
                                 if (FieldDescriptor::CPPTYPE_UINT32 == fd2->cpp_type()) {
-                                    uint32_t value = mapping->struct_reflection->get<uint32_t>(object, fd->name());
+                                    uint32_t value = mapping->struct_reflection->template get<uint32_t>(object, fd->name());
                                     refl->SetUInt32(proto, fd2, value);
 
                                 } else if (FieldDescriptor::TYPE_BYTES == fd2->type()) {

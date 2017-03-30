@@ -76,12 +76,6 @@ RUN_ONCE(Player) {
             .property<SERIALIZER>("name", &Player::name, 2)
             .property<SERIALIZER>("weapon", &Player::weapon, 3)
             .property<SERIALIZER>("weapons_map", &Player::weapons_map, 4);
-
-
-
-
-
-
 }
 
 RUN_ONCE(PlayerGenerate) {
@@ -104,8 +98,6 @@ RUN_ONCE(PlayerGenerate) {
                 .property<GenSerializer>("weapon", &Player::weapon, 3)
                 .property<GenSerializer>("weapons_map", &Player::weapons_map, 4);
 #endif
-
-        ProtoMappingFactory::instance().generateAllProtoDefine();
     }
 }
 
@@ -114,6 +106,8 @@ RUN_ONCE(PlayerGenerate) {
 //
 void test_1() {
     std::cout << "----------" << __PRETTY_FUNCTION__ << "----\n\n";
+
+    ProtoMappingFactory::instance().generateAllProtoDefine();
 
     std::string data;
 
