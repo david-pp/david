@@ -146,7 +146,11 @@ app.get('/nettype', function (req, res) {
 })
 
 app.get('/netinfo', function (req, res) {
+  var myip = getCallerIP(req)
   var ip = getCallerIP(req)
+  if (req.query.ip)
+    ip = ip;
+
   var ip_value = ipToDecimal(ip);
   var netinfo = getIpInfo(ip_value)
   if (netinfo) {
@@ -155,7 +159,7 @@ app.get('/netinfo', function (req, res) {
   else {
     res.send({})
   }
-  logger.info(ip, '-', '/netinfo:', netinfo)
+  logger.info(myip, '-', '/netinfo?ip=:', ip, netinfo)
 })
 
 app.get('/ip', function(req, res) {
