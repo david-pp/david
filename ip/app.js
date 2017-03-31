@@ -137,12 +137,24 @@ function ipToDecimal(ip) {
 }
 
 app.get('/nettype', function (req, res) {
-  var ip = getCallerIP(req)
+  var myip = getCallerIP(req)
+  var ip = req.query.ip ? req.query.ip : myip;
+  
   var ip_value = ipToDecimal(ip);
-  var nettype = getNetType(ip_value)
-  res.send(nettype)
+  var netinfo = getIpInfo(ip_value)
+  if (netinfo) {
+    var nettype = netinfo.nettype
+    if (nettype.indexOf('电信') == 0)
+      res.send('1')
+    else if (nettype.indexOf('联通') == 0)
+      res.send('2')
+    else
+      res.send('0')
 
-  logger.info(ip, '-', '/nettype:', nettype)
+    logger.info(ip, '-', '/nettype?ip=' + ip, nettype, nettype.province, nettype.city)
+  } else {
+      logger.info(ip, '-', '/nettype?ip=' + ip, '未知')
+  }
 })
 
 app.get('/netinfo', function (req, res) {
