@@ -7,6 +7,8 @@ set backspace=indent,eol,start
 
 syntax enable
 
+let mapleader=","       " leader is comma
+
 "
 " UI Config
 "
