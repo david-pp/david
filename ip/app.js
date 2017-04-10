@@ -1,6 +1,9 @@
 var express = require('express')
 var fs = require('fs')
-var log4js = require('log4js');
+var log4js = require('log4js')
+var http = require('http')
+var request = require('request')
+var util = require('util')
 
 var app = express()
 
@@ -177,6 +180,85 @@ app.get('/ip', function(req, res) {
   res.send(ip)
   logger.info(ip, '-', '/ip')
 })
+
+
+
+//
+// influxd URL
+//
+var influxd_url_write = 'http://127.0.0.1:8086/write?db=zt2'
+
+
+// 
+// 客户端数据收集
+//
+// clientcrash?zone=区ID&zonename=区名&accid=账号ID&charid=角色ID
+// clientping?zone=区ID&zonename=区名&accid=账号ID&charid=角色ID&ping=Xms
+app.get('/clientcrash', function(req, res) {
+  var ip = getCallerIP(req)
+  // ip = '222.73.62.46'
+  var ip_value = ipToDecimal(ip);
+  var netinfo = getIpInfo(ip_value)
+  if (netinfo && req.query.zone && req.query.zonename && req.query.accid && req.query.charid) {
+    var protocol = util.format('clientcrash,zone=%s,country=%s,province=%s,city=%s ip="%s",charid=%s,accid=%s'
+      ,req.query.zone
+      ,(netinfo.country.length ? netinfo.country : 'unkown')
+      ,(netinfo.province.length ? netinfo.province : 'unkown')
+      ,(netinfo.city.length ? netinfo.city : 'unkown')
+      ,ip
+      ,req.query.charid
+      ,req.query.accid)
+
+      request.post({
+        headers: {},
+        url:     influxd_url_write,
+        body:    protocol  
+      }, function(error, response, body){
+        if (error)
+          logger.error(error)
+      });
+
+    logger.info(protocol)
+    res.send('ok')
+
+  } else {
+    res.send('invliad')
+  }
+})
+
+app.get('/clientping', function(req, res) {
+  var ip = getCallerIP(req)
+  // ip = '222.73.62.46'
+  var ip_value = ipToDecimal(ip);
+  var netinfo = getIpInfo(ip_value)
+  if (netinfo && req.query.zone && req.query.zonename && req.query.accid && req.query.charid && req.query.ping) {
+    var protocol = util.format('clientping,zone=%s,country=%s,province=%s,city=%s ping=%s,ip="%s",charid=%s,accid=%s'
+      ,req.query.zone
+      ,(netinfo.country.length ? netinfo.country : 'unkown')
+      ,(netinfo.province.length ? netinfo.province : 'unkown')
+      ,(netinfo.city.length ? netinfo.city : 'unkown')
+      ,req.query.ping
+      ,ip
+      ,req.query.charid
+      ,req.query.accid)
+
+      request.post({
+        headers: {},
+        url:     influxd_url_write,
+        body:    protocol  
+      }, function(error, response, body){
+        if (error)
+          logger.error(error)
+      });
+
+    logger.info(protocol)
+    res.send('ok')
+
+  } else {
+    res.send('invliad')
+  }
+})
+
 
 loadIPDatabase('ip.txt');
 logger.info('ip database : ', ips.length);
