@@ -101,10 +101,7 @@ function getNetType(myip) {
 
 
 function getCallerIP(request) {
-    var ip = request.headers['x-forwarded-for'] ||
-        request.connection.remoteAddress ||
-        request.socket.remoteAddress ||
-        request.connection.socket.remoteAddress;
+    var ip = request.ip
     ip = ip.split(',')[0];
     ip = ip.split(':').slice(-1); //in case the ip returned in a format: "::ffff:146.xxx.xxx.xxx"
     return ip[0];
@@ -192,20 +189,30 @@ var influxd_url_write = 'http://127.0.0.1:8086/write?db=zt2'
 // 
 // 客户端数据收集
 //
-// clientcrash?zone=区ID&zonename=区名&accid=账号ID&charid=角色ID
+// clientcrash?zone=区ID&zonename=区名&accid=账号ID&charid=角色ID&version=版本号&address=宕机地址&os=操作系统
 // clientping?zone=区ID&zonename=区名&accid=账号ID&charid=角色ID&ping=Xms
 app.get('/clientcrash', function(req, res) {
   var ip = getCallerIP(req)
   // ip = '222.73.62.46'
   var ip_value = ipToDecimal(ip);
   var netinfo = getIpInfo(ip_value)
-  if (netinfo && req.query.zone && req.query.zonename && req.query.accid && req.query.charid) {
-    var protocol = util.format('clientcrash,zone=%s,nettype=%s,country=%s,province=%s,city=%s ip="%s",charid=%s,accid=%s'
+  if (netinfo 
+        && req.query.zone 
+        && req.query.zonename 
+        && req.query.accid 
+        && req.query.charid 
+        && req.query.version 
+        && req.query.address
+        && req.query.os) {
+    var protocol = util.format('clientcrash,zone=%s,nettype=%s,country=%s,province=%s,city=%s,version=%s,address=%s,os=%s ip="%s",charid=%s,accid=%s'
       ,req.query.zone
       ,(netinfo.nettype.length ? netinfo.nettype : 'unkown')
       ,(netinfo.country.length ? netinfo.country : 'unkown')
       ,(netinfo.province.length ? netinfo.province : 'unkown')
       ,(netinfo.city.length ? netinfo.city : 'unkown')
+      ,(req.query.version.length ? req.query.version : 'unkown')
+      ,(req.query.address.length ? req.query.address : 'unkown')
+      ,(req.query.os.length ? req.query.os : 'unkown')
       ,ip
       ,req.query.charid
       ,req.query.accid)
