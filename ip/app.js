@@ -268,6 +268,83 @@ app.get('/clientping', function(req, res) {
   }
 })
 
+//
+// Patchupdate数据收集
+//
+// 资源更新失败：/patchfailed?zone=2048&zonename=风雨同舟&file=卡住的文件名&filesize=文件大小&timeusage=用时
+// 资源更新成功：/patchok?zone=2048&zonename=风雨同舟&totalsize=此次更新的所有文件大小&timeusage=此次更新用时
+//
+
+var influxd_patch_write = 'http://127.0.0.1:8086/write?db=zt2patch'
+
+app.get('/patchfailed', function(req, res) {
+  var ip = getCallerIP(req)
+  // ip = '222.73.62.46'
+  var ip_value = ipToDecimal(ip);
+  var netinfo = getIpInfo(ip_value)
+  if (netinfo && req.query.zone && req.query.zonename && req.query.file && req.query.filesize && req.query.timeusage) {
+    var protocol = util.format('patchfailed,zone=%s,nettype=%s,country=%s,province=%s,city=%s,file=%s filesize=%s,ip="%s",timeusage=%s'
+      ,req.query.zone
+      ,(netinfo.nettype.length ? netinfo.nettype : 'unkown')
+      ,(netinfo.country.length ? netinfo.country : 'unkown')
+      ,(netinfo.province.length ? netinfo.province : 'unkown')
+      ,(netinfo.city.length ? netinfo.city : 'unkown')
+      ,(req.query.file.length ? req.query.file : 'unkown')
+      ,(req.query.filesize.length ? req.query.filesize : '0')
+      ,ip
+      ,(req.query.timeusage.length ? req.query.timeusage : '0'))
+
+      request.post({
+        headers: {},
+        url:     influxd_patch_write,
+        body:    protocol  
+      }, function(error, response, body){
+        if (error)
+          logger.error(error)
+      });
+
+    logger.info(protocol)
+    res.send('ok')
+
+  } else {
+    res.send('invliad')
+  }
+})
+
+app.get('/patchok', function(req, res) {
+  var ip = getCallerIP(req)
+  // ip = '222.73.62.46'
+  var ip_value = ipToDecimal(ip);
+  var netinfo = getIpInfo(ip_value)
+  if (netinfo && req.query.zone && req.query.zonename && req.query.totalsize && req.query.timeusage) {
+    var protocol = util.format('patchok,zone=%s,nettype=%s,country=%s,province=%s,city=%s totalsize=%s,ip="%s",timeusage=%s'
+      ,req.query.zone
+      ,(netinfo.nettype.length ? netinfo.nettype : 'unkown')
+      ,(netinfo.country.length ? netinfo.country : 'unkown')
+      ,(netinfo.province.length ? netinfo.province : 'unkown')
+      ,(netinfo.city.length ? netinfo.city : 'unkown')
+      ,(req.query.totalsize.length ? req.query.totalsize : 'unkown')
+      ,ip
+      ,(req.query.timeusage.length ? req.query.timeusage : '0'))
+
+      request.post({
+        headers: {},
+        url:     influxd_patch_write,
+        body:    protocol  
+      }, function(error, response, body){
+        if (error)
+          logger.error(error)
+        // logger.error(body)
+      });
+
+    logger.info(protocol)
+    res.send('ok')
+
+  } else {
+    res.send('invliad')
+  }
+})
+
 
 loadIPDatabase('ip.txt');
 logger.info('ip database : ', ips.length);
