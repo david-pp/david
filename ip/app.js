@@ -268,6 +268,10 @@ app.get('/clientping', function(req, res) {
   }
 })
 
+function randBetween(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 //
 // Patchupdate数据收集
 //
