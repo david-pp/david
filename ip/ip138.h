@@ -6,6 +6,7 @@
 #include <vector>
 #include <string>
 #include <regex>
+#include <cctype>
 
 #include <arpa/inet.h>
 #include <sys/types.h> 
@@ -37,12 +38,23 @@ public:
 		country = fields[4];
 		province = fields[5];
 		city = fields[6];
-		nettype = fields[7];
+		nettype = trimeString(fields[7]);
+
+		// std::cout << asString() << std::endl;
 		return true;
 	}
 
 	std::string asString() {
 		return start_ip + "-" + end_ip + ", " + country + "," + province + "," + city + "," + nettype;
+	}
+
+	std::string trimeString(const std::string& s) {
+		std::string result;
+		for (size_t i = 0; i < s.size(); ++i) {
+			if (!std::iscntrl(s[i]) && ! std::isspace(s[i]))
+				result.push_back(s[i]);
+		}
+		return result;
 	}
 
 public:
