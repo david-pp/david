@@ -20,7 +20,7 @@ public:
 
 	bool parse(const std::string& line) {
 		std::vector<std::string> fields;
-		std::regex re(",");
+		std::regex re("\\,");
 		std::sregex_token_iterator it(line.begin(), line.end(), re, -1);
 		for (; it != std::sregex_token_iterator(); ++it) {
 			fields.push_back(*it);
@@ -45,7 +45,7 @@ public:
 	}
 
 	std::string asString() {
-		return start_ip + "-" + end_ip + ", " + country + "," + province + "," + city + "," + nettype;
+		return start_ip + "-" + end_ip + ", " + getCountry() + "," + getProvince() + "," + getCity() + "," + getNetType();
 	}
 
 	std::string trimeString(const std::string& s) {
@@ -56,6 +56,11 @@ public:
 		}
 		return result;
 	}
+
+	std::string getCountry() const { return country.size() ? country : "unkown"; }
+	std::string getProvince() const  { return province.size() ? province : "unkown"; }
+	std::string getCity() const { return city.size() ? city : "unkown"; }
+	std::string getNetType() const  { return nettype.size() ? nettype : "unkown"; }
 
 public:
 	uint32_t start;
