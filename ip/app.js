@@ -315,13 +315,41 @@ app.get('/patchfailed', function(req, res) {
   }
 })
 
+//
+// 上传失败日志
+//
+app.post('/patchlog', function (req, res) {
+
+  var fs = require('fs');
+  var dateFormat = require('dateformat');
+  
+  var ip = getCallerIP(req)
+  var now = new Date();
+  var nowdir = dateFormat(now, "yyyymmdd");
+
+  var dir = 'patchlog/' + nowdir;
+
+  if (!fs.existsSync(dir)){
+    fs.mkdirSync(dir);
+  }
+
+  var stream = fs.createWriteStream(dir + '/' + ip + '.log');
+  req.on('data', function(chunk){
+    // console.log(chunk);
+    stream.write(chunk);
+  })
+
+  res.send('OK');
+});
+
+
 app.get('/patchok', function(req, res) {
   var ip = getCallerIP(req)
   // ip = '222.73.62.46'
   var ip_value = ipToDecimal(ip);
   var netinfo = getIpInfo(ip_value)
-  if (netinfo && req.query.zone && req.query.zonename && req.query.totalsize && req.query.timeusage) {
-    var protocol = util.format('patchok,zone=%s,nettype=%s,country=%s,province=%s,city=%s totalsize=%s,ip="%s",timeusage=%s'
+  if (netinfo && req.query.zone && req.query.zonename && req.query.totalsize && req.query.timeusage && req.query.speed) {
+    var protocol = util.format('patchok,zone=%s,nettype=%s,country=%s,province=%s,city=%s totalsize=%s,ip="%s",timeusage=%s,speed=%s'
       ,req.query.zone
       ,(netinfo.nettype.length ? netinfo.nettype : 'unkown')
       ,(netinfo.country.length ? netinfo.country : 'unkown')
@@ -329,7 +357,8 @@ app.get('/patchok', function(req, res) {
       ,(netinfo.city.length ? netinfo.city : 'unkown')
       ,(req.query.totalsize.length ? req.query.totalsize : 'unkown')
       ,ip
-      ,(req.query.timeusage.length ? req.query.timeusage : '0'))
+      ,(req.query.timeusage.length ? req.query.timeusage : '0')
+      ,(req.query.speed.length ? req.query.speed : '0'))
 
       request.post({
         headers: {},
