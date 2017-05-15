@@ -348,7 +348,7 @@ app.get('/patchok', function(req, res) {
   // ip = '222.73.62.46'
   var ip_value = ipToDecimal(ip);
   var netinfo = getIpInfo(ip_value)
-  if (netinfo && req.query.zone && req.query.zonename && req.query.totalsize && req.query.timeusage && req.query.speed) {
+  if (netinfo && req.query.zone && req.query.zonename && req.query.totalsize && req.query.timeusage) {
     var protocol = util.format('patchok,zone=%s,nettype=%s,country=%s,province=%s,city=%s totalsize=%s,ip="%s",timeusage=%s,speed=%s'
       ,req.query.zone
       ,(netinfo.nettype.length ? netinfo.nettype : 'unkown')
@@ -358,7 +358,7 @@ app.get('/patchok', function(req, res) {
       ,(req.query.totalsize.length ? req.query.totalsize : 'unkown')
       ,ip
       ,(req.query.timeusage.length ? req.query.timeusage : '0')
-      ,(req.query.speed.length ? req.query.speed : '0'))
+      ,((req.query.speed && req.query.speed.length) ? req.query.speed : '0'))
 
       request.post({
         headers: {},
