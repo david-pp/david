@@ -107,6 +107,7 @@ function getCallerIP(request) {
     return ip[0];
 }
 
+
 // convert the ip address to a decimal
 // assumes dotted decimal format for input
 function ipToDecimal(ip) {
@@ -327,7 +328,7 @@ app.post('/patchlog', function (req, res) {
   var now = new Date();
   var nowdir = dateFormat(now, "yyyymmdd");
 
-  var dir = 'patchlog/' + nowdir;
+  var dir = 'patchupdate/' + nowdir;
 
   if (!fs.existsSync(dir)){
     fs.mkdirSync(dir);
@@ -338,6 +339,24 @@ app.post('/patchlog', function (req, res) {
     // console.log(chunk);
     stream.write(chunk);
   })
+
+  fs.readdir(dir, function (err, files) {
+    if (!err) {
+      var index = fs.createWriteStream(dir + '/' + 'index.html');
+      if (index) {
+        index.write('<!doctype html>\n')
+        index.write('<html>\n<head>\n')
+        index.write('<title>UpdateFailed</title>\n')
+        index.write('<body>')
+        for (var i = 0; i < files.length; i++) {
+          var url = util.format('<p><a href="/%s/%s">%s</a></p>', dir, files[i], files[i])
+          index.write(url)
+          index.write('\n')
+        }
+        index.write('</body>\n</html>')
+      }
+    }
+  });
 
   res.send('OK');
 });
@@ -378,6 +397,7 @@ app.get('/patchok', function(req, res) {
   }
 })
 
+app.use('/patchupdate', express.static(__dirname + '/patchupdate'));
 
 loadIPDatabase('ip.txt');
 logger.info('ip database : ', ips.length);
