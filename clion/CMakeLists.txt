@@ -1,5 +1,7 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.6)
 project(clion)
+
+set(CMAKE_LEGACY_CYGWIN_WIN32 0) # Remove when CMake >= 2.8.4 is require
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -g -Wno-deprecated-declarations")
 
@@ -11,6 +13,8 @@ add_subdirectory(cpp)
 add_subdirectory(snippet)
 add_subdirectory(db)
 add_subdirectory(protobuf)
+add_subdirectory(curl)
+add_subdirectory(patchupdate)
 
 add_definitions(-DCATCH_PLATFORM_WINDOWS)
 
