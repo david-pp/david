@@ -16,5 +16,6 @@ add_executable(ztcrc ztcrc.cpp)
 target_link_libraries(ztcrc z)
 
 add_executable(pack pack.cpp zt.cpp des_enc.c set_key.c)
+target_link_libraries(pack boost_system boost_filesystem z)
 
 add_executable(crc crc.cpp)
