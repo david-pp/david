@@ -6,6 +6,7 @@
 
 #include <float.h>
 #include <crtdbg.h>
+#include <Dbghelp.h>
 
 void sigfpe_test()
 {
@@ -123,6 +124,57 @@ int crash_printf(void)
 	return 1;
 }
 
+
+//https://www.codeproject.com/Articles/11132/Walking-the-callstack
+
+void printStack(void)
+{
+	unsigned int i;
+	void* stack[100];
+	unsigned short frames;
+	SYMBOL_INFO* symbol;
+	HANDLE process;
+
+	process = GetCurrentProcess();
+
+	SymInitialize(process, NULL, TRUE);
+
+	frames = CaptureStackBackTrace(0, 100, stack, NULL);
+	symbol = (SYMBOL_INFO *)calloc(sizeof(SYMBOL_INFO) + 256 * sizeof(char), 1);
+	symbol->MaxNameLen = 255;
+	symbol->SizeOfStruct = sizeof(SYMBOL_INFO);
+
+	for (i = 0; i < frames; i++)
+	{
+		SymFromAddr(process, (DWORD64)(stack[i]), 0, symbol);
+
+		printf("%i: %s - 0x%0X\n", frames - i - 1, symbol->Name, symbol->Address);
+	}
+
+	free(symbol);
+}
+
+void fun1()
+{
+	printStack();
+}
+
+void test_backtrace()
+{
+	fun1();
+}
+
+// https://msdn.microsoft.com/library/aa290051.aspx#vctchcompilersecuritychecksindepthanchor5
+// /GSÑ¡Ïî
+int test_overflow()
+{
+	char text[256] = "";
+	int i = 0;
+	strncpy(text, text, 0);
+	text[i-1] = 0;
+	return i;
+}
+
 void main()
 {
 	CCrashHandler ch;
@@ -145,6 +197,8 @@ void main()
 	printf("12 - RaiseException\n");
 	printf("13 - throw C++ typed exception\n");
 	printf("14 - _snprintf\n");
+	printf("15 - stack backtrace\n");
+	printf("16 - stack overflow\n");
 	printf("Your choice >  ");
 
 	int ExceptionType = 0;
@@ -243,6 +297,17 @@ void main()
 		{
 			crash_printf();
 			getchar();
+		}
+		break;
+	case 15:
+		{
+			test_backtrace();
+			getchar();
+		}
+		break;
+	case 16:
+		{
+			int i = test_overflow();
 		}
 		break;
 	default:

@@ -15,6 +15,7 @@ add_subdirectory(db)
 add_subdirectory(protobuf)
 add_subdirectory(curl)
 add_subdirectory(patchupdate)
+add_subdirectory(fsm)
 
 add_definitions(-DCATCH_PLATFORM_WINDOWS)
 
