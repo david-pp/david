@@ -4,6 +4,8 @@ var log4js = require('log4js')
 var http = require('http')
 var request = require('request')
 var util = require('util')
+var crypto = require('crypto');
+var querystring = require('querystring');
 
 var app = express()
 
@@ -396,6 +398,53 @@ app.get('/patchok', function(req, res) {
     res.send('invliad')
   }
 })
+
+
+function push(device, title, content) {
+  var now = new Date();
+  var timestamp = parseInt(now.getTime()/1000) 
+  // timestamp = 1512658551
+  var signtext = util.format(
+    'GETopenapi.xg.qq.com/v2/push/single_deviceaccess_id=2100272154device_token=%smessage={"title":"%s","content":"%s","n_id":0}message_type=1timestamp=%d9b4bde7677a47d1881c96eae1edb1064',
+    device, title, content, timestamp)
+
+  var md5 = crypto.createHash('md5');
+
+  var sign = md5.update(signtext).digest('hex')
+  var httpurl = util.format('http://openapi.xg.qq.com/v2/push/single_device?access_id=2100272154&timestamp=%d&device_token=%s&message_type=1&message={"title":"%s","content":"%s","n_id":0}&sign=%s',
+    timestamp, device, querystring.escape(title), querystring.escape(content), sign)
+
+  console.log(signtext)
+  console.log(httpurl)
+
+  return httpurl
+}
+
+app.get('/push', function(req, res) {
+
+  var url = push('fe24a5798144746e49ed899a7f327b688ffb33e2', "测试消息", "fuckyou！！")
+
+  console.log(url)
+
+  http.get(url, function(response){
+    var body = '';
+
+    response.on('data', function(d) {
+      body += d;
+    });
+
+    response.on('end', function() {
+      res.send(body)
+    });
+  })
+ 
+  //  request(url, function (error, response, body) {
+  //   if (!error && response.statusCode == 200) {
+  //     res.send(body) // 打印google首页
+  //   }
+  // }) 
+})
+
 
 app.use('/patchupdate', express.static(__dirname + '/patchupdate'));
 
