@@ -5,6 +5,8 @@ var util = require('util')
 var crypto = require('crypto')
 var querystring = require('querystring')
 var request = require('request')
+var iconv = require('iconv-lite')
+var encoding = require("encoding");
 
 exports.process_message = process_message;
 
@@ -38,18 +40,24 @@ function process_message(message) {
 		}
 
 		if (rows.length == 0) {
-			logger.warn("None CID Found : " + message)
+			logger.warn(message, 'None CID Found')
 			return;
 		}
 		
 		// 推送给所有设备
 		for (var i=0; i < rows.length; i++) {
-			push_by_device(rows[i]["CID"], chat.title, chat.content, parseInt(rows[i]["PLATFORM"]));
+			push_by_device(rows[i]["CID"], chat.title, chat.content, parseInt(rows[i]["PLATFORM"]), 
+				function (error, body) {
+					if (error)
+						logger.error(message, error)
+					else	
+						logger.info(message, body)
+				});
 		}
 	});
 }
 
-function push_by_device(device, title, content, platform) {
+function push_by_device(device, title, content, platform, callback) {
 	var url = ""
 	if (1 == platform)     // andriod
 		url = make_push_url("andriod", device, title, content)
@@ -58,10 +66,9 @@ function push_by_device(device, title, content, platform) {
 
 	request(url, function (error, response, body) {
 	    if (!error && response.statusCode == 200) {
-	      	logger.info(body)
-	      
+	      	callback(error, body)
 	    } else {
-	    	logger.error("PUSH FAILED! " + error)
+	    	callback(error, "")
 	    }
   	}) 
 }
