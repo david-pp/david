@@ -426,23 +426,23 @@ app.get('/push', function(req, res) {
 
   console.log(url)
 
-  http.get(url, function(response){
-    var body = '';
+  // http.get(url, function(response){
+  //   var body = '';
 
-    response.on('data', function(d) {
-      body += d;
-    });
+  //   response.on('data', function(d) {
+  //     body += d;
+  //   });
 
-    response.on('end', function() {
-      res.send(body)
-    });
-  })
+  //   response.on('end', function() {
+  //     res.send(body)
+  //   });
+  // })
  
-  //  request(url, function (error, response, body) {
-  //   if (!error && response.statusCode == 200) {
-  //     res.send(body) // 打印google首页
-  //   }
-  // }) 
+   request(url, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      res.send(body) // 打印google首页
+    }
+  }) 
 })
 
 
