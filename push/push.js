@@ -43,7 +43,7 @@ sub.on("subscribe", function (channel, count) {
 
 sub.on("message", function (channel, message) {
     logger.debug("[message] " + channel + ": " + message);
-    xg.process_message(message);
+    xg.process_message(message.trim());
 });
 
 logger.info("waiting for the message from ", push_channel)
