@@ -38,7 +38,7 @@ function push_by_device(device, title, content, platform, callback) {
         access_token : huawei_access_token,
         nsp_svc : 'openpush.message.api.send',
         nsp_ts : timestamp,
-        device_token_list : JSON.stringify(["0861757036432766300000965200CN01"]),
+        device_token_list : JSON.stringify([device]),
         expire_time : expires_time.toISOString(),
         payload : JSON.stringify(payload),
       },

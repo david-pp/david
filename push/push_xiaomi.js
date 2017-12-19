@@ -1,4 +1,5 @@
 var request = require('request')
+var logger  = require('./logger')
 
 exports.push_by_device = push_by_device;
 
@@ -8,10 +9,16 @@ function push_by_device(device, title, content, platform, callback) {
 
   xiaomi_notify_id += 1;
 
+  var key = 'key=pWR57EFBrRFgJHmg+oKQ5w=='
+  if (1 == platform)      // andriod
+    key = 'key=nwSa9gFZB3MIWsqrRrsu9w=='
+  else if (2 == platform) // ios
+    key = 'key=pWR57EFBrRFgJHmg+oKQ5w=='
+
   var formData = {
     title : title,
     description : content,
-    registration_id : 'TkYIuuPIu5D3FS0jS9/Jpch4kX2+23KjvuG5pYGNZ6g=',
+    registration_id : device,
     restricted_package_name : 'com.ztgame.ztas',
     notify_type : 2,
     time_to_live : 3600000, 
@@ -21,10 +28,12 @@ function push_by_device(device, title, content, platform, callback) {
   var options = {
     url: 'https://api.xmpush.xiaomi.com/v3/message/regid',
     headers: {
-      'Authorization': 'key=nwSa9gFZB3MIWsqrRrsu9w=='
+      'Authorization': key,
     },
     formData: formData
   };
+
+  logger.debug(options)
 
   request.post(options, function optionalCallback(err, response, body) {
     if (!err && response.statusCode == 200) {

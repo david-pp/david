@@ -25,6 +25,3 @@ request.post(options, function optionalCallback(err, httpResponse, body) {
   }
   console.log('successful!  Server responded with:', body);
 });
-
-
-// https://api.xmpush.xiaomi.com/v3/message/regid?description=notification description&restricted_package_name=com.ztgame.ztas&registration_id=TkYIuuPIu5D3FS0jS9/Jpch4kX2+23KjvuG5pYGNZ6g=&title=notification title&notify_type=2&time_to_live=3600000&notify_id=1&extra.notify_effect=
