@@ -8,54 +8,7 @@ var request = require('request')
 var iconv = require('iconv-lite')
 var encoding = require("encoding");
 
-exports.process_message = process_message;
-
-//
-// 处理来自AppNode的消息
-//
-function process_message(message) {
-
-    var chat = JSON.parse(message)
-    logger.debug(chat)
-
-    var chat_type = parseInt(chat["type"])
-
-    // 根据类型和ID获得设备编号
-    var sql = "SELECT CID,PLATFORM FROM APP_DEVICE WHERE ";
-
-    if (1 == chat_type) {      // 私聊
-    	sql += "CHARID="+ parseInt(chat.id) + " ORDER BY UPDATETIME DESC LIMIT 1;";
-    } else if (5 == chat_type ) { // 家族
-    	sql += "SEPTID=" + parseInt(chat.id);
-    } else if (6 == chat_type ) { // 帮会
-    	sql += "UNIONID=" + parseInt(chat.id);
-    }
-
-    logger.debug(sql)
-
-	mysql.query(sql, [], function(err, rows) {
-		if (err) {
-			logger.error(err);
-			return;
-		}
-
-		if (rows.length == 0) {
-			logger.warn(message, 'None CID Found')
-			return;
-		}
-		
-		// 推送给所有设备
-		for (var i=0; i < rows.length; i++) {
-			push_by_device(rows[i]["CID"], chat.title, chat.content, parseInt(rows[i]["PLATFORM"]), 
-				function (error, body) {
-					if (error)
-						logger.error(message, error)
-					else	
-						logger.info(message, body)
-				});
-		}
-	});
-}
+exports.push_by_device = push_by_device;
 
 function push_by_device(device, title, content, platform, callback) {
 	var url = ""
@@ -66,7 +19,7 @@ function push_by_device(device, title, content, platform, callback) {
 
 	request(url, function (error, response, body) {
 	    if (!error && response.statusCode == 200) {
-	      	callback(error, body)
+	      	callback(error, "xg: " + body)
 	    } else {
 	    	callback(error, "")
 	    }
