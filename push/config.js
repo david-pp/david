@@ -6,7 +6,7 @@ var config = {
 	redis_port: 6379,
 
 	// MySQL地址
-	mysql : 'mysql://root:123456@127.0.0.1/david',
+	mysql : 'mysql://david:123456@127.0.0.1/david',
 
 	// 日志目录
 	logdir: '/tmp/',
