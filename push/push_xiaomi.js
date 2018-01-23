@@ -30,8 +30,8 @@ function push_by_device(device, title, content, platform, callback) {
     key = 'key=pWR57EFBrRFgJHmg+oKQ5w=='
 
     formData = {
-      aps_proper_fields.title : title,
-      aps_proper_fields.body : content,
+      "aps_proper_fields.title" : title,
+      "aps_proper_fields.body" : content,
       registration_id : device,
       restricted_package_name : 'com.ztgame.ztas',
       notify_type : 2,
