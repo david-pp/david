@@ -1,0 +1,1 @@
+redis-cli PUBLISH push_1 {\"type\":5,\"id\":200,\"title\":\"test\",\"content\":\"content\"}
