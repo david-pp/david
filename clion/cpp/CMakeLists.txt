@@ -19,3 +19,5 @@ add_executable(construct construct.cpp)
 add_executable(reflection-preq reflection-preq.cpp)
 add_executable(reflection reflection.cpp)
 #target_link_libraries(life-move ncurses)
+
+add_executable(loop loop.cpp)

@@ -11,7 +11,7 @@ void test_sync() {
     RestClient::init();
 
     {
-        RestClient::Response r = RestClient::get("https://example.com/");
+        RestClient::Response r = RestClient::get("http://smcdserver.ztgame.com:29997/emaysendMsg?dest_mobile=13636570925&msg_content=test112s322dsfdsf1d11d&priority=5&gametype=17&acttype=36");
         std::cout << r.body << std::endl;
     }
 
@@ -41,7 +41,7 @@ void test_async() {
 }
 
 int main() {
-    test_async();
+    test_sync();
 }
 
 
