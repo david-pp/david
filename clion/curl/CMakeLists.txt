@@ -6,3 +6,6 @@ link_directories(/usr/local/lib)
 
 add_executable(timeusage timeusage.cpp)
 target_link_libraries(timeusage curl)
+
+add_executable(example_influxdb example_influxdb.cpp InfluxDB.cpp InfluxDB.h)
+target_link_libraries(example_influxdb curl)
