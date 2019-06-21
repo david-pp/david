@@ -8,8 +8,39 @@
 #include <sstream>
 #include <iostream>
 #include <curl/curl.h>
+#include <thread>
+#include <future>
 
 namespace influxdb {
+
+    void httpPost(const std::string& url, const std::string& data) {
+        CURL *curl = curl_easy_init();
+        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, 10);
+        curl_easy_setopt(curl, CURLOPT_TIMEOUT, 10);
+        curl_easy_setopt(curl, CURLOPT_POST, 1);
+        curl_easy_setopt(curl, CURLOPT_TCP_KEEPIDLE, 120L);
+        curl_easy_setopt(curl, CURLOPT_TCP_KEEPINTVL, 60L);
+        FILE *devnull = fopen("/dev/null", "w+");
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, devnull);
+
+        CURLcode response;
+        long responseCode;
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data.c_str());
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, (long) data.length());
+        response = curl_easy_perform(curl);
+        curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &responseCode);
+        if (response != CURLE_OK) {
+            throw std::runtime_error(curl_easy_strerror(response));
+        }
+        if (responseCode < 200 || responseCode > 206) {
+//                std::cout <<  std::to_string(responseCode) << std::endl;
+            throw std::runtime_error("Response code : " + std::to_string(responseCode));
+        }
+
+        curl_easy_cleanup(curl);
+    }
 
     namespace transports {
 
@@ -103,7 +134,7 @@ namespace influxdb {
     ///////////////////////////////////////////////////////////////////////////////
 
     InfluxDB::InfluxDB(const std::string &url) :
-            mTransport(new transports::HTTP(url)) {
+            mTransport(new transports::HTTP(url)), mURL(url) {
     }
 
     void InfluxDB::enableBuffering(const std::size_t size) {
@@ -167,7 +198,8 @@ namespace influxdb {
     }
 
     void InfluxDB::transmit(std::string &&point) {
-        mTransport->send(std::move(point));
+        httpPost(mURL, point);
+//        mTransport->send(std::move(point));
     }
 
     void InfluxDB::write(Metric &&metric) {
@@ -179,7 +211,6 @@ namespace influxdb {
     }
 
     void InfluxDB::write_async(Metric &&metric) {
-
         std::cout << toLineProtocol(metric) << std::endl;
 
     }

@@ -80,6 +80,8 @@ namespace influxdb {
 
         /// List of global fields
         std::string mGlobalFields;
+
+        std::string mURL;
     };
 
 
