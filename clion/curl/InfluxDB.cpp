@@ -68,7 +68,7 @@ namespace influxdb {
         typedef std::shared_ptr<AsyncTask> AsyncTaskPtr;
 
     public:
-        AsyncTaskManager() {
+        AsyncTaskManager() : over_(false) {
             thread_ = std::thread(&AsyncTaskManager::run_backgroud, this);
         }
 
@@ -98,7 +98,7 @@ namespace influxdb {
                     std::unique_lock<std::mutex> lock(tasks_mutex_);
                     tasks_cond_.wait(lock, [this] { return !tasks_.empty() || over_; });
 
-                    if (tasks_.size() > 0) {
+                    if (!tasks_.empty()) {
                         task = tasks_.front();
                         tasks_.pop_front();
                     }
@@ -131,7 +131,7 @@ namespace influxdb {
         return async_;
     }
 
-    void InfluxDB::enableBuffering(const std::size_t size) {
+    void InfluxDB::enableBuffering(std::size_t size) {
         mBufferSize = size;
         mBuffering = true;
     }
@@ -141,7 +141,7 @@ namespace influxdb {
             return;
         }
         for (auto &&point : mBuffer) {
-            httpPost(mURL, std::move(point));
+            httpPost(mURL, point);
         }
     }
 

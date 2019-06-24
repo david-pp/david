@@ -25,7 +25,7 @@ namespace influxdb {
         InfluxDB(const InfluxDB &) = delete;
 
         /// Constructor required valid transport
-        InfluxDB(const std::string &url);
+        explicit InfluxDB(const std::string &url);
 
         /// Flushes buffer
         ~InfluxDB();
@@ -41,7 +41,7 @@ namespace influxdb {
 
         /// Enables metric buffering
         /// \param size
-        void enableBuffering(const std::size_t size = 32);
+        void enableBuffering(std::size_t size = 32);
 
         /// Adds a global tag
         /// \param name
@@ -62,10 +62,10 @@ namespace influxdb {
         std::deque<std::string> mBuffer;
 
         /// Flag stating whether point buffering is enabled
-        bool mBuffering;
+        bool mBuffering = false;
 
         /// Buffer size
-        std::size_t mBufferSize;
+        std::size_t mBufferSize = 0;
 
         /// List of global tags
         std::string mGlobalTags;
