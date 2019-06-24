@@ -9,7 +9,11 @@
 #include <iostream>
 #include <curl/curl.h>
 #include <thread>
-#include <future>
+#include <mutex>
+#include <functional>
+#include <queue>
+#include <atomic>
+#include <condition_variable>
 
 namespace influxdb {
 
