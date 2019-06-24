@@ -14,7 +14,7 @@ namespace influxdb {
 
     class Metric;
 
-    class Transport;
+    class AsyncTaskManager;
 
     class InfluxDB {
     public:
@@ -57,8 +57,6 @@ namespace influxdb {
         /// Converts point to Influx Line Protocol
         std::string toLineProtocol(const Metric& metric);
 
-        std::string toLineProtocolWithTimestamp(const Metric& metric);
-
     private:
         /// Buffer for points
         std::deque<std::string> mBuffer;
@@ -69,19 +67,19 @@ namespace influxdb {
         /// Buffer size
         std::size_t mBufferSize;
 
-        /// Underlying transport UDP/HTTP/Unix socket
-        std::shared_ptr<Transport> mTransport;
-
-        /// Transmits string over transport
-        void transmit(std::string &&point);
-
         /// List of global tags
         std::string mGlobalTags;
 
         /// List of global fields
         std::string mGlobalFields;
 
+        /// Influx URL
         std::string mURL;
+
+        // Async task manager
+        std::shared_ptr<AsyncTaskManager> async_;
+
+        std::shared_ptr<AsyncTaskManager> getAsyncMgr();
     };
 
 
@@ -106,17 +104,21 @@ namespace influxdb {
 
         Metric &&fieldString(const std::string &name, const std::string &value);
 
+        /// Add timestamp
+        Metric &&withTimestamp();
+
         /// Generetes current timestamp
         static auto getCurrentTimestamp() -> decltype(std::chrono::system_clock::now());
 
         /// Converts point to Influx Line Protocol
         std::string toLineProtocol();
 
-        std::string toLineProtocolWithTimestamp();
-
     protected:
         /// A name
         std::string mMeasurement;
+
+        /// With timestamp ?
+        bool mWithTimestamp = false;
 
         /// A timestamp
         std::chrono::time_point<std::chrono::system_clock> mTimestamp;
@@ -126,22 +128,6 @@ namespace influxdb {
 
         /// Fields
         std::string mFields;
-    };
-
-    /// \brief Transport interface
-    class Transport {
-    public:
-        Transport() = default;
-
-        virtual ~Transport() = default;
-
-        /// Sends string blob
-        virtual void send(std::string &&message) = 0;
-
-        /// Sends s request
-        virtual void query(const std::string & /*query*/) {
-            throw std::runtime_error("Queries are not supported in the selected transport");
-        }
     };
 
 } // namespace influxdb

@@ -17,7 +17,12 @@
 
 namespace influxdb {
 
-    void httpPost(const std::string& url, const std::string& data) {
+    ////////////////////////////////////////////////////////////////////////////
+
+    static void httpPost(const std::string &url, const std::string &data) {
+
+        std::cout << url << ":" << data << std::endl;
+
         CURL *curl = curl_easy_init();
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
         curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0);
@@ -36,109 +41,90 @@ namespace influxdb {
         response = curl_easy_perform(curl);
         curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &responseCode);
         if (response != CURLE_OK) {
-            throw std::runtime_error(curl_easy_strerror(response));
+            //    throw std::runtime_error(curl_easy_strerror(response));
         }
         if (responseCode < 200 || responseCode > 206) {
-//                std::cout <<  std::to_string(responseCode) << std::endl;
-            throw std::runtime_error("Response code : " + std::to_string(responseCode));
+            //    std::cout <<  std::to_string(responseCode) << std::endl;
+            // throw std::runtime_error("Response code : " + std::to_string(responseCode));
         }
 
         curl_easy_cleanup(curl);
     }
 
-    namespace transports {
+    ////////////////////////////////////////////////////////////////////////////
 
-        /// \brief HTTP transport
-        class HTTP : public Transport {
-        public:
-            /// Constructor
-            HTTP(const std::string &url);
+    class AsyncTaskManager {
+    public:
+        typedef std::function<void()> RequestFunc;
 
-            /// Default destructor
-            ~HTTP() = default;
-
-            /// Sends point via HTTP POST
-            void send(std::string &&post);
-
-            /// Enable Basic Auth
-            /// \param auth <username>:<password>
-            void enableBasicAuth(const std::string &auth);
-
-            /// Enable SSL
-            void enableSsl();
-
-        private:
-            /// Custom deleter of CURL object
-            static void deleteCurl(CURL *curl);
-
-            /// Initilizes CURL and all common options
-            CURL *initCurl(const std::string &url);
-
-            /// CURL smart pointer with custom deleter
-            std::unique_ptr<CURL, decltype(&HTTP::deleteCurl)> curlHandle;
+        struct AsyncTask {
+            RequestFunc request;
         };
 
-        HTTP::HTTP(const std::string &url) :
-                curlHandle(initCurl(url), &HTTP::deleteCurl) {
+        typedef std::shared_ptr<AsyncTask> AsyncTaskPtr;
+
+    public:
+        AsyncTaskManager() {
+            thread_ = std::thread(&AsyncTaskManager::run_backgroud, this);
         }
 
-        CURL *HTTP::initCurl(const std::string &url) {
-            CURLcode globalInitResult = curl_global_init(CURL_GLOBAL_ALL);
-            if (globalInitResult != CURLE_OK) {
-                throw std::runtime_error(std::string("cURL init") + curl_easy_strerror(globalInitResult));
+        ~AsyncTaskManager() {
+            over_ = true;
+            tasks_cond_.notify_all();
+            thread_.join();
+        }
+
+        void async(const RequestFunc &request) {
+            AsyncTaskPtr task = std::make_shared<AsyncTask>();
+            if (task) {
+                task->request = request;
+                std::lock_guard<std::mutex> lock(tasks_mutex_);
+                tasks_.emplace_back(task);
             }
 
-            CURL *curl = curl_easy_init();
-            curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-            curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0);
-            curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, 10);
-            curl_easy_setopt(curl, CURLOPT_TIMEOUT, 10);
-            curl_easy_setopt(curl, CURLOPT_POST, 1);
-            curl_easy_setopt(curl, CURLOPT_TCP_KEEPIDLE, 120L);
-            curl_easy_setopt(curl, CURLOPT_TCP_KEEPINTVL, 60L);
-            FILE *devnull = fopen("/dev/null", "w+");
-            curl_easy_setopt(curl, CURLOPT_WRITEDATA, devnull);
-            return curl;
+            tasks_cond_.notify_all();
         }
 
-        void HTTP::enableBasicAuth(const std::string &auth) {
-            CURL *curl = curlHandle.get();
-            curl_easy_setopt(curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-            curl_easy_setopt(curl, CURLOPT_USERPWD, auth.c_str());
-        }
+    protected:
+        void run_backgroud() {
+            while (!over_) {
 
-        void HTTP::enableSsl() {
-            CURL *curl = curlHandle.get();
-            curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
-        }
+                AsyncTaskPtr task;
+                {
+                    std::unique_lock<std::mutex> lock(tasks_mutex_);
+                    tasks_cond_.wait(lock, [this] { return !tasks_.empty() || over_; });
 
-        void HTTP::deleteCurl(CURL *curl) {
-            curl_easy_cleanup(curl);
-            curl_global_cleanup();
-        }
+                    if (tasks_.size() > 0) {
+                        task = tasks_.front();
+                        tasks_.pop_front();
+                    }
+                }
 
-        void HTTP::send(std::string &&post) {
-            CURLcode response;
-            long responseCode;
-            curl_easy_setopt(curlHandle.get(), CURLOPT_POSTFIELDS, post.c_str());
-            curl_easy_setopt(curlHandle.get(), CURLOPT_POSTFIELDSIZE, (long) post.length());
-            response = curl_easy_perform(curlHandle.get());
-            curl_easy_getinfo(curlHandle.get(), CURLINFO_RESPONSE_CODE, &responseCode);
-            if (response != CURLE_OK) {
-                throw std::runtime_error(curl_easy_strerror(response));
-            }
-            if (responseCode < 200 || responseCode > 206) {
-//                std::cout <<  std::to_string(responseCode) << std::endl;
-                throw std::runtime_error("Response code : " + std::to_string(responseCode));
+                if (task)
+                    task->request();
             }
         }
 
-    }
+        std::deque<AsyncTaskPtr> tasks_;
+        std::mutex tasks_mutex_;
+        std::condition_variable tasks_cond_;
+
+    private:
+        std::thread thread_;
+        std::atomic_bool over_;
+    };
 
     ///////////////////////////////////////////////////////////////////////////////
 
-    InfluxDB::InfluxDB(const std::string &url) :
-            mTransport(new transports::HTTP(url)), mURL(url) {
+    InfluxDB::InfluxDB(const std::string &url) : mURL(url) {
+    }
+
+    std::shared_ptr<AsyncTaskManager> InfluxDB::getAsyncMgr() {
+        if (!async_) {
+            async_ = std::make_shared<AsyncTaskManager>();
+        }
+
+        return async_;
     }
 
     void InfluxDB::enableBuffering(const std::size_t size) {
@@ -151,7 +137,7 @@ namespace influxdb {
             return;
         }
         for (auto &&point : mBuffer) {
-            transmit(std::move(point));
+            httpPost(mURL, std::move(point));
         }
     }
 
@@ -201,32 +187,34 @@ namespace influxdb {
         }
     }
 
-    void InfluxDB::transmit(std::string &&point) {
-        httpPost(mURL, point);
-//        mTransport->send(std::move(point));
-    }
-
     void InfluxDB::write(Metric &&metric) {
         if (mBuffering) {
             mBuffer.emplace_back(toLineProtocol(metric));
         } else {
-            transmit(toLineProtocol(metric));
+            httpPost(mURL, toLineProtocol(metric));
         }
     }
 
     void InfluxDB::write_async(Metric &&metric) {
-        std::cout << toLineProtocol(metric) << std::endl;
+        std::string url = mURL;
+        std::string content = toLineProtocol(metric);
 
+        getAsyncMgr()->async([url, content]() {
+            httpPost(url, content);
+        });
+
+        std::cout << __PRETTY_FUNCTION__ << std::endl;
     }
 
     std::string InfluxDB::toLineProtocol(const Metric &metric) {
-        return metric.mMeasurement + mGlobalTags + metric.mTags + " " + metric.mFields + mGlobalFields;
+        if (metric.mWithTimestamp)
+            return metric.mMeasurement + mGlobalTags + metric.mTags + " " + metric.mFields + mGlobalFields + " " +
+                   std::to_string(
+                           std::chrono::duration_cast<std::chrono::nanoseconds>(
+                                   metric.mTimestamp.time_since_epoch()).count());
+        else
+            return metric.mMeasurement + mGlobalTags + metric.mTags + " " + metric.mFields + mGlobalFields;
     }
-
-    std::string InfluxDB::toLineProtocolWithTimestamp(const Metric &metric) {
-        return std::string();
-    }
-
 
     ////////////////////////////////////////////////////
 
@@ -286,18 +274,21 @@ namespace influxdb {
         return std::move(*this);
     }
 
+    Metric &&Metric::withTimestamp() {
+        mWithTimestamp = true;
+        return std::move(*this);
+    }
+
     auto Metric::getCurrentTimestamp() -> decltype(std::chrono::system_clock::now()) {
         return std::chrono::system_clock::now();
     }
 
     std::string Metric::toLineProtocol() {
-        return mMeasurement + mTags + " " + mFields;
-    }
-
-    std::string Metric::toLineProtocolWithTimestamp() {
-        return mMeasurement + mTags + " " + mFields + " " + std::to_string(
-                std::chrono::duration_cast<std::chrono::nanoseconds>(mTimestamp.time_since_epoch()).count()
-        );
+        if (mWithTimestamp)
+            return mMeasurement + mTags + " " + mFields + " " + std::to_string(
+                    std::chrono::duration_cast<std::chrono::nanoseconds>(mTimestamp.time_since_epoch()).count());
+        else
+            return mMeasurement + mTags + " " + mFields;
     }
 
     //////////////////////////////////////////////////////////////////////////////
