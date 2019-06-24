@@ -26,15 +26,14 @@ void test_single() {
 
 
     // 写入一条数据
-    influx->write(Metric{"clientping"}
+    influx->write_async(Metric{"clientping"}
                           .tag("build", "2008")
                           .tag("version", "0.0.0")
                           .fieldInt("ping", 1024)
                           .fieldFloat("salary", 1024.6)
                           .fieldString("name", "david"));
 
-//    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-//    }
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 }
 
 void test_buffering() {

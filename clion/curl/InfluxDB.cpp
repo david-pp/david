@@ -15,13 +15,17 @@
 #include <atomic>
 #include <condition_variable>
 
+//#define DEBUG_INFLUXDB
+
 namespace influxdb {
 
     ////////////////////////////////////////////////////////////////////////////
 
     static void httpPost(const std::string &url, const std::string &data) {
 
+#ifdef DEBUG_INFLUXDB
         std::cout << url << ":" << data << std::endl;
+#endif
 
         CURL *curl = curl_easy_init();
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
@@ -202,8 +206,9 @@ namespace influxdb {
         getAsyncMgr()->async([url, content]() {
             httpPost(url, content);
         });
-
+#ifdef  DEBUG_INFLUXDB
         std::cout << __PRETTY_FUNCTION__ << std::endl;
+#endif
     }
 
     std::string InfluxDB::toLineProtocol(const Metric &metric) {
