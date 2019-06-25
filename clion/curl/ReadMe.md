@@ -2,6 +2,11 @@
 
 ## curl命令
 
+代码生成：
+```bash
+curl -i -XPOST "http://localhost:8086/write?db=example" --data-binary 'weather,location=us-midwest temperature=82' --libcurl weather.cpp
+```
+
 ## libcurl
 
 > Simple by Default, More on Demand.
