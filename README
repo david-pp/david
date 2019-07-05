@@ -3,7 +3,7 @@ Git Commands:
 [Config(~/.gitconfig)]
 
 git config --global user.name "david++"
-git config --global user.email "heaven.hell.or@gmail.com"
+git config --global user.email "397157852@qq.com"
 git config --global alias.st status
 git config --global alias.ci commit
 git config --global alias.br branch
