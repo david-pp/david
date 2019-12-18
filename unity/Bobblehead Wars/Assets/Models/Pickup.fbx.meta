@@ -1,0 +1,161 @@
+fileFormatVersion: 2
+guid: 596f17f5f6d5a433b9d367360ec103a9
+timeCreated: 1466084114
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Camera
+    100002: Empty
+    100004: Empty.001
+    100006: Empty.002
+    100008: Lamp
+    100010: Pcikup
+    100012: //RootNode
+    100014: transp sphere
+    100016: transp sphere.001
+    100018: transp sphere.002
+    100020: transp sphere.003
+    100022: transp sphere.004
+    100024: transp sphere.005
+    100026: transp sphere.006
+    100028: transp sphere.007
+    100030: transp sphere.008
+    100032: white sphere
+    100034: white sphere.001
+    100036: white sphere.002
+    100038: white sphere.003
+    100040: white sphere.004
+    100042: white sphere.005
+    100044: white sphere.006
+    100046: white sphere.007
+    100048: white sphere.008
+    100050: Pickup
+    400000: Camera
+    400002: Empty
+    400004: Empty.001
+    400006: Empty.002
+    400008: Lamp
+    400010: Pcikup
+    400012: //RootNode
+    400014: transp sphere
+    400016: transp sphere.001
+    400018: transp sphere.002
+    400020: transp sphere.003
+    400022: transp sphere.004
+    400024: transp sphere.005
+    400026: transp sphere.006
+    400028: transp sphere.007
+    400030: transp sphere.008
+    400032: white sphere
+    400034: white sphere.001
+    400036: white sphere.002
+    400038: white sphere.003
+    400040: white sphere.004
+    400042: white sphere.005
+    400044: white sphere.006
+    400046: white sphere.007
+    400048: white sphere.008
+    400050: Pickup
+    2300000: transp sphere
+    2300002: transp sphere.001
+    2300004: transp sphere.002
+    2300006: transp sphere.003
+    2300008: transp sphere.004
+    2300010: transp sphere.005
+    2300012: transp sphere.006
+    2300014: transp sphere.007
+    2300016: transp sphere.008
+    2300018: white sphere
+    2300020: white sphere.001
+    2300022: white sphere.002
+    2300024: white sphere.003
+    2300026: white sphere.004
+    2300028: white sphere.005
+    2300030: white sphere.006
+    2300032: white sphere.007
+    2300034: white sphere.008
+    3300000: transp sphere
+    3300002: transp sphere.001
+    3300004: transp sphere.002
+    3300006: transp sphere.003
+    3300008: transp sphere.004
+    3300010: transp sphere.005
+    3300012: transp sphere.006
+    3300014: transp sphere.007
+    3300016: transp sphere.008
+    3300018: white sphere
+    3300020: white sphere.001
+    3300022: white sphere.002
+    3300024: white sphere.003
+    3300026: white sphere.004
+    3300028: white sphere.005
+    3300030: white sphere.006
+    3300032: white sphere.007
+    3300034: white sphere.008
+    4300000: white sphere.008
+    4300002: transp sphere.008
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
