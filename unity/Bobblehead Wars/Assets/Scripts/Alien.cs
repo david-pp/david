@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 public class Alien : MonoBehaviour
 {
@@ -12,12 +13,21 @@ public class Alien : MonoBehaviour
     public float navigationUpdate;
     private float navigationTime = 0;
 
+    public UnityEvent OnDestroy;
+
 
     // Start is called before the first frame update
     void Start()
     {
 
         agent = GetComponent<NavMeshAgent>();
+    }
+
+    public void Die()
+    {
+        OnDestroy.Invoke();
+        OnDestroy.RemoveAllListeners();
+        Destroy(gameObject);
     }
 
     // Update is called once per frame
@@ -36,7 +46,6 @@ public class Alien : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        Destroy(gameObject);
-        Debug.Log("alien is dead ...");
+        Die();
     }
 }

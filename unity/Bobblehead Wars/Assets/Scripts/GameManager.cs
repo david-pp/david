@@ -31,8 +31,18 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        actualUpgradeTime = Random.Range(upgradeMaxTimeSpawn - 3.0f, upgradeMaxTimeSpawn);
+        actualUpgradeTime = Mathf.Abs(actualUpgradeTime);
     }
+
+    public void AlienDestroyed()
+    {
+        aliensOnScreen -= 1;
+        totalAliens -= 1;
+
+        Debug.Log("dead alien");
+    }
+
 
     // Update is called once per frame
     void Update()
@@ -40,6 +50,26 @@ public class GameManager : MonoBehaviour
         if (player == null)
         {
             return;
+        }
+
+        currentUpgradeTime += Time.deltaTime;
+        if (currentUpgradeTime > actualUpgradeTime)
+        {
+            if (!spawnedUpgrade)
+            {
+                // 1
+                // 2
+                int randomNumber = Random.Range(0, spawnPoints.Length - 1);
+                GameObject spawnLocation = spawnPoints[randomNumber];
+                // 3
+                GameObject upgrade = Instantiate(upgradePrefab)as GameObject;
+                Upgrade upgradeScript = upgrade.GetComponent<Upgrade>();
+                upgradeScript.gun = gun;
+                upgrade.transform.position = spawnLocation.transform.position;
+                // 4
+                spawnedUpgrade = true;
+                SoundManager.Instance.PlayOneShot(SoundManager.Instance.powerUpAppear);
+            }
         }
 
         currentSpawnTime += Time.deltaTime;
@@ -81,9 +111,9 @@ public class GameManager : MonoBehaviour
 
                         Alien alienScript = newAlien.GetComponent<Alien>();
                         alienScript.target = player.transform;
-                        //Vector3 targetRotation = new Vector3(player.transform.position.x, newAlien.transform.position.y, player.transform.position.z);
-                        //newAlien.transform.LookAt(targetRotation);
-                        //alienScript.OnDestroy.AddListener(AlienDestroyed);
+                        Vector3 targetRotation = new Vector3(player.transform.position.x, newAlien.transform.position.y, player.transform.position.z);
+                        newAlien.transform.LookAt(targetRotation);
+                        alienScript.OnDestroy.AddListener(AlienDestroyed);
                         //alienScript.GetDeathParticles().SetDeathFloor(deathFloor);
                     }
                 }

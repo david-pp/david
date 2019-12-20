@@ -91,6 +91,7 @@ GameObject:
   - component: {fileID: 474840}
   - component: {fileID: 11458982}
   - component: {fileID: 13615294}
+  - component: {fileID: 518019680501692787}
   m_Layer: 15
   m_Name: Pickup
   m_TagString: Untagged
@@ -140,6 +141,18 @@ CapsuleCollider:
   m_Height: 7
   m_Direction: 1
   m_Center: {x: 0, y: 5, z: 0}
+--- !u!114 &518019680501692787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 105092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68f09b7300b864621a65e5e5cac3be3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &106108
 GameObject:
   m_ObjectHideFlags: 0
