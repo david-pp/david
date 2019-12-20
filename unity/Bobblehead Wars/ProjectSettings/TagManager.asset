@@ -13,14 +13,14 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Player
+  - Head
+  - Wall
+  - Bullet
+  - Alien Head
+  - Floor
+  - Alien
+  - Upgrade
   - 
   - 
   - 

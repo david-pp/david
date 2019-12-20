@@ -16,9 +16,11 @@ public class PlayerController : MonoBehaviour
     public LayerMask layerMask; // floor layer
     private Vector3 currentLookTarget = Vector3.zero;
 
+    // 动画
+    public Animator bodyAnimator;
 
-	// Start is called before the first frame update
-	void Start()
+    // Start is called before the first frame update
+    void Start()
     {
         characterController = GetComponent<CharacterController>();
     }
@@ -45,11 +47,14 @@ public class PlayerController : MonoBehaviour
         Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         if (moveDirection == Vector3.zero)
         {
+            bodyAnimator.SetBool("IsMoving", false);
         }
         else
         {
             // 摇头
             head.AddForce(transform.right * 150, ForceMode.Acceleration);
+
+            bodyAnimator.SetBool("IsMoving", true);
         }
 
         RaycastHit hit;
@@ -62,6 +67,7 @@ public class PlayerController : MonoBehaviour
             {
                 currentLookTarget = hit.point;
             }
+
             // 1
             Vector3 targetPosition = new Vector3(hit.point.x, transform.position.y, hit.point.z);
             // 2
