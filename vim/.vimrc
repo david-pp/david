@@ -25,12 +25,12 @@ Plugin 'VundleVim/Vundle.vim'
 "
 " Plugin: 代码自动补全
 "
-Plugin 'Valloric/YouCompleteMe'
+"Plugin 'Valloric/YouCompleteMe'
 
 "
 " Plugin: 代码自动补齐配置生成器
 "
-Plugin 'rdnetto/YCM-Generator'
+"Plugin 'rdnetto/YCM-Generator'
 
 "
 " Plugin: 配色方案
@@ -45,8 +45,12 @@ Plugin 'wincent/command-t'
 "
 " Plugin: A tree explorer plugin for vim
 "
-Plugin 'scrooloose/nerdtree'
+Plugin 'preservim/nerdtree'
 
+"
+"
+"
+Plugin 'vim-ruby/vim-ruby'
 
 " The following are examples of different formats supported.
 
@@ -70,26 +74,60 @@ filetype plugin indent on    " required
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"
+" Colors
+"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 自动语法高亮
 syntax on
 " 配色方案
 colorscheme molokai
 
-" 设置行号
-set number
 
-" 突出显示光标所在行
-set cursorline
-
-" 状态栏
-set ruler
-
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"
+" Space & Tabs
+"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 设置TAB长度
 set tabstop=4
-
 " 设置自动换行时移动的跨度
 set shiftwidth=4
+" Tabs are spaces
+set expandtab
 
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"
+" UI
+"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 设置行号
+set number
+" 突出显示光标所在行
+set cursorline
+" 状态栏
+set ruler
+" 状态栏显示敲的命令 
+set showcmd
+" highlight matching [{()}]
+set showmatch
+" highlight search matching
+set hlsearch
+" search as characters are entered
+set incsearch
+" turn off search highlight(\+space)
+nnoremap <leader><space> :nohlsearch<CR>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"
+" Miscs
+"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 搜索时忽略大小写，但在有一个或以上大写字母时仍保持对大小写敏感
 set ignorecase smartcase
+
+" 打开文件浏览器：Ctrl+N
+map <C-n> :NERDTreeToggle<CR>
 
