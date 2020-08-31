@@ -21,3 +21,5 @@ add_executable(reflection reflection.cpp)
 #target_link_libraries(life-move ncurses)
 
 add_executable(loop loop.cpp)
+
+add_executable(rtti rtti.cpp)
