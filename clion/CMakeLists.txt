@@ -25,6 +25,7 @@ add_subdirectory(fsm)
 add_subdirectory(thread)
 add_subdirectory(ev)
 add_subdirectory(tinyhttp)
+add_subdirectory(pattern)
 
 add_definitions(-DCATCH_PLATFORM_WINDOWS)
 
