@@ -68,6 +68,8 @@ target_link_libraries(hello_physics
     #    math
     )
 
+add_subdirectory(proto)
+
 
 ############################################################
 # Install
@@ -103,3 +105,5 @@ include(InstallRequiredSystemLibraries)
 #set(CPACK_PACKAGE_VERSION_MINOR "${libphysics_VERSION_MINOR}")
 include(CPack)
 
+add_subdirectory(3rd_party/catch2)
+add_subdirectory(tests)
