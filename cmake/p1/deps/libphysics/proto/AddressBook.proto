@@ -1,0 +1,8 @@
+
+import "Person.proto";
+
+package tutorial;
+
+message AddressBook {
+  repeated Person person = 1;
+}
