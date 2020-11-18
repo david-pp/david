@@ -6,6 +6,8 @@ project(libphysics)
 
 set(CMAKE_CXX_STANDARD 11)
 
+option(USE_MY_PROTOBUF "use my protobuf" ON)
+
 add_subdirectory(src)
 add_subdirectory(proto)
 
