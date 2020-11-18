@@ -107,3 +107,6 @@ include(CPack)
 
 add_subdirectory(3rd_party/catch2)
 add_subdirectory(tests)
+
+add_subdirectory(3rd_party/google-test)
+add_subdirectory(tests2)
