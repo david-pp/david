@@ -1,8 +1,8 @@
 #include "physics.h"
-#include "math.h"
+#include "tinymath.h"
 
 namespace physics{
     float velocity(float distance, float time) {
-        return math::square(distance) / time;
+        return tinymath::square(distance) / time;
     }
 }

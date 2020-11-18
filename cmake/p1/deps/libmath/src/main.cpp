@@ -1,8 +1,8 @@
 #include <iostream>
-#include "math.h"
+#include "tinymath.h"
 
 int main(int argc, const char** argv) {
-    std::cout << math::square(10.0f) << std::endl;
+    std::cout << tinymath::square(10.0f) << std::endl;
     return 0;
 }
 

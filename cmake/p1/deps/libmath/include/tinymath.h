@@ -1,4 +1,4 @@
 
-namespace math {
+namespace tinymath {
     float square(float v);
 }

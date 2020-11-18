@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 
 # set the project name and version
-project(libmath)
+project(tinymath)
 #project(libmath VERSION 1.0)
 
 ############################################################
@@ -9,22 +9,22 @@ project(libmath)
 ############################################################
 
 #Generate the static library from the library sources
-add_library(math STATIC 
-    src/math.cpp)
+add_library(tinymath STATIC 
+    src/tinymath.cpp)
 
-target_include_directories(math
+target_include_directories(tinymath
     PUBLIC 
     ${PROJECT_SOURCE_DIR}/include
     )
 
 #Generate the shared library from the library sources
-add_library(math-dynamic SHARED 
-    src/math.cpp)
+add_library(tinymath-dynamic SHARED 
+    src/tinymath.cpp)
 
-add_library(my::math ALIAS math-dynamic)
-set_target_properties(math-dynamic PROPERTIES OUTPUT_NAME math)
+add_library(my::tinymath ALIAS tinymath-dynamic)
+set_target_properties(tinymath-dynamic PROPERTIES OUTPUT_NAME tinymath)
 
-target_include_directories(math-dynamic
+target_include_directories(tinymath-dynamic
     PUBLIC 
     ${PROJECT_SOURCE_DIR}/include
     )
@@ -41,7 +41,7 @@ add_executable(hello_math
 # link the new hello_library target with the hello_binary target
 target_link_libraries(hello_math
     PRIVATE 
-    my::math
+    my::tinymath
     )
 
 
@@ -57,7 +57,7 @@ install (TARGETS hello_math
 # Library
 #install (TARGETS cmake_examples_inst
 #    LIBRARY DESTINATION lib)
-install (TARGETS math math-dynamic
+install (TARGETS tinymath tinymath-dynamic
     LIBRARY DESTINATION lib
     RUNTIME DESTINATION bin)
 
@@ -67,7 +67,7 @@ install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/
 
 # ReadMe
 install (FILES README.md
-    DESTINATION  ${CMAKE_INSTALL_PREFIX})
+    DESTINATION  .)
 
 ############################################################
 # Pack

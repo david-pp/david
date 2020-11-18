@@ -1,6 +1,6 @@
-#include "math.h"
+#include "tinymath.h"
 
-namespace math {
+namespace tinymath {
     float square(float v) {
         return v * v;
     }
