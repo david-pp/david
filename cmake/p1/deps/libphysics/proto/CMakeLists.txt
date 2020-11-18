@@ -19,7 +19,9 @@ else()
 endif()
 
 # Generate the .h and .cxx files
-PROTOBUF_GENERATE_CPP(PROTO_SRCS PROTO_HDRS AddressBook.proto Person.proto)
+PROTOBUF_GENERATE_CPP(
+            PROTO_SRCS PROTO_HDRS AddressBook.proto Person.proto 
+            PROTOC_OUT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Print path to generated files
 message ("PROTO_SRCS = ${PROTO_SRCS}")
@@ -27,7 +29,7 @@ message ("PROTO_HDRS = ${PROTO_HDRS}")
 
 # Package .h and .cxx as OBJECT library target
 add_library(physics_proto OBJECT ${PROTO_SRCS})
-target_link_libraries(physics_proto PUBLIC protobuf::libprotobuf)
+target_link_libraries(physics_proto PUBLIC protobuf::libprotobuf )
 
 # Way1: Add an executable
 add_executable(protobuf_example
