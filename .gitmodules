@@ -1,0 +1,3 @@
+[submodule "cmake/p1/deps/libphysics/3rd_party/fmt"]
+	path = cmake/p1/deps/libphysics/3rd_party/fmt
+	url = https://github.com/fmtlib/fmt.git
