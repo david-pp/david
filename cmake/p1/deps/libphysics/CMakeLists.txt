@@ -84,4 +84,3 @@ add_subdirectory(tests2)
 
 add_subdirectory(3rd_party/fmt)
 add_subdirectory(app-fmt)
-
